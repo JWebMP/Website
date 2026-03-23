@@ -1,0 +1,24 @@
+# 🧠 JWebMP Website Repository Rules for AI Agents
+
+These rules provide specific context for AI agents (Copilot, Cursor, etc.) working on this repository to ensure consistency with the technology stack and architectural patterns.
+
+## 🛠️ Technology Stack
+- **Language**: Java 25 (with latest preview features).
+- **Build Tool**: Maven.
+- **Frameworks**: GuicedEE, Guice, Vert.x 5, JWebMP, WebAwesome.
+- **Architecture**: Modular JPMS services with dual-registered SPIs (`module-info.java` + `META-INF/services/`).
+
+## 🏗️ Architectural Constraints
+- **Forward-only Changes**: Never delete existing functionality unless explicitly asked.
+- **Single Boot**: The site uses a single `Boot.main()` entry point with `IGuiceContext.inject()`.
+- **Static Catalogs**: Plugin and template catalogs are statically defined in Java — no filesystem scanning at runtime.
+- **WebAwesome Layout**: All pages extend `WebsitePage` which uses `WaPage` for consistent menu, header, footer, and navigation.
+- **Angular Generation**: Components use `@NgComponent` and `@NgRoutable` annotations; Angular code is generated at build time by the Angular Maven Plugin.
+
+## 🎯 Prompting Guidance
+- New pages should extend `WebsitePage<T>` and implement `INgComponent<T>`.
+- Use `@NgComponent` with a kebab-case selector prefixed with `jwebmp-`.
+- Use `@NgRoutable` for route path assignment.
+- All user-visible text must be wrapped with `escapeAngular()`.
+- Use shared helpers from `WebsitePage`: `headingText()`, `bodyText()`, `captionText()`, `featureCard()`, `buildSection()`, `codeBlock()`, `codeBlockWithTitle()`.
+
