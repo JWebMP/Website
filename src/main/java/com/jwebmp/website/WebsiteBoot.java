@@ -30,7 +30,7 @@ import java.util.List;
  * the active "JWebMP" panel contains the RouterOutlet for page routing.
  */
 @NgComponent("jwebmp-app")
-@NgRoutable(path = "")
+@NgRoutable(path = "", redirectTo = "home", pathMatch = "full", ignoreComponent = true)
 @NgImportProvider("{provide: LOCALE_ID, useValue: 'en-ZA'}")
 @NgBootImportProvider(value = "{ provide: LOCALE_ID, useValue: 'en-ZA' }")
 @NgBootImportReference(value = "provideHttpClient", reference = "@angular/common/http")
