@@ -22,10 +22,11 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
                 "m"));
 
         content.add(codeBlockWithTitle("Terminal",
-                "mvn clean install\n"
-                        + "java -jar target/my-app.jar\n"
-                        + "\n"
-                        + "# Open http://localhost:8080"));
+                """
+                        mvn clean install
+                        java -jar target/my-app.jar
+                        
+                        # Open http://localhost:8080"""));
 
         content.add(bodyText(
                 "Your browser shows a WebAwesome card with a button — served from a reactive "

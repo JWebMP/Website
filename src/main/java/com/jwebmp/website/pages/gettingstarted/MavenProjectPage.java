@@ -3,6 +3,7 @@ package com.jwebmp.website.pages.gettingstarted;
 import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.website.pages.WebsitePage;
@@ -22,44 +23,45 @@ public class MavenProjectPage extends WebsitePage<MavenProjectPage> implements I
                 "m"));
 
         content.add(codeBlockWithTitle("pom.xml",
-                "<properties>\n"
-                        + "    <jwebmp.version>2.0.0-SNAPSHOT</jwebmp.version>\n"
-                        + "    <guicedee.version>2.0.0-SNAPSHOT</guicedee.version>\n"
-                        + "</properties>\n"
-                        + "\n"
-                        + "<dependencyManagement>\n"
-                        + "    <dependencies>\n"
-                        + "        <dependency>\n"
-                        + "            <groupId>com.jwebmp</groupId>\n"
-                        + "            <artifactId>jwebmp-bom</artifactId>\n"
-                        + "            <version>${jwebmp.version}</version>\n"
-                        + "            <type>pom</type>\n"
-                        + "            <scope>import</scope>\n"
-                        + "        </dependency>\n"
-                        + "        <dependency>\n"
-                        + "            <groupId>com.guicedee</groupId>\n"
-                        + "            <artifactId>guicedee-bom</artifactId>\n"
-                        + "            <version>${guicedee.version}</version>\n"
-                        + "            <type>pom</type>\n"
-                        + "            <scope>import</scope>\n"
-                        + "        </dependency>\n"
-                        + "    </dependencies>\n"
-                        + "</dependencyManagement>\n"
-                        + "\n"
-                        + "<dependencies>\n"
-                        + "    <dependency>\n"
-                        + "        <groupId>com.guicedee</groupId>\n"
-                        + "        <artifactId>client</artifactId>\n"
-                        + "    </dependency>\n"
-                        + "    <dependency>\n"
-                        + "        <groupId>com.jwebmp.plugins</groupId>\n"
-                        + "        <artifactId>angular</artifactId>\n"
-                        + "    </dependency>\n"
-                        + "    <dependency>\n"
-                        + "        <groupId>com.jwebmp.plugins</groupId>\n"
-                        + "        <artifactId>web-awesome</artifactId>\n"
-                        + "    </dependency>\n"
-                        + "</dependencies>"));
+                """
+                        <properties>
+                            <jwebmp.version>2.0.0-SNAPSHOT</jwebmp.version>
+                            <guicedee.version>2.0.0-SNAPSHOT</guicedee.version>
+                        </properties>
+                        
+                        <dependencyManagement>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.jwebmp</groupId>
+                                    <artifactId>jwebmp-bom</artifactId>
+                                    <version>${jwebmp.version}</version>
+                                    <type>pom</type>
+                                    <scope>import</scope>
+                                </dependency>
+                                <dependency>
+                                    <groupId>com.guicedee</groupId>
+                                    <artifactId>guicedee-bom</artifactId>
+                                    <version>${guicedee.version}</version>
+                                    <type>pom</type>
+                                    <scope>import</scope>
+                                </dependency>
+                            </dependencies>
+                        </dependencyManagement>
+                        
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.guicedee</groupId>
+                                <artifactId>client</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.jwebmp.plugins</groupId>
+                                <artifactId>angular</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.jwebmp.plugins</groupId>
+                                <artifactId>web-awesome</artifactId>
+                            </dependency>
+                        </dependencies>""", PrismLanguage.Xml));
 
         layout.add(buildSection("STEP 1",
                 "Create the Maven Project",

@@ -22,20 +22,21 @@ public class FirstComponentPage extends WebsitePage<FirstComponentPage> implemen
                 "m"));
 
         content.add(codeBlockWithTitle("MyHomePage.java",
-                "@NgComponent(\"my-home\")\n"
-                        + "@NgRoutable(path = \"\")\n"
-                        + "public class MyHomePage extends DivSimple<MyHomePage>\n"
-                        + "        implements INgComponent<MyHomePage> {\n"
-                        + "\n"
-                        + "    public MyHomePage() {\n"
-                        + "        var card = new WaCard<>();\n"
-                        + "        card.add(\"Welcome to JWebMP!\");\n"
-                        + "        add(card);\n"
-                        + "\n"
-                        + "        var button = new WaButton<>(\"Click Me\", Variant.Brand);\n"
-                        + "        add(button);\n"
-                        + "    }\n"
-                        + "}"));
+                """
+                        @NgComponent("my-home")
+                        @NgRoutable(path = "")
+                        public class MyHomePage extends DivSimple<MyHomePage>
+                                implements INgComponent<MyHomePage> {
+                        
+                            public MyHomePage() {
+                                var card = new WaCard<>();
+                                card.add("Welcome to JWebMP!");
+                                add(card);
+                        
+                                var button = new WaButton<>("Click Me", Variant.Brand);
+                                add(button);
+                            }
+                        }"""));
 
         layout.add(buildSection("STEP 5",
                 "Your First Component",

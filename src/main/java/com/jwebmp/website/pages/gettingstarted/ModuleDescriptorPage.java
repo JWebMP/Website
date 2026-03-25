@@ -22,14 +22,15 @@ public class ModuleDescriptorPage extends WebsitePage<ModuleDescriptorPage> impl
                 "m"));
 
         content.add(codeBlockWithTitle("src/main/java/module-info.java",
-                "module my.app {\n"
-                        + "    requires com.jwebmp.core;\n"
-                        + "    requires com.jwebmp.core.angular;\n"
-                        + "    requires com.jwebmp.webawesome;\n"
-                        + "    requires com.guicedee.client;\n"
-                        + "\n"
-                        + "    opens my.app to com.google.guice;\n"
-                        + "}"));
+                """
+                        module my.app {
+                            requires com.jwebmp.core;
+                            requires com.jwebmp.core.angular;
+                            requires com.jwebmp.webawesome;
+                            requires com.guicedee.client;
+                        
+                            opens my.app to com.google.guice;
+                        }"""));
 
         layout.add(buildSection("STEP 2",
                 "Module Descriptor",

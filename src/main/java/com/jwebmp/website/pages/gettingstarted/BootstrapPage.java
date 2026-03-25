@@ -23,14 +23,15 @@ public class BootstrapPage extends WebsitePage<BootstrapPage> implements INgComp
                 "m"));
 
         content.add(codeBlockWithTitle("Boot.java",
-                "public final class Boot {\n"
-                        + "    public static void main(String[] args) {\n"
-                        + "        System.setProperty(\"HTTP_ENABLED\", \"true\");\n"
-                        + "        System.setProperty(\"HTTP_PORT\", \"8080\");\n"
-                        + "        System.setProperty(\"jwebmp.process.angular.ts\", \"true\");\n"
-                        + "        IGuiceContext.instance().inject();\n"
-                        + "    }\n"
-                        + "}"));
+                """
+                        public final class Boot {
+                            public static void main(String[] args) {
+                                System.setProperty("HTTP_ENABLED", "true");
+                                System.setProperty("HTTP_PORT", "8080");
+                                System.setProperty("jwebmp.process.angular.ts", "true");
+                                IGuiceContext.instance().inject();
+                            }
+                        }"""));
 
         layout.add(buildSection("STEP 3",
                 "Bootstrap",

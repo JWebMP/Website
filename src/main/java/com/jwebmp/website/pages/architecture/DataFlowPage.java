@@ -17,22 +17,23 @@ public class DataFlowPage extends WebsitePage<DataFlowPage> implements INgCompon
         content.setGap(PageSize.Medium);
 
         content.add(codeBlockWithTitle("Request-Response Flow",
-                "Browser                     Vert.x Server                Java Handler\n"
-                        + "   │                            │                            │\n"
-                        + "   ├── GET /dashboard ──────────>│                            │\n"
-                        + "   │                            ├── StaticHandler ────────────│\n"
-                        + "   │<── index.html + dist/ ─────┤                            │\n"
-                        + "   │                            │                            │\n"
-                        + "   ├── POST /jwajax ────────────>│                            │\n"
-                        + "   │   (AjaxCall JSON)          ├── deserialize ─────────────>│\n"
-                        + "   │                            │   ├── intercept chain       │\n"
-                        + "   │                            │   ├── fireEvent()           │\n"
-                        + "   │                            │   └── AjaxResponse ─────────>│\n"
-                        + "   │<── DOM updates JSON ───────┤                            │\n"
-                        + "   │                            │                            │\n"
-                        + "   ├── WS /eventbus ────────────>│                            │\n"
-                        + "   │   (STOMP subscribe)        ├── RabbitMQ exchange ────────│\n"
-                        + "   │<── STOMP message ──────────┤                            │"));
+                """
+                        Browser                     Vert.x Server                Java Handler
+                           │                            │                            │
+                           ├── GET /dashboard ──────────>│                            │
+                           │                            ├── StaticHandler ────────────│
+                           │<── index.html + dist/ ─────┤                            │
+                           │                            │                            │
+                           ├── POST /jwajax ────────────>│                            │
+                           │   (AjaxCall JSON)          ├── deserialize ─────────────>│
+                           │                            │   ├── intercept chain       │
+                           │                            │   ├── fireEvent()           │
+                           │                            │   └── AjaxResponse ─────────>│
+                           │<── DOM updates JSON ───────┤                            │
+                           │                            │                            │
+                           ├── WS /eventbus ────────────>│                            │
+                           │   (STOMP subscribe)        ├── RabbitMQ exchange ────────│
+                           │<── STOMP message ──────────┤                            │"""));
 
         layout.add(buildSection("DATA FLOW", "Request, Event, and Message Paths",
                 "HTTP for pages, AJAX for events, WebSocket for real-time.", false, content));

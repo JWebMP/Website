@@ -22,30 +22,32 @@ public class StackDiagramPage extends WebsitePage<StackDiagramPage> implements I
                 "m"));
 
         content.add(codeBlockWithTitle("The JWebMP Stack",
-                "  YOUR APPLICATION\n"
-                        + "  ┌─────────────────────────────────────────────┐\n"
-                        + "  │  @NgComponent  @NgRoutable  @NgDataService  │  ← Your Java classes\n"
-                        + "  └──────────────────────┬──────────────────────┘\n"
-                        + "                         │\n"
-                        + "  PLUGINS & COMPONENTS\n"
-                        + "  ┌─────────────────────────────────────────────┐\n"
-                        + "  │  WebAwesome │ AG Grid │ Charts │ Calendar   │  ← JPMS plugin modules\n"
-                        + "  │  RabbitMQ   │ Font Awesome │ Easing         │\n"
-                        + "  └──────────────────────┬──────────────────────┘\n"
-                        + "                         │\n"
-                        + "  JWEBMP CORE\n"
-                        + "  ┌─────────────────────────────────────────────┐\n"
-                        + "  │  HTML Elements │ CSS Builder │ Events       │  ← Component model\n"
-                        + "  │  AJAX Pipeline │ Page Configurators         │\n"
-                        + "  │  Angular Generator │ TypeScript Compiler    │  ← Build-time codegen\n"
-                        + "  └──────────────────────┬──────────────────────┘\n"
-                        + "                         │\n"
-                        + "  GUICEDEE FOUNDATION\n"
-                        + "  ┌─────────────────────────────────────────────┐\n"
-                        + "  │  Google Guice DI │ SPI Discovery │ JPMS     │  ← Runtime foundation\n"
-                        + "  │  Vert.x 5 HTTP  │ Event Bus │ Call Scopes  │\n"
-                        + "  │  Jackson JSON    │ Jakarta Validation       │\n"
-                        + "  └─────────────────────────────────────────────┘"));
+                """
+                          YOUR APPLICATION
+                          ┌─────────────────────────────────────────────┐
+                          │  @NgComponent  @NgRoutable  @NgDataService  │  ← Your Java classes
+                          └──────────────────────┬──────────────────────┘
+                                                 │
+                          PLUGINS & COMPONENTS
+                          ┌─────────────────────────────────────────────┐
+                          │  WebAwesome │ AG Grid │ Charts │ Calendar   │  ← JPMS plugin modules
+                          │  RabbitMQ   │ Font Awesome │ Easing         │
+                          └──────────────────────┬──────────────────────┘
+                                                 │
+                          JWEBMP CORE
+                          ┌─────────────────────────────────────────────┐
+                          │  HTML Elements │ CSS Builder │ Events       │  ← Component model
+                          │  AJAX Pipeline │ Page Configurators         │
+                          │  Angular Generator │ TypeScript Compiler    │  ← Build-time codegen
+                          └──────────────────────┬──────────────────────┘
+                                                 │
+                          GUICEDEE FOUNDATION
+                          ┌─────────────────────────────────────────────┐
+                          │  Google Guice DI │ SPI Discovery │ JPMS     │  ← Runtime foundation
+                          │  Vert.x 5 HTTP  │ Event Bus │ Call Scopes  │
+                          │  Jackson JSON    │ Jakarta Validation       │
+                          └─────────────────────────────────────────────┘\
+                        """));
 
         layout.add(buildSection("STACK",
                 "Four-Layer Architecture",

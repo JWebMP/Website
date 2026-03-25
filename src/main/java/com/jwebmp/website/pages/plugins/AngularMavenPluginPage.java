@@ -23,50 +23,53 @@ public class AngularMavenPluginPage extends PluginDetailPage<AngularMavenPluginP
                 new PluginEntry.ExampleSnippet(
                         "Full Build with Docker Image",
                         "Generate TypeScript, install dependencies, build Angular, and produce a Docker image in one Maven run.",
-                        "<plugin>\n"
-                        + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                        + "  <artifactId>angular-maven-plugin</artifactId>\n"
-                        + "  <configuration>\n"
-                        + "    <ensureToolchain>true</ensureToolchain>\n"
-                        + "    <installDependencies>true</installDependencies>\n"
-                        + "    <buildAngular>true</buildAngular>\n"
-                        + "    <buildDockerImage>true</buildDockerImage>\n"
-                        + "    <dockerImageName>my-app:latest</dockerImageName>\n"
-                        + "  </configuration>\n"
-                        + "</plugin>",
+                        """
+                                <plugin>
+                                  <groupId>com.jwebmp.plugins</groupId>
+                                  <artifactId>angular-maven-plugin</artifactId>
+                                  <configuration>
+                                    <ensureToolchain>true</ensureToolchain>
+                                    <installDependencies>true</installDependencies>
+                                    <buildAngular>true</buildAngular>
+                                    <buildDockerImage>true</buildDockerImage>
+                                    <dockerImageName>my-app:latest</dockerImageName>
+                                  </configuration>
+                                </plugin>""",
                         "xml"),
                 new PluginEntry.ExampleSnippet(
                         "HTTPS with Custom Nginx Configuration",
                         "Enable HTTPS in the generated nginx.conf with TLS certificates and custom directives.",
-                        "<plugin>\n"
-                        + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                        + "  <artifactId>angular-maven-plugin</artifactId>\n"
-                        + "  <configuration>\n"
-                        + "    <buildAngular>true</buildAngular>\n"
-                        + "    <buildDockerImage>true</buildDockerImage>\n"
-                        + "    <nginxHttps>true</nginxHttps>\n"
-                        + "    <nginxServerName>example.com</nginxServerName>\n"
-                        + "    <nginxSslCertificate>/etc/nginx/ssl/cert.pem</nginxSslCertificate>\n"
-                        + "    <nginxSslCertificateKey>/etc/nginx/ssl/key.pem</nginxSslCertificateKey>\n"
-                        + "    <nginxCustomEntries>\n"
-                        + "      <entry>client_max_body_size 50m;</entry>\n"
-                        + "    </nginxCustomEntries>\n"
-                        + "  </configuration>\n"
-                        + "</plugin>",
+                        """
+                                <plugin>
+                                  <groupId>com.jwebmp.plugins</groupId>
+                                  <artifactId>angular-maven-plugin</artifactId>
+                                  <configuration>
+                                    <buildAngular>true</buildAngular>
+                                    <buildDockerImage>true</buildDockerImage>
+                                    <nginxHttps>true</nginxHttps>
+                                    <nginxServerName>example.com</nginxServerName>
+                                    <nginxSslCertificate>/etc/nginx/ssl/cert.pem</nginxSslCertificate>
+                                    <nginxSslCertificateKey>/etc/nginx/ssl/key.pem</nginxSslCertificateKey>
+                                    <nginxCustomEntries>
+                                      <entry>client_max_body_size 50m;</entry>
+                                    </nginxCustomEntries>
+                                  </configuration>
+                                </plugin>""",
                         "xml"),
                 new PluginEntry.ExampleSnippet(
                         "Explicit App Selection",
                         "Build only specific @NgApp classes instead of auto-discovering all.",
-                        "<plugin>\n"
-                        + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                        + "  <artifactId>angular-maven-plugin</artifactId>\n"
-                        + "  <configuration>\n"
-                        + "    <appClasses>\n"
-                        + "      <appClass>com.myapp.MyAngularApp</appClass>\n"
-                        + "    </appClasses>\n"
-                        + "    <classpathScope>compile</classpathScope>\n"
-                        + "  </configuration>\n"
-                        + "</plugin>",
+                        """
+                                <plugin>
+                                  <groupId>com.jwebmp.plugins</groupId>
+                                  <artifactId>angular-maven-plugin</artifactId>
+                                  <configuration>
+                                    <appClasses>
+                                      <appClass>com.myapp.MyAngularApp</appClass>
+                                    </appClasses>
+                                    <classpathScope>compile</classpathScope>
+                                  </configuration>
+                                </plugin>""",
                         "xml")
         );
     }

@@ -22,12 +22,13 @@ public class ApplicationPage extends WebsitePage<ApplicationPage> implements INg
                 "m"));
 
         content.add(codeBlockWithTitle("MyApplication.java",
-                "@NgApp(value = \"my-app\", bootComponent = MyHomePage.class)\n"
-                        + "public class MyApplication extends NGApplication<MyApplication> {\n"
-                        + "    public MyApplication() {\n"
-                        + "        getOptions().setTitle(\"My App\");\n"
-                        + "    }\n"
-                        + "}"));
+                """
+                        @NgApp(value = "my-app", bootComponent = MyHomePage.class)
+                        public class MyApplication extends NGApplication<MyApplication> {
+                            public MyApplication() {
+                                getOptions().setTitle("My App");
+                            }
+                        }"""));
 
         layout.add(buildSection("STEP 4",
                 "Define the Application",

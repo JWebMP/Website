@@ -2,11 +2,10 @@ package com.jwebmp.website.pages;
 
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.html.DivSimple;
-import com.jwebmp.core.base.html.Link;
-import com.jwebmp.core.base.html.PreFormattedText;
+import com.jwebmp.plugins.markdown.Markdown;
+import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
-import com.jwebmp.webawesome.components.WaCluster;
 import com.jwebmp.webawesome.components.WaGrid;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.webawesome.components.button.Appearance;
@@ -198,29 +197,40 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
 
     protected DivSimple<?> codeBlock(String code)
     {
+        return codeBlock(code, PrismLanguage.Java);
+    }
+
+    protected DivSimple<?> codeBlock(String code, PrismLanguage language)
+    {
         var wrapper = new DivSimple<>();
         wrapper.addClass("code-block");
-        wrapper.addAttribute("ngNonBindable", "");
-        var pre = new PreFormattedText<>();
-        pre.setText(escapeAngular(code));
-        wrapper.add(pre);
+
+        var md = new Markdown<>("```" + language.getLanguageCode() + "\n" + code + "\n```");
+        md.setLineNumbers(true);
+        md.setClipboard(true);
+        wrapper.add(md);
         return wrapper;
     }
 
     protected DivSimple<?> codeBlockWithTitle(String title, String code)
     {
+        return codeBlockWithTitle(title, code, PrismLanguage.Java);
+    }
+
+    protected DivSimple<?> codeBlockWithTitle(String title, String code, PrismLanguage language)
+    {
         var wrapper = new DivSimple<>();
         wrapper.addClass("code-block-wrapper");
-        wrapper.addAttribute("ngNonBindable", "");
 
         var label = captionText(title);
         label.addClass("code-block-label");
         wrapper.add(label);
 
-        var pre = new PreFormattedText<>();
-        pre.setText(escapeAngular(code));
-        pre.addClass("code-block");
-        wrapper.add(pre);
+        var md = new Markdown<>("```" + language.getLanguageCode() + "\n" + code + "\n```");
+        md.setLineNumbers(true);
+        md.setClipboard(true);
+        md.addClass("code-block");
+        wrapper.add(md);
         return wrapper;
     }
 

@@ -25,20 +25,21 @@ public class BuildPipelinePage extends WebsitePage<BuildPipelinePage> implements
                 "m"));
 
         content.add(codeBlockWithTitle("Build Flow",
-                "mvn install\n"
-                        + "  │\n"
-                        + "  ├─ compile: javac compiles your Java sources\n"
-                        + "  │\n"
-                        + "  ├─ process-classes: Angular Maven Plugin runs\n"
-                        + "  │   ├─ Discovers @NgApp classes on classpath\n"
-                        + "  │   ├─ TypeScriptCompiler generates .ts files\n"
-                        + "  │   ├─ AngularModuleProcessor builds module tree\n"
-                        + "  │   ├─ ComponentProcessor emits component .ts\n"
-                        + "  │   ├─ DependencyManager writes package.json\n"
-                        + "  │   ├─ AngularAppSetup generates angular.json\n"
-                        + "  │   └─ npm install + ng build --configuration production\n"
-                        + "  │\n"
-                        + "  └─ package: dist/ bundled into the JAR"));
+                """
+                        mvn install
+                          │
+                          ├─ compile: javac compiles your Java sources
+                          │
+                          ├─ process-classes: Angular Maven Plugin runs
+                          │   ├─ Discovers @NgApp classes on classpath
+                          │   ├─ TypeScriptCompiler generates .ts files
+                          │   ├─ AngularModuleProcessor builds module tree
+                          │   ├─ ComponentProcessor emits component .ts
+                          │   ├─ DependencyManager writes package.json
+                          │   ├─ AngularAppSetup generates angular.json
+                          │   └─ npm install + ng build --configuration production
+                          │
+                          └─ package: dist/ bundled into the JAR"""));
 
         layout.add(buildSection("BUILD",
                 "Build-Time Code Generation",

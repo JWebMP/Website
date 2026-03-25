@@ -1,6 +1,7 @@
 package com.jwebmp.website.pages.plugins;
 
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.WaCluster;
@@ -175,10 +176,10 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         var installStack = new WaStack();
         installStack.setGap(PageSize.ExtraSmall);
         installStack.add(captionText("INSTALLATION"));
-        installStack.add(codeBlockWithTitle("Maven", plugin.getMavenSnippet()));
+        installStack.add(codeBlockWithTitle("Maven", plugin.getMavenSnippet(), PrismLanguage.Xml));
         if (plugin.getGradleSnippet() != null)
         {
-            installStack.add(codeBlockWithTitle("Gradle (Kotlin DSL)", plugin.getGradleSnippet()));
+            installStack.add(codeBlockWithTitle("Gradle (Kotlin DSL)", plugin.getGradleSnippet(), PrismLanguage.Kotlin));
         }
         parent.add(installStack);
     }
@@ -200,7 +201,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             sb.append("\"").append(dep.getKey()).append("\": \"").append(dep.getValue()).append("\"\n");
         }
-        npmStack.add(codeBlock(sb.toString().trim()));
+        npmStack.add(codeBlock(sb.toString().trim(), PrismLanguage.Json));
         parent.add(npmStack);
     }
 

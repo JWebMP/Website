@@ -11,10 +11,8 @@ public class WebsitePageConfigurator implements IPageConfigurator<WebsitePageCon
     @Override
     public IPage<?> configure(IPage<?> page)
     {
-        WebAwesomePageConfigurator.setBasePath(null);
         WebAwesomePageConfigurator.setWaKitCode("fad4033d8cb94cc4");
         page.getBody().addClass("wa-dark");
-        page.addCssReference(new CSSReference("JWebMPLanding", 1.0, "/jwebmp-landing.css"));
         page.addCssReference(new CSSReference("JWebMPLanding", 1.0, "/jwebmp-landing.css"));
         return page;
     }

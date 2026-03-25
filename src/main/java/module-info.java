@@ -15,6 +15,9 @@ module com.jwebmp.website {
     requires transitive com.jwebmp.core.angular;
     requires transitive com.jwebmp.core.base.angular.client;
 
+    requires transitive com.jwebmp.plugins.markdown;
+    requires transitive com.jwebmp.plugins.prism;
+
     requires transitive com.guicedee.vertx;
     requires transitive com.guicedee.vertx.web;
 

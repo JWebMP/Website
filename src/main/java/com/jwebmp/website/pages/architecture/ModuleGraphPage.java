@@ -26,16 +26,17 @@ public class ModuleGraphPage extends WebsitePage<ModuleGraphPage> implements INg
                 "m"));
 
         content.add(codeBlockWithTitle("Core Module Dependencies",
-                "com.jwebmp.core\n"
-                        + " ├── com.jwebmp.client          (SPI contracts, AJAX pipeline)\n"
-                        + " ├── com.guicedee.client         (DI, lifecycle, CallScope)\n"
-                        + " ├── com.guicedee.vertx          (Vert.x lifecycle, event bus)\n"
-                        + " ├── io.vertx.core               (Vert.x core)\n"
-                        + " ├── io.vertx.web                (Vert.x Web router)\n"
-                        + " ├── com.google.guice            (Dependency injection)\n"
-                        + " ├── com.fasterxml.jackson        (JSON serialization)\n"
-                        + " ├── jakarta.validation           (Bean Validation)\n"
-                        + " └── org.apache.commons.*         (Utilities)"));
+                """
+                        com.jwebmp.core
+                         ├── com.jwebmp.client          (SPI contracts, AJAX pipeline)
+                         ├── com.guicedee.client         (DI, lifecycle, CallScope)
+                         ├── com.guicedee.vertx          (Vert.x lifecycle, event bus)
+                         ├── io.vertx.core               (Vert.x core)
+                         ├── io.vertx.web                (Vert.x Web router)
+                         ├── com.google.guice            (Dependency injection)
+                         ├── com.fasterxml.jackson        (JSON serialization)
+                         ├── jakarta.validation           (Bean Validation)
+                         └── org.apache.commons.*         (Utilities)"""));
 
         var ctas = new WaCluster<>();
         ctas.setGap(PageSize.Small);

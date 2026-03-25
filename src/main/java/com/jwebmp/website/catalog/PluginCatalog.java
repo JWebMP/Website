@@ -134,19 +134,21 @@ public final class PluginCatalog
                                   "SPI-driven extension via ServiceLoader"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.core</groupId>\n"
-                                  + "  <artifactId>core</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.core</groupId>
+                                            <artifactId>core</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.core:jwebmp-core:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "Page<?> page = new Page<>();\n"
-                                  + "Div<?, ?, ?> container = new Div<>();\n"
-                                  + "container.add(new Paragraph<>().setText(\"Welcome to JWebMP\"));\n"
-                                  + "page.getBody().add(container);\n"
-                                  + "\n"
-                                  + "String html = page.toString(true);  // full HTML + queued CSS/JS\n"
-                                  + "String json = page.toString();      // JSON representation")
+                                  """
+                                          Page<?> page = new Page<>();
+                                          Div<?, ?, ?> container = new Div<>();
+                                          container.add(new Paragraph<>().setText("Welcome to JWebMP"));
+                                          page.getBody().add(container);
+                                          
+                                          String html = page.toString(true);  // full HTML + queued CSS/JS
+                                          String json = page.toString();      // JSON representation""")
                           .spiProvides(List.of(
                                   "IGuiceScanModuleInclusions", "IGuiceModule", "IGuicePreStartup",
                                   "IGuicePostStartup", "IOnComponentConfigured"
@@ -186,22 +188,24 @@ public final class PluginCatalog
                                   "HTML child-constraint interfaces — GlobalChildren, FormChildren, and marker interfaces for compile-time safety"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp</groupId>\n"
-                                  + "  <artifactId>jwebmp-client</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp</groupId>
+                                            <artifactId>jwebmp-client</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp:jwebmp-client:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "public class MyPageConfigurator\n"
-                                  + "        implements IPageConfigurator<MyPageConfigurator> {\n"
-                                  + "    @Override\n"
-                                  + "    public IPage<?> configure(IPage<?> page) {\n"
-                                  + "        // add CSS/JS references, configure body children\n"
-                                  + "        return page;\n"
-                                  + "    }\n"
-                                  + "    @Override\n"
-                                  + "    public Integer sortOrder() { return 100; }\n"
-                                  + "}")
+                                  """
+                                          public class MyPageConfigurator
+                                                  implements IPageConfigurator<MyPageConfigurator> {
+                                              @Override
+                                              public IPage<?> configure(IPage<?> page) {
+                                                  // add CSS/JS references, configure body children
+                                                  return page;
+                                              }
+                                              @Override
+                                              public Integer sortOrder() { return 100; }
+                                          }""")
                           .spiProvides(List.of("IGuiceScanModuleInclusions", "IGuiceModule"))
                           .spiUses(List.of(
                                   "SiteCallIntercepter", "AjaxCallIntercepter", "DataCallIntercepter",
@@ -236,22 +240,24 @@ public final class PluginCatalog
                                   "Modular extensibility — single Maven module exports all component packages"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>web-awesome</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>web-awesome</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "var card = new WaCard<>();\n"
-                                  + "card.setAppearance(Appearance.Outlined);\n"
-                                  + "\n"
-                                  + "var button = new WaButton<>(\"Click Me\", Variant.Brand);\n"
-                                  + "button.setAppearance(Appearance.Filled);\n"
-                                  + "\n"
-                                  + "var stack = new WaStack();\n"
-                                  + "stack.setGap(PageSize.Medium);\n"
-                                  + "stack.add(card);\n"
-                                  + "stack.add(button);")
+                                  """
+                                          var card = new WaCard<>();
+                                          card.setAppearance(Appearance.Outlined);
+                                          
+                                          var button = new WaButton<>("Click Me", Variant.Brand);
+                                          button.setAppearance(Appearance.Filled);
+                                          
+                                          var stack = new WaStack();
+                                          stack.setGap(PageSize.Medium);
+                                          stack.add(card);
+                                          stack.add(button);""")
                           .spiProvides(List.of("IPageConfigurator", "TypescriptIndexPageConfigurator"))
                           .build();
     }
@@ -283,17 +289,19 @@ public final class PluginCatalog
                                   "Comprehensive JUnit 5 test suite (13 tests)"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>web-awesome-pro</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>web-awesome-pro</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome-pro:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "var page = new WaPage();\n"
-                                  + "page.getHeader().add(new WaText<>().setText(\"My App\"));\n"
-                                  + "page.getNavigation().add(menuItems);\n"
-                                  + "page.getMain().add(content);\n"
-                                  + "page.getFooter().add(footerContent);")
+                                  """
+                                          var page = new WaPage();
+                                          page.getHeader().add(new WaText<>().setText("My App"));
+                                          page.getNavigation().add(menuItems);
+                                          page.getMain().add(content);
+                                          page.getFooter().add(footerContent);""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -332,23 +340,25 @@ public final class PluginCatalog
                                   "NPM resource locator — discovers and serves bundled node_modules resources from classpath"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>angular</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>angular</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:angular:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "@NgApp(value = \"my-app\", bootComponent = AppComponent.class)\n"
-                                  + "public class MyApp extends NGApplication<MyApp> { }\n"
-                                  + "\n"
-                                  + "@NgComponent(\"app-root\")\n"
-                                  + "public class AppComponent extends DivSimple<AppComponent>\n"
-                                  + "        implements INgComponent<AppComponent> { }\n"
-                                  + "\n"
-                                  + "@NgRoutable(path = \"dashboard\", parent = {AppComponent.class})\n"
-                                  + "@NgComponent(\"app-dashboard\")\n"
-                                  + "public class DashboardPage extends DivSimple<DashboardPage>\n"
-                                  + "        implements INgComponent<DashboardPage> { }")
+                                  """
+                                          @NgApp(value = "my-app", bootComponent = AppComponent.class)
+                                          public class MyApp extends NGApplication<MyApp> { }
+                                          
+                                          @NgComponent("app-root")
+                                          public class AppComponent extends DivSimple<AppComponent>
+                                                  implements INgComponent<AppComponent> { }
+                                          
+                                          @NgRoutable(path = "dashboard", parent = {AppComponent.class})
+                                          @NgComponent("app-dashboard")
+                                          public class DashboardPage extends DivSimple<DashboardPage>
+                                                  implements INgComponent<DashboardPage> { }""")
                           .spiProvides(List.of(
                                   "IGuiceScanModuleInclusions", "IGuiceConfigurator", "IGuicePreStartup",
                                   "IGuiceModule", "VertxRouterConfigurator", "VertxHttpServerOptionsConfigurator",
@@ -395,29 +405,31 @@ public final class PluginCatalog
                                   "Skip support via <skip>true</skip> or -Djwebmp.angular.skip=true"
                           ))
                           .mavenSnippet(
-                                  "<plugin>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>angular-maven-plugin</artifactId>\n"
-                                  + "  <version>2.0.0-SNAPSHOT</version>\n"
-                                  + "  <executions>\n"
-                                  + "    <execution>\n"
-                                  + "      <goals><goal>build</goal></goals>\n"
-                                  + "    </execution>\n"
-                                  + "  </executions>\n"
-                                  + "</plugin>")
+                                  """
+                                          <plugin>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>angular-maven-plugin</artifactId>
+                                            <version>2.0.0-SNAPSHOT</version>
+                                            <executions>
+                                              <execution>
+                                                <goals><goal>build</goal></goals>
+                                              </execution>
+                                            </executions>
+                                          </plugin>""")
                           .quickStartCode(
-                                  "<!-- In your pom.xml <build><plugins> section -->\n"
-                                  + "<plugin>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>angular-maven-plugin</artifactId>\n"
-                                  + "  <configuration>\n"
-                                  + "    <installDependencies>true</installDependencies>\n"
-                                  + "    <ensureToolchain>true</ensureToolchain>\n"
-                                  + "    <buildAngular>true</buildAngular>\n"
-                                  + "    <!-- Optional: build a Docker image -->\n"
-                                  + "    <buildDockerImage>true</buildDockerImage>\n"
-                                  + "  </configuration>\n"
-                                  + "</plugin>")
+                                  """
+                                          <!-- In your pom.xml <build><plugins> section -->
+                                          <plugin>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>angular-maven-plugin</artifactId>
+                                            <configuration>
+                                              <installDependencies>true</installDependencies>
+                                              <ensureToolchain>true</ensureToolchain>
+                                              <buildAngular>true</buildAngular>
+                                              <!-- Optional: build a Docker image -->
+                                              <buildDockerImage>true</buildDockerImage>
+                                            </configuration>
+                                          </plugin>""")
                           .quickStartLanguage("xml")
                           .build();
     }
@@ -452,24 +464,26 @@ public final class PluginCatalog
                                   "Java to TypeScript field mapping — introspects generics, enums, dates, optionals with jakarta.validation awareness"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>typescript-client</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>typescript-client</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:typescript-client:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "@NgComponent(\"my-widget\")\n"
-                                  + "public class MyWidget extends DivSimple<MyWidget>\n"
-                                  + "        implements INgComponent<MyWidget> {\n"
-                                  + "\n"
-                                  + "    @NgField(\"title = 'Hello World'\")\n"
-                                  + "    String title;\n"
-                                  + "\n"
-                                  + "    @NgOnInit\n"
-                                  + "    public void onInit() {\n"
-                                  + "        add(new Paragraph<>().setText(\"{{ title }}\"));\n"
-                                  + "    }\n"
-                                  + "}")
+                                  """
+                                          @NgComponent("my-widget")
+                                          public class MyWidget extends DivSimple<MyWidget>
+                                                  implements INgComponent<MyWidget> {
+                                          
+                                              @NgField("title = 'Hello World'")
+                                              String title;
+                                          
+                                              @NgOnInit
+                                              public void onInit() {
+                                                  add(new Paragraph<>().setText("{{ title }}"));
+                                              }
+                                          }""")
                           .spiProvides(List.of(
                                   "IGuiceScanModuleInclusions", "IGuiceModule", "IGuiceConfigurator", "IGuicePostStartup"
                           ))
@@ -517,29 +531,31 @@ public final class PluginCatalog
                                   "JSON serialization — automatic Jackson serialization for Angular binding"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>aggrid</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>aggrid</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "public class OrderGrid extends AgGrid<OrderGrid> {\n"
-                                  + "    public OrderGrid() {\n"
-                                  + "        setHeight(\"600px\")\n"
-                                  + "            .enablePagination(25)\n"
-                                  + "            .enableRowSelection(\"multiple\");\n"
-                                  + "\n"
-                                  + "        addColumn(new AgGridColumnDef()\n"
-                                  + "            .setField(\"orderId\")\n"
-                                  + "            .setHeaderName(\"Order ID\")\n"
-                                  + "            .setWidth(100));\n"
-                                  + "\n"
-                                  + "        addColumn(new AgGridColumnDef()\n"
-                                  + "            .setField(\"status\")\n"
-                                  + "            .setHeaderName(\"Status\")\n"
-                                  + "            .setCellRenderer(StatusBadgeRenderer.class));\n"
-                                  + "    }\n"
-                                  + "}")
+                                  """
+                                          public class OrderGrid extends AgGrid<OrderGrid> {
+                                              public OrderGrid() {
+                                                  setHeight("600px")
+                                                      .enablePagination(25)
+                                                      .enableRowSelection("multiple");
+                                          
+                                                  addColumn(new AgGridColumnDef()
+                                                      .setField("orderId")
+                                                      .setHeaderName("Order ID")
+                                                      .setWidth(100));
+                                          
+                                                  addColumn(new AgGridColumnDef()
+                                                      .setField("status")
+                                                      .setHeaderName("Status")
+                                                      .setCellRenderer(StatusBadgeRenderer.class));
+                                              }
+                                          }""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -581,24 +597,26 @@ public final class PluginCatalog
                                   "8 focused feature modules with @JsonUnwrapped pattern"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>aggrid-enterprise</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>aggrid-enterprise</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid-enterprise:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "// Set license key at startup\n"
-                                  + "AgGridEnterprisePageConfigurator\n"
-                                  + "    .setAG_GRID_LICENSE_KEY(\"YOUR_LICENSE_KEY\");\n"
-                                  + "\n"
-                                  + "// Server-side row model (millions of rows)\n"
-                                  + "gridOptions.setRowModelType(RowModelType.SERVER_SIDE)\n"
-                                  + "    .setServerSideInitialRowCount(1000);\n"
-                                  + "\n"
-                                  + "// Row grouping and aggregation\n"
-                                  + "gridOptions.setRowGroupPanelShow(RowGroupPanelShow.ALWAYS)\n"
-                                  + "    .addRowGroupColumn(\"region\")\n"
-                                  + "    .addValueColumn(\"revenue\");")
+                                  """
+                                          // Set license key at startup
+                                          AgGridEnterprisePageConfigurator
+                                              .setAG_GRID_LICENSE_KEY("YOUR_LICENSE_KEY");
+                                          
+                                          // Server-side row model (millions of rows)
+                                          gridOptions.setRowModelType(RowModelType.SERVER_SIDE)
+                                              .setServerSideInitialRowCount(1000);
+                                          
+                                          // Row grouping and aggregation
+                                          gridOptions.setRowGroupPanelShow(RowGroupPanelShow.ALWAYS)
+                                              .addRowGroupColumn("region")
+                                              .addValueColumn("revenue");""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -640,30 +658,32 @@ public final class PluginCatalog
                                   "Server-side configuration — define charts in Java, render client-side"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>agcharts</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>agcharts</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "@NgComponent\n"
-                                  + "public class SalesChart implements INgComponent<SalesChart> {\n"
-                                  + "    public AgChartOptions<SalesChart> getOptions() {\n"
-                                  + "        return new AgChartOptions<>(this)\n"
-                                  + "            .setSeries(List.of(\n"
-                                  + "                new AgLineSeriesOptions<>()\n"
-                                  + "                    .setXKey(\"month\")\n"
-                                  + "                    .setYKey(\"sales\")\n"
-                                  + "                    .setYName(\"Sales\")\n"
-                                  + "            ))\n"
-                                  + "            .setAxes(List.of(\n"
-                                  + "                new AgCategoryAxisOptions<>()\n"
-                                  + "                    .setPosition(AgCartesianAxisPosition.BOTTOM),\n"
-                                  + "                new AgNumberAxisOptions<>()\n"
-                                  + "                    .setPosition(AgCartesianAxisPosition.LEFT)\n"
-                                  + "            ));\n"
-                                  + "    }\n"
-                                  + "}")
+                                  """
+                                          @NgComponent
+                                          public class SalesChart implements INgComponent<SalesChart> {
+                                              public AgChartOptions<SalesChart> getOptions() {
+                                                  return new AgChartOptions<>(this)
+                                                      .setSeries(List.of(
+                                                          new AgLineSeriesOptions<>()
+                                                              .setXKey("month")
+                                                              .setYKey("sales")
+                                                              .setYName("Sales")
+                                                      ))
+                                                      .setAxes(List.of(
+                                                          new AgCategoryAxisOptions<>()
+                                                              .setPosition(AgCartesianAxisPosition.BOTTOM),
+                                                          new AgNumberAxisOptions<>()
+                                                              .setPosition(AgCartesianAxisPosition.LEFT)
+                                                      ));
+                                              }
+                                          }""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -701,26 +721,28 @@ public final class PluginCatalog
                                   "Interactive features — tooltips, legends, zoom, pan, highlighting"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>agcharts-enterprise</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>agcharts-enterprise</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts-enterprise:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "// Set license key\n"
-                                  + "AgChartsEnterprisePageConfigurator\n"
-                                  + "    .setAG_CHARTS_LICENSE_KEY(\"YOUR_KEY\");\n"
-                                  + "\n"
-                                  + "@NgComponent\n"
-                                  + "public class DashboardGauge\n"
-                                  + "        implements INgComponent<DashboardGauge> {\n"
-                                  + "    public AgRadialGaugeOptions<DashboardGauge> gauge() {\n"
-                                  + "        return new AgRadialGaugeOptions<>(this)\n"
-                                  + "            .setValue(75.0)\n"
-                                  + "            .setScale(new AgGaugeScale()\n"
-                                  + "                .setMin(0).setMax(100));\n"
-                                  + "    }\n"
-                                  + "}")
+                                  """
+                                          // Set license key
+                                          AgChartsEnterprisePageConfigurator
+                                              .setAG_CHARTS_LICENSE_KEY("YOUR_KEY");
+                                          
+                                          @NgComponent
+                                          public class DashboardGauge
+                                                  implements INgComponent<DashboardGauge> {
+                                              public AgRadialGaugeOptions<DashboardGauge> gauge() {
+                                                  return new AgRadialGaugeOptions<>(this)
+                                                      .setValue(75.0)
+                                                      .setScale(new AgGaugeScale()
+                                                          .setMin(0).setMax(100));
+                                              }
+                                          }""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -752,25 +774,27 @@ public final class PluginCatalog
                                   "Lightweight — minimal dependencies compared to enterprise charting"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>chartjs</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>chartjs</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:chartjs:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "BarDataset dataset = new BarDataset()\n"
-                                  + "    .setLabel(\"Monthly Sales\")\n"
-                                  + "    .setData(65, 59, 80, 81, 56, 55, 40)\n"
-                                  + "    .addBackgroundColors(Color.RED, Color.GREEN,\n"
-                                  + "        Color.BLUE, Color.YELLOW)\n"
-                                  + "    .setBorderWidth(2);\n"
-                                  + "\n"
-                                  + "BarData data = new BarData()\n"
-                                  + "    .addLabels(\"Mon\", \"Tue\", \"Wed\", \"Thu\",\n"
-                                  + "        \"Fri\", \"Sat\", \"Sun\")\n"
-                                  + "    .addDataset(dataset);\n"
-                                  + "\n"
-                                  + "String json = new BarChart(data).toJson();")
+                                  """
+                                          BarDataset dataset = new BarDataset()
+                                              .setLabel("Monthly Sales")
+                                              .setData(65, 59, 80, 81, 56, 55, 40)
+                                              .addBackgroundColors(Color.RED, Color.GREEN,
+                                                  Color.BLUE, Color.YELLOW)
+                                              .setBorderWidth(2);
+                                          
+                                          BarData data = new BarData()
+                                              .addLabels("Mon", "Tue", "Wed", "Thu",
+                                                  "Fri", "Sat", "Sun")
+                                              .addDataset(dataset);
+                                          
+                                          String json = new BarChart(data).toJson();""")
                           .build();
     }
 
@@ -818,25 +842,27 @@ public final class PluginCatalog
                                   "Automatic Jackson serialization for Angular binding"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>full-calendar</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>full-calendar</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "FullCalendarOptions options = new FullCalendarOptions()\n"
-                                  + "    .setInitialView(\"dayGridMonth\")\n"
-                                  + "    .setLocale(\"en\")\n"
-                                  + "    .setTimeZone(\"UTC\")\n"
-                                  + "    .setEditable(true)\n"
-                                  + "    .setHeaderToolbar(new Toolbar()\n"
-                                  + "        .setLeft(\"prev,next today\")\n"
-                                  + "        .setCenter(\"title\")\n"
-                                  + "        .setRight(\"dayGridMonth,timeGridWeek,listWeek\"))\n"
-                                  + "    .addEvent(new Event()\n"
-                                  + "        .setTitle(\"Team Meeting\")\n"
-                                  + "        .setStart(\"2026-03-24T10:00:00\")\n"
-                                  + "        .setEnd(\"2026-03-24T11:00:00\"));")
+                                  """
+                                          FullCalendarOptions options = new FullCalendarOptions()
+                                              .setInitialView("dayGridMonth")
+                                              .setLocale("en")
+                                              .setTimeZone("UTC")
+                                              .setEditable(true)
+                                              .setHeaderToolbar(new Toolbar()
+                                                  .setLeft("prev,next today")
+                                                  .setCenter("title")
+                                                  .setRight("dayGridMonth,timeGridWeek,listWeek"))
+                                              .addEvent(new Event()
+                                                  .setTitle("Team Meeting")
+                                                  .setStart("2026-03-24T10:00:00")
+                                                  .setEnd("2026-03-24T11:00:00"));""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -876,24 +902,26 @@ public final class PluginCatalog
                                   "Type-safe Java API — CRTP fluent API for resource configuration"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>full-calendar-pro</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>full-calendar-pro</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar-pro:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "FullCalendarOptions options = new FullCalendarOptions()\n"
-                                  + "    .setInitialView(\"resourceTimelineDay\")\n"
-                                  + "    .setResourceAreaHeaderContent(\"Resources\")\n"
-                                  + "    .setResources(List.of(\n"
-                                  + "        new Resource().setId(\"r1\").setTitle(\"Room A\"),\n"
-                                  + "        new Resource().setId(\"r2\").setTitle(\"Room B\")\n"
-                                  + "    ))\n"
-                                  + "    .addEvent(new Event()\n"
-                                  + "        .setTitle(\"Booking\")\n"
-                                  + "        .setResourceId(\"r1\")\n"
-                                  + "        .setStart(\"2026-03-24T09:00\")\n"
-                                  + "        .setEnd(\"2026-03-24T12:00\"));")
+                                  """
+                                          FullCalendarOptions options = new FullCalendarOptions()
+                                              .setInitialView("resourceTimelineDay")
+                                              .setResourceAreaHeaderContent("Resources")
+                                              .setResources(List.of(
+                                                  new Resource().setId("r1").setTitle("Room A"),
+                                                  new Resource().setId("r2").setTitle("Room B")
+                                              ))
+                                              .addEvent(new Event()
+                                                  .setTitle("Booking")
+                                                  .setResourceId("r1")
+                                                  .setStart("2026-03-24T09:00")
+                                                  .setEnd("2026-03-24T12:00"));""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -936,24 +964,26 @@ public final class PluginCatalog
                                   "Zero configuration — auto-registered via ServiceLoader SPI"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>font-awesome</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>font-awesome</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "// Solid icon\n"
-                                  + "FontAwesome icon = new FontAwesome(\n"
-                                  + "    FontAwesomeStyles.Solid,\n"
-                                  + "    FontAwesomeIcons.cog);\n"
-                                  + "\n"
-                                  + "// Brand icon\n"
-                                  + "FontAwesome github = IFontAwesome.createIcon(\n"
-                                  + "    FontAwesomeBrandIcons.github,\n"
-                                  + "    FontAwesomeStyles.Brand);\n"
-                                  + "\n"
-                                  + "// With animation\n"
-                                  + "icon.spin().setSize(FontAwesomeSizes.Fa3x);")
+                                  """
+                                          // Solid icon
+                                          FontAwesome icon = new FontAwesome(
+                                              FontAwesomeStyles.Solid,
+                                              FontAwesomeIcons.cog);
+                                          
+                                          // Brand icon
+                                          FontAwesome github = IFontAwesome.createIcon(
+                                              FontAwesomeBrandIcons.github,
+                                              FontAwesomeStyles.Brand);
+                                          
+                                          // With animation
+                                          icon.spin().setSize(FontAwesomeSizes.Fa3x);""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -997,26 +1027,28 @@ public final class PluginCatalog
                                   "Zero configuration — auto-registered via ServiceLoader SPI"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>font-awesome-pro</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>font-awesome-pro</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome-pro:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "// Pro Regular icon\n"
-                                  + "FontAwesome icon = IFontAwesome.createIcon(\n"
-                                  + "    FontAwesomeIcons.user,\n"
-                                  + "    FontAwesomeStyles.Regular);\n"
-                                  + "\n"
-                                  + "// Pro Light icon\n"
-                                  + "FontAwesome light = IFontAwesome.createIcon(\n"
-                                  + "    FontAwesomeIcons.heart,\n"
-                                  + "    FontAwesomeStyles.Light);\n"
-                                  + "\n"
-                                  + "// Pro Duotone icon\n"
-                                  + "FontAwesome duo = IFontAwesome.createIcon(\n"
-                                  + "    FontAwesomeIcons.bell,\n"
-                                  + "    FontAwesomeStyles.Duotone);")
+                                  """
+                                          // Pro Regular icon
+                                          FontAwesome icon = IFontAwesome.createIcon(
+                                              FontAwesomeIcons.user,
+                                              FontAwesomeStyles.Regular);
+                                          
+                                          // Pro Light icon
+                                          FontAwesome light = IFontAwesome.createIcon(
+                                              FontAwesomeIcons.heart,
+                                              FontAwesomeStyles.Light);
+                                          
+                                          // Pro Duotone icon
+                                          FontAwesome duo = IFontAwesome.createIcon(
+                                              FontAwesomeIcons.bell,
+                                              FontAwesomeStyles.Duotone);""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -1052,22 +1084,24 @@ public final class PluginCatalog
                                   "CRTP fluent API for animation configuration"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp.plugins</groupId>\n"
-                                  + "  <artifactId>easing-effects</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>easing-effects</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp.plugins:easing-effects:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "// Use easing effect enum\n"
-                                  + "String easing = JQEasingEffects.easeInOutQuad.toString();\n"
-                                  + "\n"
-                                  + "// Apply to element animation\n"
-                                  + "myComponent.setAttribute(\"data-easing\", easing);\n"
-                                  + "\n"
-                                  + "// Available easings include:\n"
-                                  + "// easeInQuad, easeOutQuad, easeInOutQuad\n"
-                                  + "// easeInCubic, easeOutCubic, easeInOutCubic\n"
-                                  + "// easeInElastic, easeOutBounce, and 24 more...")
+                                  """
+                                          // Use easing effect enum
+                                          String easing = JQEasingEffects.easeInOutQuad.toString();
+                                          
+                                          // Apply to element animation
+                                          myComponent.setAttribute("data-easing", easing);
+                                          
+                                          // Available easings include:
+                                          // easeInQuad, easeOutQuad, easeInOutQuad
+                                          // easeInCubic, easeOutCubic, easeInOutCubic
+                                          // easeInElastic, easeOutBounce, and 24 more...""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -1102,25 +1136,27 @@ public final class PluginCatalog
                                   "SockJS fallback — graceful degradation for proxies without native WebSocket"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp</groupId>\n"
-                                  + "  <artifactId>jwebmp-rabbitmq</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp</groupId>
+                                            <artifactId>jwebmp-rabbitmq</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp:jwebmp-rabbitmq:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "// module-info.java\n"
-                                  + "module com.myapp {\n"
-                                  + "    requires com.jwebmp.rabbit;\n"
-                                  + "    requires com.guicedee.rabbit;\n"
-                                  + "}\n"
-                                  + "\n"
-                                  + "// Environment variables:\n"
-                                  + "// RABBITMQ_HOST=localhost\n"
-                                  + "// RABBITMQ_PORT=5672\n"
-                                  + "// RABBITMQ_WEB_STOMP_PORT=15674\n"
-                                  + "\n"
-                                  + "// Enable RabbitMQ Web STOMP plugin:\n"
-                                  + "// rabbitmq-plugins enable rabbitmq_web_stomp")
+                                  """
+                                          // module-info.java
+                                          module com.myapp {
+                                              requires com.jwebmp.rabbit;
+                                              requires com.guicedee.rabbit;
+                                          }
+                                          
+                                          // Environment variables:
+                                          // RABBITMQ_HOST=localhost
+                                          // RABBITMQ_PORT=5672
+                                          // RABBITMQ_WEB_STOMP_PORT=15674
+                                          
+                                          // Enable RabbitMQ Web STOMP plugin:
+                                          // rabbitmq-plugins enable rabbitmq_web_stomp""")
                           .spiProvides(List.of("IPageConfigurator", "IGuiceModule", "IGuiceScanModuleInclusions"))
                           .build();
     }
@@ -1155,28 +1191,30 @@ public final class PluginCatalog
                                   "Jackson configuration — DatabindCodec aligned with GuicedEE JSON conventions"
                           ))
                           .mavenSnippet(
-                                  "<dependency>\n"
-                                  + "  <groupId>com.jwebmp</groupId>\n"
-                                  + "  <artifactId>jwebmp-vertx</artifactId>\n"
-                                  + "</dependency>")
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp</groupId>
+                                            <artifactId>jwebmp-vertx</artifactId>
+                                          </dependency>""")
                           .gradleSnippet("implementation(\"com.jwebmp:jwebmp-vertx:2.0.0-SNAPSHOT\")")
                           .quickStartCode(
-                                  "@PageConfiguration(url = \"/\")\n"
-                                  + "public class HomePage extends Page<HomePage> {\n"
-                                  + "    public HomePage() {\n"
-                                  + "        getBody().add(\n"
-                                  + "            new H1<>().setText(\"Hello from JWebMP\")\n"
-                                  + "        );\n"
-                                  + "    }\n"
-                                  + "}\n"
-                                  + "\n"
-                                  + "// Start the server\n"
-                                  + "IGuiceContext.instance().inject();\n"
-                                  + "// Routes auto-registered:\n"
-                                  + "// GET /      → HomePage\n"
-                                  + "// POST /jwajax → AJAX events\n"
-                                  + "// GET /jwdata  → data components\n"
-                                  + "// GET /jwcss   → page CSS")
+                                  """
+                                          @PageConfiguration(url = "/")
+                                          public class HomePage extends Page<HomePage> {
+                                              public HomePage() {
+                                                  getBody().add(
+                                                      new H1<>().setText("Hello from JWebMP")
+                                                  );
+                                              }
+                                          }
+                                          
+                                          // Start the server
+                                          IGuiceContext.instance().inject();
+                                          // Routes auto-registered:
+                                          // GET /      → HomePage
+                                          // POST /jwajax → AJAX events
+                                          // GET /jwdata  → data components
+                                          // GET /jwcss   → page CSS""")
                           .spiProvides(List.of("IGuiceModule", "VertxHttpServerConfigurator"))
                           .build();
     }
