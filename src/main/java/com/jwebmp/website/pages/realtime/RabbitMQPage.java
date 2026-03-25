@@ -15,7 +15,7 @@ public class RabbitMQPage extends WebsitePage<RabbitMQPage> implements INgCompon
         layout.setGap(PageSize.ExtraLarge);
         var content = new WaStack();
         content.setGap(PageSize.Medium);
-        content.add(bodyText("For deployments that need durable messaging, multi-instance fan-out, or broker-managed persistence, add the RabbitMQ Comms module. Server-side Java publishes via AMQP to RabbitMQ fanout exchanges. Browser-side Angular connects directly to RabbitMQ via the Web STOMP plugin. Each group name maps to a fanout exchange — messages broadcast to every subscribed client.", "m"));
+        content.add(richText("For deployments that need durable messaging, multi-instance fan-out, or broker-managed persistence, add the RabbitMQ Comms module. Server-side Java publishes via AMQP to RabbitMQ fanout exchanges. Browser-side Angular connects directly to RabbitMQ via the Web STOMP plugin. Each group name maps to a fanout exchange — messages broadcast to every subscribed client.", "m"));
         var grid = grid(2);
         grid.add(featureCard("Broker-Managed Durability", "Persistent exchanges survive broker restarts. Scale horizontally by adding app instances behind the same broker.", null));
         grid.add(featureCard("Angular Directive", "The [data-rabbit-groups] directive subscribes Angular components to RabbitMQ exchanges declaratively. Subscribe on mount, unsubscribe on destroy.", null));

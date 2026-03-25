@@ -73,6 +73,31 @@
             <artifactId>log4j-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.jwebmp.plugins</groupId>
+            <artifactId>aggrid</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jwebmp.plugins</groupId>
+            <artifactId>agcharts</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jwebmp.plugins</groupId>
+            <artifactId>full-calendar-pro</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jwebmp.plugins</groupId>
+            <artifactId>easing-effects</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jwebmp.plugins</groupId>
+            <artifactId>chartjs</artifactId>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

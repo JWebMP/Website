@@ -16,24 +16,27 @@ public class DataFlowPage extends WebsitePage<DataFlowPage> implements INgCompon
         var content = new WaStack();
         content.setGap(PageSize.Medium);
 
-        content.add(codeBlockWithTitle("Request-Response Flow",
+        content.add(mermaidDiagramWithTitle("Request-Response Flow",
                 """
-                        Browser                     Vert.x Server                Java Handler
-                           │                            │                            │
-                           ├── GET /dashboard ──────────>│                            │
-                           │                            ├── StaticHandler ────────────│
-                           │<── index.html + dist/ ─────┤                            │
-                           │                            │                            │
-                           ├── POST /jwajax ────────────>│                            │
-                           │   (AjaxCall JSON)          ├── deserialize ─────────────>│
-                           │                            │   ├── intercept chain       │
-                           │                            │   ├── fireEvent()           │
-                           │                            │   └── AjaxResponse ─────────>│
-                           │<── DOM updates JSON ───────┤                            │
-                           │                            │                            │
-                           ├── WS /eventbus ────────────>│                            │
-                           │   (STOMP subscribe)        ├── RabbitMQ exchange ────────│
-                           │<── STOMP message ──────────┤                            │"""));
+                        sequenceDiagram
+                          participant Browser
+                          participant Vertx as Vert.x Server
+                          participant Handler as Java Handler
+
+                          Browser->>Vertx: GET /dashboard
+                          Vertx->>Browser: index.html + dist/ (StaticHandler)
+
+                          Browser->>Vertx: POST /jwajax (AjaxCall JSON)
+                          Vertx->>Handler: deserialize
+                          Handler->>Handler: intercept chain
+                          Handler->>Handler: fireEvent()
+                          Handler->>Vertx: AjaxResponse
+                          Vertx->>Browser: DOM updates JSON
+
+                          Browser->>Vertx: WS /eventbus (STOMP subscribe)
+                          Vertx->>Handler: RabbitMQ exchange
+                          Vertx->>Browser: STOMP message
+                        """));
 
         layout.add(buildSection("DATA FLOW", "Request, Event, and Message Paths",
                 "HTTP for pages, AJAX for events, WebSocket for real-time.", false, content));

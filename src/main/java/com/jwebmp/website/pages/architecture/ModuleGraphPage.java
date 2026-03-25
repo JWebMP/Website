@@ -19,24 +19,36 @@ public class ModuleGraphPage extends WebsitePage<ModuleGraphPage> implements INg
         var content = new WaStack();
         content.setGap(PageSize.Medium);
 
-        content.add(bodyText(
-                "Every JWebMP module declares its dependencies explicitly in module-info.java. "
+        content.add(richText(
+                "Every JWebMP module declares its dependencies explicitly in `module-info.java`. "
                         + "The JPMS module graph ensures clean boundaries — no classpath hell, no hidden "
                         + "dependencies, no runtime surprises.",
                 "m"));
 
-        content.add(codeBlockWithTitle("Core Module Dependencies",
+        content.add(mermaidDiagramWithTitle("Core Module Dependencies",
                 """
-                        com.jwebmp.core
-                         ├── com.jwebmp.client          (SPI contracts, AJAX pipeline)
-                         ├── com.guicedee.client         (DI, lifecycle, CallScope)
-                         ├── com.guicedee.vertx          (Vert.x lifecycle, event bus)
-                         ├── io.vertx.core               (Vert.x core)
-                         ├── io.vertx.web                (Vert.x Web router)
-                         ├── com.google.guice            (Dependency injection)
-                         ├── com.fasterxml.jackson        (JSON serialization)
-                         ├── jakarta.validation           (Bean Validation)
-                         └── org.apache.commons.*         (Utilities)"""));
+                        graph TD
+                          CORE["com.jwebmp.core"]
+                          CLIENT["com.jwebmp.client<br/>SPI contracts, AJAX pipeline"]
+                          GUICEE["com.guicedee.client<br/>DI, lifecycle, CallScope"]
+                          VERTX["com.guicedee.vertx<br/>Vert.x lifecycle, event bus"]
+                          VXC["io.vertx.core"]
+                          VXW["io.vertx.web"]
+                          GUICE["com.google.guice<br/>Dependency injection"]
+                          JACKSON["com.fasterxml.jackson<br/>JSON serialization"]
+                          JAKARTA["jakarta.validation<br/>Bean Validation"]
+                          COMMONS["org.apache.commons.*<br/>Utilities"]
+
+                          CORE --> CLIENT
+                          CORE --> GUICEE
+                          CORE --> VERTX
+                          CORE --> VXC
+                          CORE --> VXW
+                          CORE --> GUICE
+                          CORE --> JACKSON
+                          CORE --> JAKARTA
+                          CORE --> COMMONS
+                        """));
 
         var ctas = new WaCluster<>();
         ctas.setGap(PageSize.Small);

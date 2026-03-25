@@ -11,11 +11,14 @@ import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
+import com.jwebmp.plugins.prism.PrismTheme;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.button.WaButton;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.icon.WaIcon;
+import com.jwebmp.webawesome.components.select.WaSelect;
+import com.jwebmp.webawesome.components.select.WaSelectOption;
 import com.jwebmp.webawesome.components.toast.WaToastDataService;
 import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
@@ -43,7 +46,8 @@ import java.util.List;
 @NgBootImportReference(value = "LOCALE_ID", reference = "@angular/core")
 @NgBootImportReference(value = "localeEnZa", reference = "@angular/common/locales/en-ZA", direct = true)
 @NgImportReference(value = "localeEnZa", reference = "@angular/common/locales/en-ZA", direct = true, wrapValueInBraces = false)
-@NgImportReference(value = "inject", reference = "@angular/core")
+@NgImportReference(value = "signal", reference = "@angular/core")
+@NgImportReference(value = "DOCUMENT", reference = "@angular/common")
 @NgImportReference(value = "Router, NavigationEnd", reference = "@angular/router")
 @NgImportReference(value = "filter", reference = "rxjs/operators")
 @NgComponentReference(WaToastDataService.class)
@@ -52,7 +56,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         setTag("ng-container");
         addStyle("width:100%");
         addStyle("height:100%");
-        addClass("wa-dark");
+        //addClass("wa-dark");
 
         // ── WaPage is the top-level shell ──
         WaPage<?> page = new WaPage<>();
@@ -158,7 +162,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         WaButton<?> githubBtn = new WaButton<>();
         githubBtn.setAppearance(Appearance.Plain);
-        githubBtn.setVariant(Variant.Neutral);
+        githubBtn.setVariant(Variant.Brand);
         githubBtn.setAsLink("https://github.com/GedMarc/JWebMP", "_blank", null);
         githubBtn.addClass("pseudo-product");
         githubBtn.addClass("product-github");
@@ -173,7 +177,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         WaButton<?> starBtn = new WaButton<>();
         starBtn.setAppearance(Appearance.Plain);
-        starBtn.setVariant(Variant.Neutral);
+        starBtn.setVariant(Variant.Brand);
         starBtn.setAsLink("https://github.com/GedMarc/JWebMP/stargazers", "_blank", null);
         starBtn.addClass("pseudo-product");
         starBtn.addClass("product-star");
@@ -187,17 +191,56 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         WaButton<?> docsBtn = new WaButton<>();
         docsBtn.setAppearance(Appearance.Plain);
-        docsBtn.setVariant(Variant.Neutral);
-        docsBtn.addAttribute("routerLink", "/getting-started");
+        docsBtn.setVariant(Variant.Brand);
+        docsBtn.setAsLink("https://github.com/GuicedEE/ai-rules", "_blank", null);
         docsBtn.addClass("pseudo-product");
         docsBtn.addClass("product-docs");
         docsBtn.setID("product-docs");
-        docsBtn.add(new WaIcon<>("book").addAttribute("label", "Documentation"));
+        docsBtn.add(new WaIcon<>("brain-circuit").addAttribute("label", "AI Skills Repository"));
         secondary.add(docsBtn);
         WaTooltip<?> docsTip = new WaTooltip<>();
         docsTip.setForId("product-docs");
-        docsTip.setText("Documentation");
+        docsTip.setText("AI Skills Repository");
         secondary.add(docsTip);
+
+        // Theme toggle (dark ↔ light)
+        WaButton<?> themeBtn = new WaButton<>();
+        themeBtn.setAppearance(Appearance.Plain);
+        themeBtn.setVariant(Variant.Brand);
+        themeBtn.addAttribute("(click)", "toggleDarkMode()");
+        themeBtn.addClass("pseudo-product");
+        themeBtn.addClass("product-theme");
+        themeBtn.setID("product-theme");
+        var themeIcon = new WaIcon<>();
+        themeIcon.addAttribute("[name]", "darkMode() ? 'sun-bright' : 'moon'");
+        themeIcon.addAttribute("label", "Toggle Theme");
+        themeBtn.add(themeIcon);
+        secondary.add(themeBtn);
+        WaTooltip<?> themeTip = new WaTooltip<>();
+        themeTip.setForId("product-theme");
+        themeTip.setText("Toggle Theme");
+        secondary.add(themeTip);
+
+        // Prism syntax theme selector
+        var prismSelect = new WaSelect<>();
+        prismSelect.setSize(com.jwebmp.webawesome.components.Size.Small);
+        prismSelect.setValue("prism-okaidia");
+        prismSelect.setLabel("Code Theme");
+        prismSelect.setPlaceholder("Code Theme");
+        prismSelect.addAttribute("(wa-change)", "changePrismTheme($event)");
+        prismSelect.bind("prismTheme");
+        prismSelect.addStyle("min-width", "10rem");
+        prismSelect.addClass("pseudo-product");
+
+        for (var theme : PrismTheme.values()) {
+            // Skip community themes not in the standard prismjs package
+            if (theme == PrismTheme.OneDark || theme == PrismTheme.OneLight) continue;
+            var opt = new WaSelectOption<>();
+            opt.setValue(theme.getCssFileName());
+            opt.setText(theme.name().replaceAll("([a-z])([A-Z])", "$1 $2"));
+            prismSelect.add(opt);
+        }
+        secondary.add(prismSelect);
 
         primary.add(secondary);
         nav.add(primary);
@@ -464,7 +507,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
             WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color: var(--wa-color-brand-on-normal)");
             link.add(waIcon);
         }
-        link.setText(text);
+        link.setText("&nbsp;"+ text);
         return item;
     }
 
@@ -490,6 +533,10 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         var f = new ArrayList<>(INgComponent.super.fields());
         f.add("private router: Router = inject(Router);");
         f.add("private _asideNavigating = false;");
+        f.add("private document = inject(DOCUMENT);");
+        f.add("darkMode = signal(true);");
+        f.add("prismTheme = 'prism-okaidia';");
+        f.add("private _prismThemeCache: Record<string, string> = {};");
         f.add("""
                 private asideRoutes: Record<string, string> = {
                     'home': 'home'
@@ -498,8 +545,62 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
     }
 
     @Override
+    public List<String> methods() {
+        var m = new ArrayList<>(INgComponent.super.methods());
+        m.add("""
+                toggleDarkMode() {
+                    const isDark = !this.darkMode();
+                    this.darkMode.set(isDark);
+                    this.document.body.classList.toggle('wa-dark', isDark);
+                    localStorage.setItem('jwebmp-theme', isDark ? 'dark' : 'light');
+                }""");
+        m.add("""
+                changePrismTheme($event: any) {
+                    const theme = $event?.target?.value || this.prismTheme;
+                    this.prismTheme = theme;
+                    localStorage.setItem('jwebmp-prism-theme', theme);
+                    
+                    const applyThemeCss = (css: string) => {
+                        let style = this.document.getElementById('prism-theme-override') as HTMLStyleElement;
+                        if (!style) {
+                            style = this.document.createElement('style') as HTMLStyleElement;
+                            style.id = 'prism-theme-override';
+                            this.document.head.appendChild(style);
+                        }
+                        style.textContent = css;
+                    };
+                    
+                    if (this._prismThemeCache[theme]) {
+                        applyThemeCss(this._prismThemeCache[theme]);
+                        return;
+                    }
+                    
+                    const url = `https://cdn.jsdelivr.net/npm/prismjs@1/themes/${theme}.min.css`;
+                    fetch(url)
+                        .then(r => r.ok ? r.text() : Promise.reject('Failed to load theme'))
+                        .then(css => {
+                            this._prismThemeCache[theme] = css;
+                            applyThemeCss(css);
+                        })
+                        .catch(err => console.warn('Could not load Prism theme:', theme, err));
+                }""");
+        return m;
+    }
+
+    @Override
     public List<String> onInit() {
         var init = new ArrayList<>(INgComponent.super.onInit());
+        init.add("""
+                const savedTheme = localStorage.getItem('jwebmp-theme');
+                const prefersDark = savedTheme ? savedTheme === 'dark' : true;
+                this.darkMode.set(prefersDark);
+                this.document.body.classList.toggle('wa-dark', prefersDark);""");
+        init.add("""
+                const savedPrismTheme = localStorage.getItem('jwebmp-prism-theme');
+                if (savedPrismTheme) {
+                    this.prismTheme = savedPrismTheme;
+                    this.changePrismTheme(null);
+                }""");
         init.add("""
                 this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
                     if (this._asideNavigating) return;

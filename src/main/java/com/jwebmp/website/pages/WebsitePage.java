@@ -97,6 +97,17 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
         return body;
     }
 
+    /**
+     * Body text rendered via Markdown so that backtick code spans, bold, italic, and
+     * links are preserved.  Use {@code `@NgComponent`} in the source string to render
+     * inline code.
+     */
+    protected Markdown<?> richText(String markdownText, String size)
+    {
+        var md = new Markdown<>(markdownText);
+        return md;
+    }
+
     protected WaText<?> captionText(String text)
     {
         var caption = new WaText<>();
@@ -191,6 +202,29 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
             header.add(subtitleText);
         }
         return header;
+    }
+
+    // ── Diagram helpers ──────────────────────────────
+
+    protected DivSimple<?> mermaidDiagram(String mermaidCode)
+    {
+        var wrapper = new DivSimple<>();
+        wrapper.addClass("mermaid-diagram");
+        var md = new Markdown<>("```mermaid\n" + mermaidCode + "\n```");
+        md.setMermaid(true);
+        wrapper.add(md);
+        return wrapper;
+    }
+
+    protected DivSimple<?> mermaidDiagramWithTitle(String title, String mermaidCode)
+    {
+        var wrapper = new DivSimple<>();
+        wrapper.addClass("mermaid-diagram-wrapper");
+        var label = captionText(title);
+        label.addClass("mermaid-diagram-label");
+        wrapper.add(label);
+        wrapper.add(mermaidDiagram(mermaidCode));
+        return wrapper;
     }
 
     // ── Code block helpers ────────────────────────────

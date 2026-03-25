@@ -16,9 +16,9 @@ public class RestAndAjaxPage extends WebsitePage<RestAndAjaxPage> implements INg
         var content = new WaStack();
         content.setGap(PageSize.Medium);
 
-        content.add(bodyText(
-                "Define a Java class, annotate it with @NgRestClient, and the framework generates a fully typed Angular "
-                + "service backed by HttpClient and Angular signals. One annotation per endpoint — GET, POST, PUT, DELETE, "
+        content.add(richText(
+                "Define a Java class, annotate it with `@NgRestClient`, and the framework generates a fully typed Angular "
+                + "service backed by `HttpClient` and Angular signals. One annotation per endpoint — GET, POST, PUT, DELETE, "
                 + "or PATCH — with built-in polling, caching, deduplication, retry, deep-merge, and authentication. "
                 + "No handwritten TypeScript. No boilerplate fetch calls.",
                 "m"));

@@ -3,11 +3,14 @@ package com.jwebmp.website.pages;
 import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.core.base.html.DivSimple;
+import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.WaCluster;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.webawesome.components.button.Appearance;
+import com.jwebmp.webawesome.components.comparison.WaComparison;
 
 @NgComponent("jwebmp-home")
 @NgRoutable(path = "home", isDefault = true)
@@ -106,14 +109,22 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
         var content = new WaStack();
         content.setGap(PageSize.Medium);
 
-        content.add(bodyText(
-                "JWebMP uses annotations to describe your Angular application. @NgComponent creates a component. "
-                + "@NgRoutable assigns a route. @NgDataService generates a typed data service. The annotation "
-                + "processor produces the .ts files, routing modules, and angular.json — a complete, buildable "
+        content.add(richText(
+                "JWebMP uses annotations to describe your Angular application. `@NgComponent` creates a component. "
+                + "`@NgRoutable` assigns a route. `@NgDataService` generates a typed data service. The annotation "
+                + "processor produces the `.ts` files, routing modules, and `angular.json` — a complete, buildable "
                 + "Angular 20 project from your Java source alone.",
                 "m"));
 
-        content.add(codeBlockWithTitle("A complete routed page — in Java",
+        // ── Comparison: Java source ↔ Generated TypeScript ──
+        var comparison = new WaComparison();
+        comparison.setPosition(50);
+
+        var tsSlot = codeBlock(buildSalesDashboardTs(), PrismLanguage.TypeScript);
+        tsSlot.addAttribute("slot", "before");
+        comparison.add(tsSlot);
+
+        var javaSlot = codeBlock(
                 """
                         @NgComponent("sales-dashboard")
                         @NgRoutable(path = "dashboard")
@@ -121,16 +132,27 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
                             implements INgComponent<SalesDashboard> {
                         
                             public SalesDashboard() {
-                                var grid = new AGGrid<>(SalesRow.class);
-                                grid.addColumn("region", "Region");
-                                grid.addColumn("revenue", "Revenue");
+                                var grid = new AgGrid<>() {};
+                                grid.setID("salesGrid");
+                                grid.addColumnDef(new AgGridColumnDef<>()
+                                    .setField("region").setHeaderName("Region"));
+                                grid.addColumnDef(new AgGridColumnDef<>()
+                                    .setField("revenue").setHeaderName("Revenue"));
                                 add(grid);
                         
-                                var chart = new AGBarChart();
-                                chart.getData().addSeries("revenue");
+                                var chart = new AgBarChart<>("revenueChart",
+                                    "region", "revenue") {};
                                 add(chart);
                             }
-                        }"""));
+                        }""");
+        javaSlot.addAttribute("slot", "after");
+        comparison.add(javaSlot);
+
+        content.add(comparison);
+
+        // Generated HTML shown below the comparison
+        content.add(codeBlockWithTitle("Generated Angular HTML",
+                buildSalesDashboardHtml(), PrismLanguage.Html));
 
         content.add(captionText("This generates an Angular component, a route at /dashboard, "
                 + "and wires AG Grid + AG Charts — all from a single Java class."));
@@ -185,9 +207,9 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
         var content = new WaStack();
         content.setGap(PageSize.Medium);
 
-        content.add(bodyText(
+        content.add(richText(
                 "JWebMP supports REST endpoints (Jakarta RS), 50+ server-driven AJAX events, and typed "
-                + "@NgDataService classes out of the box — no WebSocket infrastructure required. When you "
+                + "`@NgDataService` classes out of the box — no WebSocket infrastructure required. When you "
                 + "need push updates, the built-in Vert.x STOMP event bus is already there (AG Grid "
                 + "and Chart.js use it for live data). For production scale, add RabbitMQ Comms for "
                 + "broker-backed durability. Start with request/response. Layer in real-time when you need it.",
@@ -354,5 +376,83 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
                 false, ctaContent));
 
         return prodSection;
+    }
+
+    /**
+     * Builds a representative HTML preview of what the SalesDashboard component
+     * would render.  Uses plain DivSimple elements to avoid triggering the Angular
+     * import-reference pipeline (which requires the full build context).
+     */
+    private String buildSalesDashboardHtml()
+    {
+        var dashboard = new DivSimple<>();
+        dashboard.setTag("sales-dashboard");
+
+        // Replicate what AgGrid renders
+        var grid = new DivSimple<>();
+        grid.setTag("ag-grid-angular");
+        grid.setID("salesGrid");
+        grid.addAttribute("#salesGrid", "");
+        grid.addAttribute("style", "width: 100%; height: 500px;");
+        grid.addAttribute("[gridOptions]", "options");
+        grid.addAttribute("[columnDefs]", "columnDefs");
+        grid.addAttribute("[context]", "{ componentParent: this }");
+        grid.addAttribute("(gridReady)", "onGridReady($event)");
+        grid.addAttribute("(firstDataRendered)", "onFirstDataRendered()");
+        grid.addAttribute("(gridSizeChanged)", "onGridSizeChanged()");
+        dashboard.add(grid);
+
+        // Replicate what AgBarChart renders (wrapped in @if)
+        var chartIf = new DivSimple<>();
+        chartIf.setTag("ng-container");
+        chartIf.addAttribute("*ngIf", "chartReady() && chartOptions()");
+        var chart = new DivSimple<>();
+        chart.setTag("ag-charts");
+        chart.setID("revenueChart");
+        chart.addAttribute("[options]", "chartOptions()");
+        chartIf.add(chart);
+        dashboard.add(chartIf);
+
+        return dashboard.toString(true);
+    }
+
+    /**
+     * Builds representative TypeScript that the Angular code generator would produce
+     * for a SalesDashboard component containing an AgGrid and an AgBarChart.
+     */
+    private String buildSalesDashboardTs()
+    {
+        return """
+                import {Component} from '@angular/core';
+                import {AgGridAngular} from 'ag-grid-angular';
+                import {AgCharts} from 'ag-charts-angular';
+                import {GridApi} from 'ag-grid-community';
+                
+                @Component({
+                  selector: 'sales-dashboard',
+                  standalone: true,
+                  imports: [AgGridAngular, AgCharts],
+                  templateUrl: './SalesDashboard.html'
+                })
+                export class SalesDashboard {
+                  gridApi?: GridApi;
+                  readonly listenerName = 'salesGrid';
+                  columnDefs = [
+                    {field: 'region', headerName: 'Region'},
+                    {field: 'revenue', headerName: 'Revenue'}
+                  ];
+                  chartOptions = signal<any | undefined>(undefined);
+                
+                  onGridReady(params: any): void {
+                    this.gridApi = params.api;
+                    this.onSizeColumnsToFit();
+                  }
+                
+                  onSizeColumnsToFit(): void {
+                    if (this.gridApi) {
+                      setTimeout(() => this.gridApi?.sizeColumnsToFit(), 0);
+                    }
+                  }
+                }""";
     }
 }

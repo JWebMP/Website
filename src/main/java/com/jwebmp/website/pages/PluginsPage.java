@@ -32,11 +32,11 @@ public class PluginsPage extends WebsitePage<PluginsPage> implements INgComponen
         // Intro
         var intro = new WaStack();
         intro.setGap(PageSize.Medium);
-        intro.add(bodyText(
-                "Every JWebMP plugin is a proper JPMS module with an explicit module-info.java. "
+        intro.add(richText(
+                "Every JWebMP plugin is a proper JPMS module with an explicit `module-info.java`. "
                 + "Add the Maven dependency, and the component is immediately available as a type-safe "
                 + "Java class. The Angular Maven Plugin generates all the TypeScript integration at build time. "
-                + "No npm install. No Angular module registration. Just Java.",
+                + "No `npm install`. No Angular module registration. Just Java.",
                 "m"));
 
         var tags = new WaCluster<>();

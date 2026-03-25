@@ -15,7 +15,7 @@ public class VertxEventBusPage extends WebsitePage<VertxEventBusPage> implements
         layout.setGap(PageSize.ExtraLarge);
         var content = new WaStack();
         content.setGap(PageSize.Medium);
-        content.add(bodyText("When you need server-to-browser push, the Angular plugin includes a built-in STOMP server at /eventbus backed by the Vert.x event bus. No external broker required. The generated EventBusService manages connections, reconnection, and message routing. Plugins like AG Grid, FullCalendar, and Chart.js already use this for live data push.", "m"));
+        content.add(richText("When you need server-to-browser push, the Angular plugin includes a built-in STOMP server at `/eventbus` backed by the Vert.x event bus. No external broker required. The generated `EventBusService` manages connections, reconnection, and message routing. Plugins like AG Grid, FullCalendar, and Chart.js already use this for live data push.", "m"));
         var grid = grid(2);
         grid.add(featureCard("Zero Configuration", "The STOMP server starts automatically when the Angular plugin is on the classpath. No environment variables, no broker setup, no additional dependencies.", null));
         grid.add(featureCard("Plugin Data Push", "AG Grid, FullCalendar, and Chart.js register IWebSocketMessageReceiver implementations to push data to the browser. The pattern is SPI-driven — register your own receiver to handle any custom message type.", null));

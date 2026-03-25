@@ -17,6 +17,11 @@ module com.jwebmp.website {
 
     requires transitive com.jwebmp.plugins.markdown;
     requires transitive com.jwebmp.plugins.prism;
+    requires transitive com.jwebmp.plugins.easingeffects;
+    requires transitive com.jwebmp.plugins.agcharts;
+    requires transitive com.jwebmp.plugins.aggrid;
+    requires transitive com.jwebmp.plugins.graphing.chartjs;
+    requires transitive com.jwebmp.plugins.fullcalendar;
 
     requires transitive com.guicedee.vertx;
     requires transitive com.guicedee.vertx.web;
