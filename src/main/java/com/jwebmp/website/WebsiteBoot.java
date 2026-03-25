@@ -11,6 +11,7 @@ import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
+import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.button.WaButton;
 import com.jwebmp.webawesome.components.Variant;
@@ -57,6 +58,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         WaPage<?> page = new WaPage<>();
         page.addStyle("width:100%");
         page.addStyle("height:100%");
+        page.getMain().setPageSize(PageSize.ExtraSmall);
 
         // ── Banner: product navigation bar ──
         var banner = page.getHeader();

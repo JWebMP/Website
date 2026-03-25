@@ -240,11 +240,23 @@ a {
         display: none;
     }
 
+    /* Mobile: hide the "JWebMP" text in the top-left product link, keep the icon */
+    wa-page[view='mobile'] .product-jwebmp.product-active {
+        font-size: 0;        /* collapse the bare text node */
+    }
+    wa-page[view='mobile'] .product-jwebmp.product-active > .logo-jwebmp-svg {
+        font-size: 1rem;     /* reset so the mask-image span keeps its dimensions */
+    }
+
     /* Hide the menu sidebar when in mobile view (burger button visible) */
     wa-page[view='mobile'] {
         --menu-width: 0px;
+        --aside-width: 0px;
     }
     wa-page[view='mobile'] > [slot='menu'] {
+        display: none;
+    }
+    wa-page[view='mobile'] > [slot='aside'] {
         display: none;
     }
 
@@ -500,6 +512,64 @@ a {
     /* decreasing visual size of icons in certain contexts (such as in sidebar nav) */
     wa-icon.icon-shrink {
         font-size: round(0.875em, 1px);
+    }
+    /* #endregion */
+
+    /* #region ngx-markdown clipboard */
+    .markdown-clipboard-toolbar {
+        opacity: 0;
+        transition: opacity var(--wa-transition-normal, 150ms) var(--wa-transition-easing, ease);
+        z-index: 1;
+    }
+
+    /* Show on hover of the pre wrapper */
+    .markdown-clipboard-toolbar.hover,
+    *:hover > .markdown-clipboard-toolbar {
+        opacity: 1;
+    }
+
+    .markdown-clipboard-button {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        /* Hide the text ("Copy" / "Copied"); icon is shown via ::before */
+        font-size: 0;
+        line-height: 0;
+        padding: var(--wa-space-2xs, 0.35em);
+        color: var(--wa-color-text-quiet, #b7bcbf);
+        background: var(--wa-color-surface-raised, rgba(255, 255, 255, 0.08));
+        border: var(--wa-border-width-s, 1px) solid var(--wa-color-neutral-border-quiet, rgba(255, 255, 255, 0.12));
+        border-radius: var(--wa-border-radius-s, 4px);
+        cursor: pointer;
+        transition: color var(--wa-transition-normal, 150ms), background var(--wa-transition-normal, 150ms),
+            border-color var(--wa-transition-normal, 150ms);
+    }
+
+    /* Copy icon (fa-copy / fa-regular) */
+    .markdown-clipboard-button::before {
+        font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free", "Font Awesome 6 Brands", sans-serif;
+        font-weight: 400;                  /* Regular style */
+        content: "\f0c5";                  /* fa-copy */
+        font-size: var(--wa-font-size-m, 1rem);
+        line-height: 1;
+    }
+
+    /* Swap to check icon when copied */
+    .markdown-clipboard-button.copied::before {
+        font-weight: 900;                  /* Solid style for check */
+        content: "\f00c";                  /* fa-check */
+    }
+
+    .markdown-clipboard-button:hover {
+        color: var(--wa-color-text-normal, #e4e6e6);
+        background: var(--wa-color-neutral-fill-quiet-hover, rgba(255, 255, 255, 0.12));
+        border-color: var(--wa-color-neutral-border, rgba(255, 255, 255, 0.2));
+    }
+
+    .markdown-clipboard-button.copied {
+        color: var(--wa-color-success-text, #3ece90);
+        border-color: var(--wa-color-success-border, #3ece90);
     }
     /* #endregion */
 }
