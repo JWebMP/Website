@@ -17,7 +17,9 @@ public class FirstComponentPage extends WebsitePage<FirstComponentPage> implemen
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(
-                "Create your first page component. @NgComponent gives it an Angular selector. "
+                "Create your first page component. This code is identical for both modes — "
+                        + "in Angular mode the build generates an Angular component; in SSR mode "
+                        + "the same class renders server-side HTML. @NgComponent gives it a selector. "
                         + "@NgRoutable assigns its URL. The constructor builds the component tree in Java.",
                 "m"));
 

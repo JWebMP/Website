@@ -21,7 +21,9 @@ public class NextStepsPage extends WebsitePage<NextStepsPage> implements INgComp
 
         content.add(bodyText(
                 "You have a working JWebMP application. From here, add plugins for data grids, charts, "
-                        + "calendars, or real-time messaging. Each is a Maven dependency away.",
+                        + "calendars, or real-time messaging — each is a Maven dependency away. Some plugins "
+                        + "(like AG Grid, Chart.js, FullCalendar) require Angular mode; others (like WebAwesome, "
+                        + "Font Awesome) work in both modes. Check the plugin catalog for details.",
                 "m"));
 
         var ctas = new WaCluster<>();

@@ -4,10 +4,7 @@ import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.webawesome.components.PageSize;
-import com.jwebmp.webawesome.components.Variant;
-import com.jwebmp.webawesome.components.WaCluster;
 import com.jwebmp.webawesome.components.WaStack;
-import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.website.pages.WebsitePage;
 
 @NgComponent("jwebmp-gs-whats-happening")
@@ -19,35 +16,36 @@ public class WhatsHappeningPage extends WebsitePage<WhatsHappeningPage> implemen
         var content = new WaStack();
         content.setGap(PageSize.Medium);
 
-        content.add(bodyText("Under the hood, your six files produced a complete application:", "m"));
+        content.add(bodyText("Under the hood, what happened depends on your mode:", "m"));
 
         var grid = grid(2);
 
-        grid.add(featureCard("TypeScript Generated",
+        grid.add(featureCard("Angular Mode — TypeScript Generated",
                 "The Angular Maven Plugin scanned your @NgApp and @NgComponent classes and generated "
                         + ".ts files, angular.json, package.json, tsconfig.json, and routing modules.",
                 null));
 
-        grid.add(featureCard("Angular Built",
-                "npm install and ng build --configuration production ran automatically. "
-                        + "The compiled dist/ was bundled into your JAR.",
+        grid.add(featureCard("Angular Mode — Angular Built",
+                "npm install and ng build --configuration production ran automatically during mvn install. "
+                        + "The output is a static SPA ready to deploy anywhere.",
                 null));
 
-        grid.add(featureCard("Vert.x Serving",
-                "IGuiceContext.inject() discovered JWebMPVertx via SPI, started the HTTP server, "
-                        + "and registered routes for the SPA, AJAX, CSS, and scripts.",
+        grid.add(featureCard("SSR Mode — Vert.x Serving",
+                "IGuiceContext.inject() discovered JWebMPVertx via SPI, started a non-blocking HTTP server, "
+                        + "and registered routes for pages, AJAX events, WebSockets, CSS, and scripts.",
                 null));
 
-        grid.add(featureCard("SPI Wired",
+        grid.add(featureCard("Both Modes — SPI Wired",
                 "Every IPageConfigurator, IEventConfigurator, and render-ordering hook was discovered "
-                        + "and applied — WebAwesome CSS/JS injected, theme classes added.",
+                        + "and applied — WebAwesome CSS/JS injected, theme classes added. "
+                        + "Guice bindings resolved via ServiceLoader and module-info.java.",
                 null));
 
         content.add(grid);
 
         layout.add(buildSection("UNDER THE HOOD",
                 "What Just Happened?",
-                "Six Java files. A complete reactive Angular application.",
+                "Same Java code — different runtime behaviour depending on your mode.",
                 false, content));
         getMain().add(layout);
     }

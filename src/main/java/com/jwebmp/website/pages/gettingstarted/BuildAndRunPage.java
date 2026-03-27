@@ -17,21 +17,35 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(
-                "Build with Maven. The Angular Maven Plugin generates the TypeScript project, "
-                        + "installs npm dependencies, and runs ng build. Then start your app.",
+                "Build with Maven. What happens next depends on your mode.",
                 "m"));
 
-        content.add(codeBlockWithTitle("Terminal",
+        content.add(codeBlockWithTitle("Terminal — both modes",
                 """
-                        mvn clean install
+                        mvn clean install"""));
+
+        content.add(bodyText(
+                "In Angular mode, the Angular Maven Plugin generates TypeScript, runs npm install and "
+                        + "ng build automatically. The output is a static SPA in the build target — deploy it "
+                        + "to any web server, CDN, or serve it locally. No JWebMP server required.",
+                "m"));
+
+        content.add(codeBlockWithTitle("Angular mode — serve the static SPA (optional)",
+                """
+                        # The built SPA is in target/webroot/
+                        # Serve it however you like — nginx, Apache, CDN, or:
+                        npx serve target/webroot/my-app"""));
+
+        content.add(bodyText(
+                "In SSR mode, components are rendered on the server. Start the Vert.x HTTP server "
+                        + "and open your browser.",
+                "m"));
+
+        content.add(codeBlockWithTitle("SSR mode — start the server",
+                """
                         java -jar target/my-app.jar
                         
                         # Open http://localhost:8080"""));
-
-        content.add(bodyText(
-                "Your browser shows a WebAwesome card with a button — served from a reactive "
-                        + "Vert.x server, rendered by Angular 20, generated entirely from Java.",
-                "m"));
 
         layout.add(buildSection("STEP 6",
                 "Build and Run",

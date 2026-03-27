@@ -2,6 +2,8 @@ package com.jwebmp.website.pages;
 
 import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
+import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
+import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.plugins.prism.PrismLanguage;
@@ -10,10 +12,22 @@ import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.WaCluster;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.webawesome.components.button.Appearance;
-import com.jwebmp.webawesome.components.comparison.WaComparison;
+import com.jwebmp.webawesome.components.details.WaDetails;
+import com.jwebmp.webawesome.components.tree.WaTree;
+import com.jwebmp.webawesome.components.tree.WaTreeItem;
+import com.jwebmp.webawesome.components.tree.TreeSelectionMode;
 
 @NgComponent("jwebmp-home")
 @NgRoutable(path = "home", isDefault = true)
+@NgField("activeFile = 'tab-ts';")
+@NgMethod("""
+        onFileTreeSelect($event: any) {
+            const selection = $event?.detail?.selection;
+            if (selection && selection.length > 0) {
+                const panel = selection[0].getAttribute('data-panel');
+                if (panel) { this.activeFile = panel; }
+            }
+        }""")
 public class HomePage extends WebsitePage<HomePage> implements INgComponent<HomePage>
 {
     public HomePage()
@@ -42,16 +56,17 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(
-                "JWebMP lets Java developers build complete, reactive web applications — frontend and backend — "
-                + "in a single language. Write annotated Java classes; get a production-ready Angular 20 SPA served "
-                + "on a Vert.x 5 reactive server. No context-switching. No hand-written TypeScript. "
-                + "Just Java, all the way down.",
+                "JWebMP lets Java developers build web applications in a single language — with two running modes. "
+                + "Add the Angular plugin and the build generates a complete Angular 20 SPA from your annotated Java classes "
+                + "— no hand-written TypeScript required. Or run without it for traditional server-side rendering on "
+                + "Vert.x 5 with GuicedEE. Either way, your component code stays the same: just Java, all the way down.",
                 "l"));
 
         var tags = new WaCluster<>();
         tags.setGap(PageSize.Small);
         tags.add(buildTag("Java 25+", Variant.Brand));
         tags.add(buildTag("Angular 20", Variant.Danger));
+        tags.add(buildTag("SSR", Variant.Warning));
         tags.add(buildTag("Vert.x 5", Variant.Warning));
         tags.add(buildTag("JPMS", Variant.Success));
         tags.add(buildTag("Reactive", Variant.Neutral));
@@ -65,8 +80,8 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
         content.add(ctas);
 
         var section = buildSection("FULL-STACK JAVA WEB FRAMEWORK",
-                "Rapid Application Development — One Language, Both Ends",
-                "Write Java. Generate Angular. Ship reactive web apps.",
+                "Rapid Application Development — One Language, Two Modes",
+                "Write Java. Generate Angular or render server-side. Ship web apps.",
                 false, content);
         section.setID("hero");
         return section;
@@ -81,7 +96,8 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
 
         grid.add(featureCard("Single Language, Full Stack",
                 "Your backend services, your frontend components, your data models, and your routing — all "
-                + "written in Java. No JavaScript, no TypeScript, no HTML templates to maintain separately.",
+                + "written in Java. In Angular mode the TypeScript is generated for you; in SSR mode there is "
+                + "no frontend build at all. Either way, you never hand-write JavaScript or HTML templates.",
                 null));
 
         grid.add(featureCard("Compile-Time Safety",
@@ -91,7 +107,8 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
 
         grid.add(featureCard("Rapid Development",
                 "Add a dependency, annotate a class, build. New components, pages, and routes materialise "
-                + "automatically. The Maven plugin generates the entire Angular project for you.",
+                + "automatically. With the Angular plugin the Maven build generates the entire SPA; "
+                + "without it, the same components render server-side on Vert.x — zero configuration either way.",
                 null));
 
         content.add(grid);
@@ -110,52 +127,115 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
         content.setGap(PageSize.Medium);
 
         content.add(richText(
-                "JWebMP uses annotations to describe your Angular application. `@NgComponent` creates a component. "
-                + "`@NgRoutable` assigns a route. `@NgDataService` generates a typed data service. The annotation "
-                + "processor produces the `.ts` files, routing modules, and `angular.json` — a complete, buildable "
-                + "Angular 20 project from your Java source alone.",
+                "With the **Angular plugin** included, JWebMP uses annotations to generate a complete Angular application. "
+                + "`@NgComponent` creates a component. `@NgRoutable` assigns a route. `@NgDataService` generates a typed "
+                + "data service. The annotation processor produces `.ts` files, routing modules, and `angular.json` "
+                + "— a buildable Angular 20 project from your Java source alone. Node.js is required at build time "
+                + "for the Angular CLI; the resulting SPA is static and can be served from any host — "
+                + "the JWebMP server is entirely optional.",
                 "m"));
 
-        // ── Comparison: Java source ↔ Generated TypeScript ──
-        var comparison = new WaComparison();
-        comparison.setPosition(50);
+        // ── Java source inside a closed WaDetails ──
+        var javaDetails = new WaDetails<>("Java Source — SalesDashboard.java");
+        javaDetails.add(codeBlock(buildSalesDashboardJava()));
+        content.add(javaDetails);
 
-        var tsSlot = codeBlock(buildSalesDashboardTs(), PrismLanguage.TypeScript);
-        tsSlot.addAttribute("slot", "before");
-        comparison.add(tsSlot);
+        // ── Generated Angular file explorer inside a closed WaDetails ──
+        var angularDetails = new WaDetails<>("Generated Angular Project");
 
-        var javaSlot = codeBlock(
-                """
-                        @NgComponent("sales-dashboard")
-                        @NgRoutable(path = "dashboard")
-                        public class SalesDashboard extends DivSimple<SalesDashboard>
-                            implements INgComponent<SalesDashboard> {
-                        
-                            public SalesDashboard() {
-                                var grid = new AgGrid<>() {};
-                                grid.setID("salesGrid");
-                                grid.addColumnDef(new AgGridColumnDef<>()
-                                    .setField("region").setHeaderName("Region"));
-                                grid.addColumnDef(new AgGridColumnDef<>()
-                                    .setField("revenue").setHeaderName("Revenue"));
-                                add(grid);
-                        
-                                var chart = new AgBarChart<>("revenueChart",
-                                    "region", "revenue") {};
-                                add(chart);
-                            }
-                        }""");
-        javaSlot.addAttribute("slot", "after");
-        comparison.add(javaSlot);
+        var explorer = new DivSimple<>();
+        explorer.addClass("file-explorer");
 
-        content.add(comparison);
+        // File tree
+        var fileTree = new WaTree<>();
+        fileTree.setSelection(TreeSelectionMode.Single);
+        fileTree.setIndentSize("var(--wa-spacing-small)");
+        fileTree.addAttribute("(wa-selection-change)",
+                "onFileTreeSelect($event)");
 
-        // Generated HTML shown below the comparison
-        content.add(codeBlockWithTitle("Generated Angular HTML",
-                buildSalesDashboardHtml(), PrismLanguage.Html));
+        var srcFolder = treeFolder("src/app/sales-dashboard/", true);
 
-        content.add(captionText("This generates an Angular component, a route at /dashboard, "
-                + "and wires AG Grid + AG Charts — all from a single Java class."));
+        var firstFile = treeFile("SalesDashboard.ts", "tab-ts");
+        firstFile.setSelected(true);
+        srcFolder.add(firstFile);
+        srcFolder.add(treeFile("SalesDashboard.html", "tab-html"));
+        srcFolder.add(treeFile("SampleSalesGrid.ts", "tab-grid"));
+        srcFolder.add(treeFile("SampleSalesGrid.html", "tab-grid-html"));
+        srcFolder.add(treeFile("SampleRevenueChart.ts", "tab-chart"));
+        srcFolder.add(treeFile("SampleRevenueChart.html", "tab-chart-html"));
+        fileTree.add(srcFolder);
+
+        var routeFolder = treeFolder("src/app/", false);
+        routeFolder.add(treeFile("app.routes.ts", "tab-routes"));
+        fileTree.add(routeFolder);
+
+        explorer.add(fileTree);
+
+        // Code canvas — panels shown/hidden by activeFile field
+        var codeCanvas = new DivSimple<>();
+        codeCanvas.addClass("code-canvas");
+
+        var tsDiv = codeBlock(buildSalesDashboardTs(), PrismLanguage.TypeScript);
+        tsDiv.addAttribute("[hidden]", "activeFile !== 'tab-ts'");
+        codeCanvas.add(tsDiv);
+
+        var htmlDiv = codeBlock(buildSalesDashboardHtml(), PrismLanguage.Html);
+        htmlDiv.addAttribute("[hidden]", "activeFile !== 'tab-html'");
+        codeCanvas.add(htmlDiv);
+
+        var gridDiv = codeBlock(buildSampleSalesGridTs(), PrismLanguage.TypeScript);
+        gridDiv.addAttribute("[hidden]", "activeFile !== 'tab-grid'");
+        codeCanvas.add(gridDiv);
+
+        var gridHtmlDiv = codeBlock(buildSampleSalesGridHtml(), PrismLanguage.Html);
+        gridHtmlDiv.addAttribute("[hidden]", "activeFile !== 'tab-grid-html'");
+        codeCanvas.add(gridHtmlDiv);
+
+        var chartDiv = codeBlock(buildSampleRevenueChartTs(), PrismLanguage.TypeScript);
+        chartDiv.addAttribute("[hidden]", "activeFile !== 'tab-chart'");
+        codeCanvas.add(chartDiv);
+
+        var chartHtmlDiv = codeBlock(buildSampleRevenueChartHtml(), PrismLanguage.Html);
+        chartHtmlDiv.addAttribute("[hidden]", "activeFile !== 'tab-chart-html'");
+        codeCanvas.add(chartHtmlDiv);
+
+        var routesDiv = codeBlock(buildAppRoutesTs(), PrismLanguage.TypeScript);
+        routesDiv.addAttribute("[hidden]", "activeFile !== 'tab-routes'");
+        codeCanvas.add(routesDiv);
+
+        explorer.add(codeCanvas);
+
+        angularDetails.add(explorer);
+        content.add(angularDetails);
+
+        content.add(captionText("Expand the panels above to see the Java source and the generated Angular project. "
+                + "One language, full production SPA."));
+
+        // ── LoC / complexity comparison stats ──
+        var statsDetails = new WaDetails<>("By the Numbers — Java vs Generated TypeScript");
+
+        var statsGrid = grid(3);
+
+        statsGrid.add(featureCard("Lines of Code",
+                "3 Java files — ~80 LoC. The build generates 9 Angular files "
+                + "totalling ~330 LoC of TypeScript, HTML, and SCSS. "
+                + "That is a 4× amplification ratio you never have to write or maintain.",
+                "80 LoC → 330 LoC (4× amplification)"));
+
+        statsGrid.add(featureCard("Estimated AI Tokens",
+                "An LLM needs ~350 tokens to produce the Java source. "
+                + "Generating the equivalent TypeScript, templates, subscriptions, and "
+                + "lifecycle wiring directly would consume ~2,800 tokens — an 8× cost multiplier.",
+                "~350 tokens → ~2,800 tokens (8× cost)"));
+
+        statsGrid.add(featureCard("Complexity",
+                "The Java side is declarative: annotations, column definitions, and a data list. "
+                + "The generated TypeScript includes EventBus subscriptions, signal/computed reactivity, "
+                + "lifecycle hooks, resize handlers, and UUID-based listener management — all auto-wired.",
+                "Declarative → Imperative (auto-generated)"));
+
+        statsDetails.add(statsGrid);
+        content.add(statsDetails);
 
         var section = buildSection("ANNOTATION-DRIVEN",
                 "Java Annotations Become Angular Applications",
@@ -173,30 +253,35 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
         var grid = grid(2);
 
         grid.add(featureCard("Vert.x 5 Server",
-                "Non-blocking, event-loop HTTP server. Pages, AJAX events, CSS, and scripts are served "
-                + "reactively. WebSocket broadcasting rides the Vert.x event bus.",
+                "In SSR mode, a non-blocking Vert.x 5 event-loop server renders pages, handles AJAX events, "
+                + "and serves static resources reactively. Angular-mode SPAs can optionally connect to the same "
+                + "server for event-bus or RabbitMQ push updates.",
                 null));
 
         grid.add(featureCard("GuicedEE Runtime",
                 "Google Guice dependency injection, SPI-driven service discovery, call-scoped request handling, "
-                + "and JPMS module isolation — the same foundation as GuicedEE.",
+                + "and JPMS module isolation. Included automatically in SSR mode; available as an optional backend "
+                + "for Angular SPAs that need server-side services.",
                 null));
 
         grid.add(featureCard("AJAX Event Pipeline",
-                "Browser events fire Java handlers on the server. AjaxCall carries the payload; AjaxResponse "
-                + "returns DOM updates. 50+ event adapters — click, change, submit, drag, keyboard, and more.",
+                "In SSR mode, browser events fire Java handlers on the server. AjaxCall carries the payload; "
+                + "AjaxResponse returns DOM updates. 50+ event adapters — click, change, submit, drag, keyboard, "
+                + "and more — all without writing any JavaScript.",
                 null));
 
         grid.add(featureCard("Dual Rendering",
                 "Every component renders as HTML (toString(true)) for server-side pages or JSON (toString()) "
-                + "for AJAX responses — same component tree, two output formats.",
+                + "for AJAX responses — same component tree, two output formats. Angular mode adds a third: "
+                + "generated TypeScript components.",
                 null));
 
         content.add(grid);
 
         var section = buildSection("REACTIVE STACK",
                 "Built on Vert.x 5 and GuicedEE",
-                "Non-blocking I/O, dependency injection, and SPI discovery — reactive from the ground up.",
+                "The SSR foundation — non-blocking I/O, dependency injection, and SPI discovery. "
+                + "Optional backend for Angular SPAs.",
                 true, content);
         section.setID("reactive-stack");
         return section;
@@ -208,11 +293,12 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
         content.setGap(PageSize.Medium);
 
         content.add(richText(
-                "JWebMP supports REST endpoints (Jakarta RS), 50+ server-driven AJAX events, and typed "
-                + "`@NgDataService` classes out of the box — no WebSocket infrastructure required. When you "
-                + "need push updates, the built-in Vert.x STOMP event bus is already there (AG Grid "
-                + "and Chart.js use it for live data). For production scale, add RabbitMQ Comms for "
-                + "broker-backed durability. Start with request/response. Layer in real-time when you need it.",
+                "Communication depends on your running mode. **SSR mode** includes 50+ server-driven AJAX events, "
+                + "REST endpoints (Jakarta RS), and Vert.x WebSocket broadcasting out of the box. "
+                + "**Angular mode** generates typed `@NgDataService` classes and connects to the Vert.x STOMP "
+                + "event bus for live data (AG Grid and Charts use this for push updates). For production scale, "
+                + "either mode can add RabbitMQ Comms for broker-backed durability. "
+                + "Start with request/response. Layer in real-time when you need it.",
                 "m"));
 
         content.add(codeBlockWithTitle("REST endpoint — always available",
@@ -243,14 +329,16 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
 
         content.add(bodyText(
                 "Every plugin is a JPMS module. Add the Maven dependency, and the component is available as a "
-                + "type-safe Java class. The annotation processor generates the Angular integration automatically. "
-                + "No npm install, no Angular module registration — just Java.",
+                + "type-safe Java class. Some plugins work in both modes; others — like AG Grid and AG Charts "
+                + "— require the Angular plugin. In Angular mode the build handles npm and Angular CLI "
+                + "automatically; in SSR mode there is no frontend toolchain at all.",
                 "m"));
 
         var grid = grid(3);
 
         grid.add(featureCard("AG Grid & AG Charts",
-                "Enterprise data grids and 38+ chart types — configured in Java, rendered in Angular.",
+                "Enterprise data grids and 38+ chart types — configured in Java, rendered in Angular. "
+                + "Requires the Angular plugin.",
                 "com.jwebmp.plugins:aggrid / agcharts"));
 
         grid.add(featureCard("WebAwesome",
@@ -258,11 +346,13 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
                 "com.jwebmp.plugins:web-awesome"));
 
         grid.add(featureCard("FullCalendar",
-                "Drag-and-drop scheduling, resource timelines, and multiple calendar views.",
+                "Drag-and-drop scheduling, resource timelines, and multiple calendar views. "
+                + "Requires the Angular plugin.",
                 "com.jwebmp.plugins:fullcalendar"));
 
         grid.add(featureCard("RabbitMQ Comms",
-                "Bidirectional messaging — WebSocket/STOMP bridge with Angular directives and session-aware channels.",
+                "Bidirectional messaging with broker-backed durability. In Angular mode, STOMP/WebSocket "
+                + "bridge with Angular directives. In SSR mode, server-side Vert.x event-bus integration.",
                 "com.jwebmp:jwebmp-rabbitmq"));
 
         grid.add(featureCard("Font Awesome",
@@ -270,7 +360,8 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
                 "com.jwebmp.plugins:fontawesome"));
 
         grid.add(featureCard("Chart.js",
-                "Lightweight charts — bar, line, pie, doughnut, radar — for dashboards and reports.",
+                "Lightweight charts — bar, line, pie, doughnut, radar — for dashboards and reports. "
+                + "Requires the Angular plugin.",
                 "com.jwebmp.plugins:chartjs"));
 
         content.add(grid);
@@ -306,8 +397,9 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
                 null));
 
         grid.add(featureCard("Maven Build Integration",
-                "The Angular Maven Plugin discovers @NgApp classes, generates TypeScript, installs npm "
-                + "dependencies, and runs the Angular CLI build — all inside mvn install.",
+                "In Angular mode the Maven plugin discovers @NgApp classes, generates TypeScript, installs npm "
+                + "dependencies, and runs the Angular CLI build — all inside mvn install. "
+                + "In SSR mode there is no frontend build step at all.",
                 null));
 
         grid.add(featureCard("IDE-Friendly",
@@ -338,8 +430,8 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
                 null));
 
         grid.add(featureCard("Reactive Non-Blocking",
-                "Vert.x 5 event-loop server. No thread-per-request overhead. "
-                + "Scales to thousands of concurrent connections.",
+                "SSR mode runs on the Vert.x 5 event-loop server — no thread-per-request overhead. "
+                + "Angular SPAs are static files that can be served from any host or CDN.",
                 null));
 
         grid.add(featureCard("Apache 2.0 Open Source",
@@ -379,80 +471,350 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
     }
 
     /**
-     * Builds a representative HTML preview of what the SalesDashboard component
-     * would render.  Uses plain DivSimple elements to avoid triggering the Angular
-     * import-reference pipeline (which requires the full build context).
+     * Returns the actual generated HTML for the SalesDashboard component.
      */
     private String buildSalesDashboardHtml()
     {
-        var dashboard = new DivSimple<>();
-        dashboard.setTag("sales-dashboard");
-
-        // Replicate what AgGrid renders
-        var grid = new DivSimple<>();
-        grid.setTag("ag-grid-angular");
-        grid.setID("salesGrid");
-        grid.addAttribute("#salesGrid", "");
-        grid.addAttribute("style", "width: 100%; height: 500px;");
-        grid.addAttribute("[gridOptions]", "options");
-        grid.addAttribute("[columnDefs]", "columnDefs");
-        grid.addAttribute("[context]", "{ componentParent: this }");
-        grid.addAttribute("(gridReady)", "onGridReady($event)");
-        grid.addAttribute("(firstDataRendered)", "onFirstDataRendered()");
-        grid.addAttribute("(gridSizeChanged)", "onGridSizeChanged()");
-        dashboard.add(grid);
-
-        // Replicate what AgBarChart renders (wrapped in @if)
-        var chartIf = new DivSimple<>();
-        chartIf.setTag("ng-container");
-        chartIf.addAttribute("*ngIf", "chartReady() && chartOptions()");
-        var chart = new DivSimple<>();
-        chart.setTag("ag-charts");
-        chart.setID("revenueChart");
-        chart.addAttribute("[options]", "chartOptions()");
-        chartIf.add(chart);
-        dashboard.add(chartIf);
-
-        return dashboard.toString(true);
+        return """
+                <div>
+                \t<sample-sales-grid></sample-sales-grid>
+                \t<sample-revenue-chart></sample-revenue-chart>
+                </div>""";
     }
 
     /**
-     * Builds representative TypeScript that the Angular code generator would produce
-     * for a SalesDashboard component containing an AgGrid and an AgBarChart.
+     * Returns the actual generated HTML for the SampleSalesGrid component.
+     */
+    private String buildSampleSalesGridHtml()
+    {
+        return """
+                <ag-grid-angular #salesGrid
+                  (firstDataRendered)="onFirstDataRendered()"
+                  (gridReady)="onGridReady($event)"
+                  (gridSizeChanged)="onGridSizeChanged()"
+                  [columnDefs]="columnDefs"
+                  [context]="{ componentParent: this }"
+                  [defaultColDef]="defaultColDef"
+                  [getRowId]="getRowId"
+                  [gridOptions]="options"
+                  id="salesGrid"
+                  style="width: 100%; height: 500px;">
+                </ag-grid-angular>""";
+    }
+
+    /**
+     * Returns the actual generated HTML for the SampleRevenueChart component.
+     */
+    private String buildSampleRevenueChartHtml()
+    {
+        return """
+                @if (chartReady() && chartOptions()) {
+                \t<ag-charts [options]="chartOptions()"
+                \t           id="revenueChart">
+                \t</ag-charts>
+                }""";
+    }
+
+    /**
+     * Returns the actual generated TypeScript for the SalesDashboard component.
      */
     private String buildSalesDashboardTs()
     {
         return """
                 import {Component} from '@angular/core';
-                import {AgGridAngular} from 'ag-grid-angular';
-                import {AgCharts} from 'ag-charts-angular';
-                import {GridApi} from 'ag-grid-community';
+                import {SampleSalesGrid} from
+                  '../SampleSalesGrid/SampleSalesGrid';
+                import {SampleRevenueChart} from
+                  '../SampleRevenueChart/SampleRevenueChart';
+                import {inject} from '@angular/core';
                 
                 @Component({
                   selector: 'sales-dashboard',
-                  standalone: true,
-                  imports: [AgGridAngular, AgCharts],
-                  templateUrl: './SalesDashboard.html'
+                  templateUrl: './SalesDashboard.html',
+                  styleUrls: ['./SalesDashboard.scss'],
+                  imports: [
+                    SampleSalesGrid,
+                    SampleRevenueChart,
+                  ],
+                  standalone: true
                 })
                 export class SalesDashboard {
-                  gridApi?: GridApi;
-                  readonly listenerName = 'salesGrid';
-                  columnDefs = [
-                    {field: 'region', headerName: 'Region'},
-                    {field: 'revenue', headerName: 'Revenue'}
-                  ];
-                  chartOptions = signal<any | undefined>(undefined);
+                  readonly sampleSalesGrid =
+                    inject(SampleSalesGrid);
+                  readonly sampleRevenueChart =
+                    inject(SampleRevenueChart);
+                }""";
+    }
+
+    /**
+     * Builds the Java source code shown in the comparison.
+     * Shows the SalesDashboard (the routing component) and the SampleSalesGrid
+     * (the grid definition with columns and data) together, matching the real source.
+     */
+    private String buildSalesDashboardJava()
+    {
+        return """
+                @NgComponent("sales-dashboard")
+                @NgRoutable(path = "dashboard")
+                public class SalesDashboard
+                    extends DivSimple<SalesDashboard>
+                    implements INgComponent<SalesDashboard> {
                 
+                  public SalesDashboard() {
+                    add(new SampleSalesGrid());
+                    add(new SampleRevenueChart());
+                  }
+                }
+                
+                // ── Grid definition ──
+                @NgComponent("sample-sales-grid")
+                public class SampleSalesGrid
+                    extends AgGrid<SampleSalesGrid> {
+                
+                  public SampleSalesGrid() {
+                    setID("salesGrid");
+                    addColumnDef(new AgGridColumnDef<>()
+                      .setField("region")
+                      .setHeaderName("Region")
+                      .setFilter(true).setSortable(true));
+                    addColumnDef(new AgGridColumnDef<>()
+                      .setField("product")
+                      .setHeaderName("Product")
+                      .setFilter(true).setSortable(true));
+                    addColumnDef(new AgGridColumnDef<>()
+                      .setField("units")
+                      .setHeaderName("Units Sold")
+                      .setSortable(true));
+                    addColumnDef(new AgGridColumnDef<>()
+                      .setField("revenue")
+                      .setHeaderName("Revenue")
+                      .setSortable(true));
+                    addColumnDef(new AgGridColumnDef<>()
+                      .setField("profit")
+                      .setHeaderName("Profit")
+                      .setSortable(true));
+                  }
+                
+                  @Override
+                  public Collection fetchData() {
+                    return List.of();
+                  }
+                }""";
+    }
+
+    /**
+     * Returns the actual generated TypeScript for the SampleSalesGrid component,
+     * trimmed for readability.
+     */
+    private String buildSampleSalesGridTs()
+    {
+        return """
+                import {OnDestroy, AfterViewInit, ViewChild,
+                  HostListener, Component} from '@angular/core';
+                import {AgGridAngular} from 'ag-grid-angular';
+                import {ColDef, ColGroupDef, GridApi, GridOptions,
+                  GetRowIdFunc, GetRowIdParams,
+                  RowSelectedEvent} from 'ag-grid-community';
+                import {Subscription} from 'rxjs';
+                import {v4 as uuidv4} from 'uuid';
+                import {EventBusService} from
+                  '…/services/EventBusService/EventBusService';
+                import {inject} from '@angular/core';
+                
+                @Component({
+                  selector: 'sample-sales-grid',
+                  templateUrl: './SampleSalesGrid.html',
+                  styleUrls: ['./SampleSalesGrid.scss'],
+                  imports: [AgGridAngular],
+                  standalone: true
+                })
+                export class SampleSalesGrid
+                    implements OnDestroy, AfterViewInit {
+                  readonly eventBusService =
+                    inject(EventBusService);
+                  readonly subscription?: Subscription;
+                  readonly handlerId: string;
+                  readonly datasetHandlerId: string;
+                  gridApi?: GridApi;
+                  columnDefs: (ColDef | ColGroupDef)[] = [
+                    {field:'region',  headerName:'Region',
+                     sortable:true, filter:true},
+                    {field:'product', headerName:'Product',
+                     sortable:true, filter:true},
+                    {field:'units',   headerName:'Units Sold',
+                     sortable:true},
+                    {field:'revenue', headerName:'Revenue',
+                     sortable:true},
+                    {field:'profit',  headerName:'Profit',
+                     sortable:true}
+                  ];
+                  getRowId: GetRowIdFunc =
+                    (p: GetRowIdParams) =>
+                      String(p.data.region);
+                  defaultColDef: ColDef = {
+                    sortable: true, filter: true,
+                    resizable: true
+                  };
+                  @ViewChild('salesGrid')
+                  salesGrid?: AgGridAngular;
+                  options: GridOptions = {};
+                  readonly listenerName = 'salesGrid';
+                
+                  constructor() {
+                    this.datasetHandlerId =
+                      this.generateHandlerId();
+                    this.handlerId =
+                      this.generateHandlerId();
+                    this.subscription = this.eventBusService
+                      .listen(this.listenerName, this.handlerId)
+                      .subscribe({
+                        next: (message: any) => {
+                          // … parse rows and update grid …
+                        },
+                        error: (e) => console.log(e),
+                      });
+                  }
+                  ngAfterViewInit() {
+                    this.eventBusService.send(
+                      this.listenerName,
+                      { className: this.clazzName,
+                        listenerName: this.listenerName },
+                      this.listenerName);
+                  }
                   onGridReady(params: any): void {
                     this.gridApi = params.api;
                     this.onSizeColumnsToFit();
                   }
-                
                   onSizeColumnsToFit(): void {
                     if (this.gridApi) {
-                      setTimeout(() => this.gridApi?.sizeColumnsToFit(), 0);
+                      setTimeout(() =>
+                        this.gridApi?.sizeColumnsToFit(), 0);
                     }
                   }
+                  @HostListener('window:resize')
+                  onWindowResize(): void {
+                    this.onSizeColumnsToFit();
+                  }
+                  ngOnDestroy() {
+                    this.eventBusService.unregisterListener(
+                      this.listenerName, this.handlerId);
+                  }
                 }""";
+    }
+
+    /**
+     * Returns the actual generated TypeScript for the SampleRevenueChart component,
+     * trimmed for readability.
+     */
+    private String buildSampleRevenueChartTs()
+    {
+        return """
+                import {OnDestroy, AfterViewInit, Component,
+                  signal, computed} from '@angular/core';
+                import {AgCharts} from 'ag-charts-angular';
+                import {Subscription} from 'rxjs';
+                import {v4 as uuidv4} from 'uuid';
+                import {EventBusService} from
+                  '…/services/EventBusService/EventBusService';
+                import {inject} from '@angular/core';
+                
+                @Component({
+                  selector: 'sample-revenue-chart',
+                  templateUrl: './SampleRevenueChart.html',
+                  styles: [`:host { display: block;
+                    position: relative;
+                    width:100%; height:100% }`],
+                  styleUrls: ['./SampleRevenueChart.scss'],
+                  imports: [AgCharts],
+                  standalone: true
+                })
+                export class SampleRevenueChart
+                    implements OnDestroy, AfterViewInit {
+                  readonly eventBusService =
+                    inject(EventBusService);
+                  readonly chartOptions =
+                    signal<any | undefined>(undefined);
+                  readonly handlerId: string;
+                  private subscriptionOptions?: Subscription;
+                  private subscriptionData?: Subscription;
+                  chartData: any;
+                  readonly chartReady =
+                    computed(() => !!this.chartOptions());
+                  readonly listenerName = 'revenueChart';
+                
+                  constructor() {
+                    this.handlerId =
+                      this.generateHandlerId();
+                  }
+                  ngAfterViewInit() {
+                    this.initializeOptionsListener();
+                    this.initializeDataListener();
+                    this.fetchOptions();
+                    this.fetchDataChannel();
+                  }
+                  initializeOptionsListener() {
+                    this.subscriptionOptions =
+                      this.eventBusService
+                        .listen(this.listenerName + 'Options',
+                               this.handlerId)
+                        .subscribe({
+                          next: (data) =>
+                            this.handleOptionsEvent(data),
+                        });
+                  }
+                  handleOptionsEvent(data: any) {
+                    const payload = typeof data === 'string'
+                      ? JSON.parse(data) : data;
+                    const options = payload?.out?.[0]
+                      ?? payload;
+                    this.chartOptions.set(options);
+                  }
+                  // … fetchOptions, data listeners …
+                  ngOnDestroy() {
+                    this.subscriptionOptions?.unsubscribe();
+                    this.subscriptionData?.unsubscribe();
+                  }
+                }""";
+    }
+
+    /**
+     * Builds representative TypeScript for the app routes file.
+     */
+    private String buildAppRoutesTs()
+    {
+        return """
+                import {Routes} from '@angular/router';
+                import {SalesDashboard} from
+                  './sales-dashboard/SalesDashboard';
+                
+                export const routes: Routes = [
+                  {
+                    path: 'dashboard',
+                    component: SalesDashboard
+                  },
+                  {
+                    path: '',
+                    redirectTo: 'dashboard',
+                    pathMatch: 'full'
+                  }
+                ];""";
+    }
+
+    // ── Tree helpers for the file explorer ──
+
+    private WaTreeItem<?> treeFolder(String label, boolean expanded)
+    {
+        var item = new WaTreeItem<>();
+        item.setText(label);
+        item.setExpanded(expanded);
+        return item;
+    }
+
+    private WaTreeItem<?> treeFile(String label, String panelId)
+    {
+        var item = new WaTreeItem<>();
+        item.setText(label);
+        item.addAttribute("data-panel", panelId);
+        return item;
     }
 }

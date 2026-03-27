@@ -17,18 +17,27 @@ public class BootstrapPage extends WebsitePage<BootstrapPage> implements INgComp
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(
-                "The Boot class is your application entry point. It configures the HTTP port, "
-                        + "enables Angular TypeScript processing, and starts the GuicedEE runtime. "
-                        + "One line — IGuiceContext.inject() — boots everything.",
+                 "How you bootstrap depends on your mode. Angular mode only needs the Angular "
+                        + "generation flag — there is no server to start. SSR mode starts the GuicedEE "
+                        + "runtime with a Vert.x HTTP server.",
                 "m"));
 
-        content.add(codeBlockWithTitle("Boot.java",
+        content.add(codeBlockWithTitle("Boot.java — Angular mode (no server required)",
+                """
+                        public final class Boot {
+                            public static void main(String[] args) {
+                                // Generate the Angular project during build
+                                System.setProperty("jwebmp.process.angular.ts", "true");
+                                IGuiceContext.instance().inject();
+                            }
+                        }"""));
+
+        content.add(codeBlockWithTitle("Boot.java — SSR mode (Vert.x server)",
                 """
                         public final class Boot {
                             public static void main(String[] args) {
                                 System.setProperty("HTTP_ENABLED", "true");
                                 System.setProperty("HTTP_PORT", "8080");
-                                System.setProperty("jwebmp.process.angular.ts", "true");
                                 IGuiceContext.instance().inject();
                             }
                         }"""));

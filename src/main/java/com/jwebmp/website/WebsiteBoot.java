@@ -15,10 +15,9 @@ import com.jwebmp.plugins.prism.PrismTheme;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.button.WaButton;
+import com.jwebmp.webawesome.components.button.WaDropDown;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.icon.WaIcon;
-import com.jwebmp.webawesome.components.select.WaSelect;
-import com.jwebmp.webawesome.components.select.WaSelectOption;
 import com.jwebmp.webawesome.components.toast.WaToastDataService;
 import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
@@ -221,26 +220,32 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         themeTip.setText("Toggle Theme");
         secondary.add(themeTip);
 
-        // Prism syntax theme selector
-        var prismSelect = new WaSelect<>();
-        prismSelect.setSize(com.jwebmp.webawesome.components.Size.Small);
-        prismSelect.setValue("prism-okaidia");
-        prismSelect.setLabel("Code Theme");
-        prismSelect.setPlaceholder("Code Theme");
-        prismSelect.addAttribute("(wa-change)", "changePrismTheme($event)");
-        prismSelect.bind("prismTheme");
-        prismSelect.addStyle("min-width", "10rem");
-        prismSelect.addClass("pseudo-product");
+        // Prism syntax theme selector (dropdown triggered by icon button)
+        var prismDropdown = new WaDropDown<>();
+        prismDropdown.addClass("pseudo-product");
+        prismDropdown.setSelectEvent("changePrismTheme($event)");
+
+        var prismBtn = new WaButton<>();
+        prismBtn.setAppearance(Appearance.Plain);
+        prismBtn.setVariant(Variant.Brand);
+        prismBtn.setID("product-code-theme");
+        prismBtn.add(new WaIcon<>("code").addAttribute("label", "Code Theme"));
+        prismDropdown.setButton(prismBtn);
 
         for (var theme : PrismTheme.values()) {
             // Skip community themes not in the standard prismjs package
             if (theme == PrismTheme.OneDark || theme == PrismTheme.OneLight) continue;
-            var opt = new WaSelectOption<>();
-            opt.setValue(theme.getCssFileName());
-            opt.setText(theme.name().replaceAll("([a-z])([A-Z])", "$1 $2"));
-            prismSelect.add(opt);
+            prismDropdown.addItem(
+                    theme.name().replaceAll("([a-z])([A-Z])", "$1 $2"),
+                    theme.getCssFileName()
+            );
         }
-        secondary.add(prismSelect);
+        secondary.add(prismDropdown);
+
+        WaTooltip<?> prismTip = new WaTooltip<>();
+        prismTip.setForId("product-code-theme");
+        prismTip.setText("Code Theme");
+        secondary.add(prismTip);
 
         primary.add(secondary);
         nav.add(primary);
@@ -259,9 +264,6 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         // Getting Started
         var gsItem = createRouterTreeItem("/getting-started", "Getting Started", "rocket");
-        gsItem.add(createRouterTreeItem("/getting-started/prerequisites", "Prerequisites", null));
-        gsItem.add(createRouterTreeItem("/getting-started/maven-project", "Maven Project", null));
-        gsItem.add(createRouterTreeItem("/getting-started/module-descriptor", "Module Descriptor", null));
         gsItem.add(createRouterTreeItem("/getting-started/bootstrap", "Bootstrap", null));
         gsItem.add(createRouterTreeItem("/getting-started/application", "Application", null));
         gsItem.add(createRouterTreeItem("/getting-started/first-component", "First Component", null));
@@ -401,9 +403,6 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         navTree.add(createRouterTreeItem("/home", "Home", "house"));
 
         var navGs = createRouterTreeItem("/getting-started", "Getting Started", "rocket");
-        navGs.add(createRouterTreeItem("/getting-started/prerequisites", "Prerequisites", null));
-        navGs.add(createRouterTreeItem("/getting-started/maven-project", "Maven Project", null));
-        navGs.add(createRouterTreeItem("/getting-started/module-descriptor", "Module Descriptor", null));
         navGs.add(createRouterTreeItem("/getting-started/bootstrap", "Bootstrap", null));
         navGs.add(createRouterTreeItem("/getting-started/application", "Application", null));
         navGs.add(createRouterTreeItem("/getting-started/first-component", "First Component", null));
@@ -535,11 +534,12 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         f.add("private _asideNavigating = false;");
         f.add("private document = inject(DOCUMENT);");
         f.add("darkMode = signal(true);");
-        f.add("prismTheme = 'prism-okaidia';");
+        f.add("prismTheme = 'prism-solarizedlight';");
         f.add("private _prismThemeCache: Record<string, string> = {};");
         f.add("""
                 private asideRoutes: Record<string, string> = {
-                    'home': 'home'
+                    'home': 'home',
+                    'getting-started': 'getting-started'
                 };""");
         return f;
     }
@@ -556,7 +556,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
                 }""");
         m.add("""
                 changePrismTheme($event: any) {
-                    const theme = $event?.target?.value || this.prismTheme;
+                    const theme = $event?.detail?.item?.value || this.prismTheme;
                     this.prismTheme = theme;
                     localStorage.setItem('jwebmp-prism-theme', theme);
                     
@@ -608,7 +608,8 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
                     const primaryPath = url.split('?')[0].split('#')[0].replace(/^\\//, '').split('/')[0];
                     const asidePath = this.asideRoutes[primaryPath];
                     const currentAside = this.router.parseUrl(url).root.children['aside'];
-                    if (asidePath && !currentAside) {
+                    const currentAsidePath = currentAside?.segments?.map((s: any) => s.path).join('/') || null;
+                    if (asidePath && currentAsidePath !== asidePath) {
                         this._asideNavigating = true;
                         this.router.navigate([{outlets: {aside: [asidePath]}}], {skipLocationChange: true})
                             .finally(() => this._asideNavigating = false);

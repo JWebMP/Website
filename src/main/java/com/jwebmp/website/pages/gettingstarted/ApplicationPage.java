@@ -17,11 +17,12 @@ public class ApplicationPage extends WebsitePage<ApplicationPage> implements INg
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(
-                "Define your Angular application with @NgApp. This tells the generator the "
-                        + "app name and root component.",
+                "This step applies to Angular mode only. @NgApp tells the generator the application "
+                        + "name and root component. SSR mode does not need an application class — the "
+                        + "Vert.x server discovers pages and components via SPI automatically.",
                 "m"));
 
-        content.add(codeBlockWithTitle("MyApplication.java",
+        content.add(codeBlockWithTitle("MyApplication.java — Angular mode only",
                 """
                         @NgApp(value = "my-app", bootComponent = MyHomePage.class)
                         public class MyApplication extends NGApplication<MyApplication> {
@@ -32,7 +33,7 @@ public class ApplicationPage extends WebsitePage<ApplicationPage> implements INg
 
         layout.add(buildSection("STEP 4",
                 "Define the Application",
-                "@NgApp names your app and sets the root component.",
+                "@NgApp names your app and sets the root component. Angular mode only.",
                 true, content));
         getMain().add(layout);
     }

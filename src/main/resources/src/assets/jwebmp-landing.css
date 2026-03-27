@@ -411,8 +411,17 @@ a {
             border-end-start-radius: inherit;
 
             wa-tree-item {
+                &::part(item) {
+                    cursor: pointer;
+                }
+
                 &::part(label) {
                     font-size: var(--wa-font-size-s);
+                    display: block;
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 &:state(selected)::part(item) {
@@ -433,6 +442,35 @@ a {
                 block-size: 100%;
             }
         }
+    }
+
+    /* wa-details: brand border + larger summary text */
+    #annotation-driven wa-details {
+        border: var(--wa-border-width-s) solid var(--wa-color-brand);
+        border-radius: var(--wa-border-radius-m);
+        overflow: hidden;
+
+        &::part(header) {
+            font-size: var(--wa-font-size-l);
+        }
+    }
+
+    /* file-explorer inside a wa-details fills the available width */
+    wa-details .file-explorer {
+        block-size: 50vh;
+        border: none;
+        border-radius: 0;
+    }
+
+    wa-details .file-explorer .code-canvas {
+        overflow-y: auto;
+    }
+
+    /* Java source code block inside wa-details */
+    wa-details .code-block {
+        border-radius: 0;
+        border: none;
+        margin: 0;
     }
 
     /* #endregion */
@@ -484,6 +522,23 @@ a {
         opacity: 0.6;
     }
     /* #endregion */
+
+    /* Make tree-item links fill the full row so the entire area is clickable */
+    wa-tree-item > a {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 100%;
+    }
+
+    wa-tree-item:has(> a)::part(label) {
+        display: block;
+        width: 100%;
+    }
+
+    wa-tree-item:has(> a)::part(item) {
+        cursor: pointer;
+    }
 
     /* #region resets */
     code.appearance-plain {
@@ -580,6 +635,141 @@ a {
     .markdown-clipboard-button.copied {
         color: var(--wa-color-success-text, #3ece90);
         border-color: var(--wa-color-success-border, #3ece90);
+    }
+    /* #endregion */
+
+    /* #region code blocks */
+    .code-block {
+        background: var(--wa-color-neutral-50, #f8f9fa);
+        border: 1px solid var(--wa-color-neutral-200, #dee2e6);
+        border-radius: var(--wa-border-radius-s, 0.5rem);
+        padding: 1.25rem 1.5rem;
+        overflow-x: auto;
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .code-block pre {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+
+    .code-block-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .code-block-label {
+        background: var(--wa-color-neutral-100, #f1f3f5);
+        border: 1px solid var(--wa-color-neutral-200, #dee2e6);
+        border-bottom: none;
+        border-radius: var(--wa-border-radius-s, 0.5rem) var(--wa-border-radius-s, 0.5rem) 0 0;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        color: var(--wa-color-neutral-600, #6c757d);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .code-block-wrapper .code-block {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .wa-dark .code-block {
+        background: var(--wa-color-neutral-900, #1a1d21);
+        border-color: var(--wa-color-neutral-700, #495057);
+        color: var(--wa-color-neutral-100, #f1f3f5);
+    }
+
+    .wa-dark .code-block-label {
+        background: var(--wa-color-neutral-800, #343a40);
+        border-color: var(--wa-color-neutral-700, #495057);
+        color: var(--wa-color-neutral-400, #adb5bd);
+    }
+    /* #endregion */
+
+    /* #region wa-comparison code overlay fix */
+    /*
+     * wa-comparison overlays the before/after slots on top of each other.
+     * Both panels must have an opaque background and stretch to the same
+     * height so the shorter panel doesn't bleed through the taller one.
+     */
+    wa-comparison {
+        border-radius: var(--wa-border-radius-s, 0.5rem);
+        overflow: hidden;
+    }
+
+    wa-comparison [slot="before"],
+    wa-comparison [slot="after"] {
+        display: block;
+        height: 100%;
+    }
+
+    wa-comparison .code-block {
+        background: var(--wa-color-neutral-50, #f8f9fa);
+        height: 100%;
+        min-height: 100%;
+        box-sizing: border-box;
+        border-radius: 0;
+        border: none;
+        margin: 0;
+    }
+
+    wa-comparison .code-block pre,
+    wa-comparison .code-block code {
+        height: 100%;
+    }
+
+    .wa-dark wa-comparison .code-block {
+        background: var(--wa-color-neutral-900, #1a1d21);
+    }
+    /* #endregion */
+
+    /* #region aside compact snippets */
+    .getting-started-aside .aside-snippet {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wa-spacing-small, 0.5rem);
+    }
+
+    .getting-started-aside .aside-snippet + .aside-snippet {
+        padding-top: var(--wa-spacing-medium, 1rem);
+        border-top: 1px solid var(--wa-color-neutral-200, #dee2e6);
+    }
+
+    .getting-started-aside .aside-snippet-label {
+        color: var(--wa-color-neutral-600, #6c757d);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .wa-dark .getting-started-aside .aside-snippet + .aside-snippet {
+        border-top-color: var(--wa-color-neutral-700, #495057);
+    }
+
+    .getting-started-aside .aside-snippet-code {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        font-size: 0.75rem;
+        line-height: 1.5;
+        overflow-x: auto;
+    }
+
+    .getting-started-aside .aside-snippet-code pre {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+
+    .wa-dark .getting-started-aside .aside-snippet-label {
+        color: var(--wa-color-neutral-400, #adb5bd);
     }
     /* #endregion */
 }
