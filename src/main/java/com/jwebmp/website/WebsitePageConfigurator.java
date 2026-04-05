@@ -4,6 +4,8 @@ import com.jwebmp.core.base.angular.client.services.TypescriptIndexPageConfigura
 import com.jwebmp.core.base.references.CSSReference;
 import com.jwebmp.core.services.IPage;
 import com.jwebmp.core.services.IPageConfigurator;
+import com.jwebmp.plugins.fontawesome5pro.FontAwesome5ProIcons;
+import com.jwebmp.plugins.fontawesome5pro.FontAwesome5ProPageConfigurator;
 import com.jwebmp.webawesome.components.WebAwesomePageConfigurator;
 
 public class WebsitePageConfigurator implements IPageConfigurator<WebsitePageConfigurator>, TypescriptIndexPageConfigurator<WebsitePageConfigurator>
@@ -12,14 +14,14 @@ public class WebsitePageConfigurator implements IPageConfigurator<WebsitePageCon
     public IPage<?> configure(IPage<?> page)
     {
         WebAwesomePageConfigurator.setWaKitCode("fad4033d8cb94cc4");
-       // page.getBody().addClass("wa-dark");
+        FontAwesome5ProPageConfigurator.setKitCode("cf4534f35c");
         page.addCssReference(new CSSReference("JWebMPLanding", 1.0, "/jwebmp-landing.css"));
         return page;
     }
 
     @Override
     public IPage<?> configureAngular(IPage<?> page) {
-        return IPageConfigurator.super.configureAngular(page);
+        return configure(page);
     }
 
     @Override

@@ -10,19 +10,22 @@ import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
+import com.jwebmp.core.base.html.Image;
 import com.jwebmp.core.base.html.Link;
+import com.jwebmp.plugins.fontawesome5pro.FontAwesome5ProPageConfigurator;
 import com.jwebmp.plugins.prism.PrismTheme;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.button.WaButton;
 import com.jwebmp.webawesome.components.button.WaDropDown;
 import com.jwebmp.webawesome.components.Variant;
+import com.jwebmp.plugins.fontawesome5.options.IconFamily;
 import com.jwebmp.webawesome.components.icon.WaIcon;
 import com.jwebmp.webawesome.components.toast.WaToastDataService;
 import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
 import com.jwebmp.webawesome.components.tree.WaTreeItem;
-import com.jwebmp.webawesomepro.components.page.WaPage;
+import com.jwebmp.webawesome.components.page.WaPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +94,6 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         jwebmpLink.setTag("a");
         jwebmpLink.addAttribute("routerLink", "/home");
         jwebmpLink.addClass("product");
-        jwebmpLink.addClass("product-jwebmp");
         jwebmpLink.addClass("product-active");
         jwebmpLink.addClass("appearance-plain");
         jwebmpLink.addAttribute("aria-label", "JWebMP");
@@ -112,7 +114,14 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         guicedeeLink.addClass("product-guicedee");
         guicedeeLink.addClass("appearance-plain");
         guicedeeLink.setID("product-guicedee");
-        guicedeeLink.add(new WaIcon<>("cubes").addClass("logo-icon").addClass("logo-guicedee"));
+
+        var guicedeeLogo = new DivSimple<>();
+        guicedeeLogo.setTag("i");
+        guicedeeLogo.addClass("fak");
+        guicedeeLogo.addClass("fa-guicedee-logo");
+        guicedeeLogo.addClass("logo-icon");
+        guicedeeLogo.addClass("logo-guicedee");
+        guicedeeLink.add(guicedeeLogo);
         cluster.add(guicedeeLink);
         WaTooltip<?> guicedeeTip = new WaTooltip<>();
         guicedeeTip.setForId("product-guicedee");
@@ -221,7 +230,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         secondary.add(themeTip);
 
         // Prism syntax theme selector (dropdown triggered by icon button)
-        var prismDropdown = new WaDropDown<>();
+       /* var prismDropdown = new WaDropDown<>();
         prismDropdown.addClass("pseudo-product");
         prismDropdown.setSelectEvent("changePrismTheme($event)");
 
@@ -246,6 +255,8 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         prismTip.setForId("product-code-theme");
         prismTip.setText("Code Theme");
         secondary.add(prismTip);
+
+        */
 
         primary.add(secondary);
         nav.add(primary);

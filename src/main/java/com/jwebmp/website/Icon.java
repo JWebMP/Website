@@ -1,7 +1,7 @@
 package com.jwebmp.website;
 
-import com.jwebmp.webawesome.components.icon.IconFamily;
-import com.jwebmp.webawesome.components.icon.IconVariant;
+import com.jwebmp.plugins.fontawesome5.options.IconFamily;
+import com.jwebmp.plugins.fontawesome5.options.IconVariant;
 import com.jwebmp.webawesome.components.icon.WaIcon;
 
 public class Icon extends WaIcon<Icon> {

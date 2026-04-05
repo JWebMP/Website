@@ -23,6 +23,8 @@ module com.jwebmp.website {
     requires transitive com.jwebmp.plugins.graphing.chartjs;
     requires transitive com.jwebmp.plugins.fullcalendar;
 
+    requires transitive com.jwebmp.plugins.fontawesome5pro;
+
     requires transitive com.guicedee.vertx;
     requires transitive com.guicedee.vertx.web;
 

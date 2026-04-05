@@ -97,6 +97,10 @@
             <groupId>com.jwebmp.plugins</groupId>
             <artifactId>chartjs</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jwebmp.plugins</groupId>
+            <artifactId>font-awesome-pro</artifactId>
+        </dependency>
 
     </dependencies>
 
