@@ -10,22 +10,18 @@ import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
-import com.jwebmp.core.base.html.Image;
 import com.jwebmp.core.base.html.Link;
-import com.jwebmp.plugins.fontawesome5pro.FontAwesome5ProPageConfigurator;
-import com.jwebmp.plugins.prism.PrismTheme;
 import com.jwebmp.webawesome.components.PageSize;
+import com.jwebmp.webawesome.components.Variant;
+import com.jwebmp.webawesome.components.badge.WaBadge;
 import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.button.WaButton;
-import com.jwebmp.webawesome.components.button.WaDropDown;
-import com.jwebmp.webawesome.components.Variant;
-import com.jwebmp.plugins.fontawesome5.options.IconFamily;
 import com.jwebmp.webawesome.components.icon.WaIcon;
+import com.jwebmp.webawesome.components.page.WaPage;
 import com.jwebmp.webawesome.components.toast.WaToastDataService;
 import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
 import com.jwebmp.webawesome.components.tree.WaTreeItem;
-import com.jwebmp.webawesome.components.page.WaPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +46,7 @@ import java.util.List;
 @NgImportReference(value = "localeEnZa", reference = "@angular/common/locales/en-ZA", direct = true, wrapValueInBraces = false)
 @NgImportReference(value = "signal", reference = "@angular/core")
 @NgImportReference(value = "DOCUMENT", reference = "@angular/common")
-@NgImportReference(value = "Router, NavigationEnd", reference = "@angular/router")
+@NgImportReference(value = "Router, NavigationStart, NavigationEnd", reference = "@angular/router")
 @NgImportReference(value = "filter", reference = "rxjs/operators")
 @NgComponentReference(WaToastDataService.class)
 public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<WebsiteBoot> {
@@ -94,6 +90,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         jwebmpLink.setTag("a");
         jwebmpLink.addAttribute("routerLink", "/home");
         jwebmpLink.addClass("product");
+        jwebmpLink.addClass("product-jwebmp");
         jwebmpLink.addClass("product-active");
         jwebmpLink.addClass("appearance-plain");
         jwebmpLink.addAttribute("aria-label", "JWebMP");
@@ -101,8 +98,11 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         jwebmpLogo.setTag("span");
         jwebmpLogo.addClass("logo-jwebmp-svg");
         jwebmpLink.add(jwebmpLogo);
-        jwebmpLink.setText("JWebMP");
-        jwebmpLink.setRenderTextBeforeChildren(false);
+        var jwebmpText = new DivSimple<>();
+        jwebmpText.setTag("span");
+        jwebmpText.addClass("logo-jwebmp-text");
+        jwebmpLink.add(jwebmpText);
+
         cluster.add(jwebmpLink);
 
         // GuicedEE
@@ -159,6 +159,16 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         activityTip.setForId("product-activity-master");
         activityTip.setText("Activity Master");
         cluster.add(activityTip);
+
+        WaBadge<?> versionBadge = new WaBadge<>();
+        versionBadge.addClass("version-badge");
+        versionBadge.setVariant(Variant.Brand);
+        versionBadge.setPill(true);
+        versionBadge.setFontSize("var(--wa-font-size-2xs)");
+        versionBadge.addStyle("color: var(--wa-color-brand-on-normal)");
+        versionBadge.addStyle("background-color: var(--wa-color-brand-normal)");
+        versionBadge.setText("2.0.0-SNAPSHOT");
+        cluster.add(versionBadge);
 
         primary.add(cluster);
 
@@ -613,21 +623,32 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
                     this.changePrismTheme(null);
                 }""");
         init.add("""
-                this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
+                this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe((e: any) => {
                     if (this._asideNavigating) return;
-                    const url = (e as NavigationEnd).urlAfterRedirects || (e as NavigationEnd).url;
-                    const primaryPath = url.split('?')[0].split('#')[0].replace(/^\\//, '').split('/')[0];
+                    const navStart = e as NavigationStart;
+                    const url = navStart.url;
+                    const parsedUrl = this.router.parseUrl(url);
+                    const primarySegments = parsedUrl.root.children['primary']?.segments || [];
+                    const primaryPath = primarySegments.length > 0 ? primarySegments[0].path : '';
                     const asidePath = this.asideRoutes[primaryPath];
-                    const currentAside = this.router.parseUrl(url).root.children['aside'];
+                    const currentAside = parsedUrl.root.children['aside'];
                     const currentAsidePath = currentAside?.segments?.map((s: any) => s.path).join('/') || null;
+                    
                     if (asidePath && currentAsidePath !== asidePath) {
                         this._asideNavigating = true;
-                        this.router.navigate([{outlets: {aside: [asidePath]}}], {skipLocationChange: true})
-                            .finally(() => this._asideNavigating = false);
+                        const tree = this.router.createUrlTree([{outlets: {aside: [asidePath]}}], {relativeTo: null as any});
+                        tree.root.children['primary'] = parsedUrl.root.children['primary'];
+                        tree.queryParams = parsedUrl.queryParams;
+                        tree.fragment = parsedUrl.fragment;
+                        this.router.navigateByUrl(tree, {replaceUrl: true})
+                            .then(() => this._asideNavigating = false)
+                            .catch(() => this._asideNavigating = false);
                     } else if (!asidePath && currentAside) {
                         this._asideNavigating = true;
-                        this.router.navigate([{outlets: {aside: null}}], {skipLocationChange: true})
-                            .finally(() => this._asideNavigating = false);
+                        delete parsedUrl.root.children['aside'];
+                        this.router.navigateByUrl(parsedUrl, {replaceUrl: true})
+                            .then(() => this._asideNavigating = false)
+                            .catch(() => this._asideNavigating = false);
                     }
                 });""");
         return init;

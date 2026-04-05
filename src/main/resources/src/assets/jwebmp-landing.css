@@ -14,6 +14,18 @@
     mask: url('jwebmp-logo-green-full.svg') center / contain no-repeat;
     vertical-align: middle;
 }
+.logo-jwebmp-text {
+    display: inline-block;
+    width: 4.5rem;
+    height: 1.1rem;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: var(--wa-color-text-normal);
+    -webkit-mask: url('jwebmp-logo-text.svg') left center / contain no-repeat;
+    mask: url('jwebmp-logo-text.svg') left center / contain no-repeat;
+    vertical-align: middle;
+}
 .logo-guicedee {
     color: var(--brand-guicedee-pink);
 }
@@ -185,12 +197,10 @@ a {
         display: none;
     }
 
-    /* Mobile: hide the "JWebMP" text in the top-left product link, keep the icon */
-    wa-page[view='mobile'] .product-jwebmp.product-active {
-        font-size: 0;        /* collapse the bare text node */
-    }
-    wa-page[view='mobile'] .product-jwebmp.product-active > .logo-jwebmp-svg {
-        font-size: 1rem;     /* reset so the mask-image span keeps its dimensions */
+    /* Mobile: hide the "JWebMP" text and version badge, keep the icon */
+    wa-page[view='mobile'] .logo-jwebmp-text,
+    wa-page[view='mobile'] .version-badge {
+        display: none;
     }
 
     /* Mobile: hide Star and Docs buttons to save header space */

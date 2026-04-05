@@ -932,23 +932,23 @@ public final class PluginCatalog
     {
         return PluginEntry.builder("fontawesome", "Font Awesome", CAT_ICONS, "com.jwebmp.plugins", "fontawesome")
                           .description(
-                                  "Font Awesome Free 6.7.2 — scalable vector icons (Solid and Brands sets) rendered via SVG "
+                                  "Font Awesome Free 7.2.0 — scalable vector icons (Solid and Brands sets) rendered via SVG "
                                   + "with Angular FontAwesome integration and type-safe Java enum API. "
                                   + "2,000+ free icons with transformations, layering, masking, and animation effects.")
                           .upstreamName("Font Awesome")
-                          .upstreamVersion("6.7.2")
+                          .upstreamVersion("7.2.0")
                           .upstreamUrl("https://fontawesome.com/")
                           .jpmsModule("com.jwebmp.plugins.fontawesome5")
                           .readmePath("plugins/fontawesome/README.md")
                           .docsUrl("https://fontawesome.com/docs")
                           .sourceUrl("https://github.com/JWebMP/FontAwesome")
-                          .techBadges(List.of("Java 25+", "Font Awesome 6.7.2", "Angular 20", "TypeScript 5", "JPMS Modular"))
+                          .techBadges(List.of("Java 25+", "Font Awesome 7.2.0", "Angular 20", "TypeScript 5", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
-                                  "@fortawesome/fontawesome-svg-core", "^6.7.2",
-                                  "@fortawesome/free-solid-svg-icons", "^6.7.2",
+                                  "@fortawesome/fontawesome-svg-core", "^7.2.0",
+                                  "@fortawesome/free-solid-svg-icons", "^7.2.0",
                                   "@fortawesome/free-brands-svg-icons", "^6.2.2",
-                                  "@fortawesome/angular-fontawesome", "^1.0.0"
+                                  "@fortawesome/angular-fontawesome", "^4.0.0"
                           ))
                           .features(List.of(
                                   "2,000+ free icons — Font Awesome Free Solid and Brands icon sets",
@@ -992,23 +992,23 @@ public final class PluginCatalog
     {
         return PluginEntry.builder("fontawesome-pro", "Font Awesome Pro", CAT_ICONS, "com.jwebmp.plugins", "fontawesome-pro")
                           .description(
-                                  "Font Awesome Pro 6.7.2 — 10,000+ premium icons across Regular, Light, Duotone, and Thin styles "
+                                  "Font Awesome Pro 7.2.0 — 10,000+ premium icons across Regular, Light, Duotone, and Thin styles "
                                   + "extending the community Font Awesome plugin. Requires an active Font Awesome Pro subscription.")
                           .upstreamName("Font Awesome Pro")
-                          .upstreamVersion("6.7.2")
+                          .upstreamVersion("7.2.0")
                           .upstreamUrl("https://fontawesome.com/")
                           .jpmsModule("com.jwebmp.plugins.fontawesome5pro")
                           .readmePath("plugins/fontawesome-pro/README.md")
                           .docsUrl("https://fontawesome.com/docs")
                           .sourceUrl("https://github.com/JWebMP/FontAwesomePro")
-                          .techBadges(List.of("Java 25+", "Font Awesome Pro 6.7.2", "Angular 20", "JPMS Modular", "License Required"))
+                          .techBadges(List.of("Java 25+", "Font Awesome Pro 7.2.0", "Angular 20", "JPMS Modular", "License Required"))
                           .prerequisites(List.of("Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 20+", "Font Awesome Pro License"))
                           .npmDependencies(Map.of(
-                                  "@fortawesome/pro-solid-svg-icons", "^6.7.2",
-                                  "@fortawesome/pro-regular-svg-icons", "^6.7.2",
-                                  "@fortawesome/pro-light-svg-icons", "^6.7.2",
-                                  "@fortawesome/pro-duotone-svg-icons", "^6.7.2",
-                                  "@fortawesome/pro-thin-svg-icons", "^6.7.2"
+                                  "@fortawesome/pro-solid-svg-icons", "^7.2.0",
+                                  "@fortawesome/pro-regular-svg-icons", "^7.2.0",
+                                  "@fortawesome/pro-light-svg-icons", "^7.2.0",
+                                  "@fortawesome/pro-duotone-svg-icons", "^7.2.0",
+                                  "@fortawesome/pro-thin-svg-icons", "^7.2.0"
                           ))
                           .requiresLicense(true)
                           .licenseNote("Font Awesome Pro requires an active subscription. Get your license at fontawesome.com/plans")
