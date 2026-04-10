@@ -39,6 +39,7 @@ module com.jwebmp.website {
     opens com.jwebmp.website.catalog to com.google.guice;
     opens com.jwebmp.website.pages to com.google.guice;
     opens com.jwebmp.website.pages.home to com.google.guice;
+    opens com.jwebmp.website.pages.about to com.google.guice;
     opens com.jwebmp.website.pages.gettingstarted to com.google.guice;
     opens com.jwebmp.website.pages.architecture to com.google.guice;
     opens com.jwebmp.website.pages.capabilities to com.google.guice;

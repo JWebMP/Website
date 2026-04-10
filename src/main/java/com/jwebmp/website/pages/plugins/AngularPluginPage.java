@@ -35,7 +35,7 @@ public class AngularPluginPage extends PluginDetailPage<AngularPluginPage>
     {
         return List.of(
                 new PluginEntry.ExampleSnippet("Define an Angular App",
-                        "Create an Angular 20 application with a boot component and routable page.",
+                        "Create an Angular 21 application with a boot component and routable page.",
                         "@NgApp(value = \"my-app\", bootComponent = AppComponent.class)\npublic class MyApp extends NGApplication<MyApp> { }\n\n@NgComponent(\"app-root\")\npublic class AppComponent extends DivSimple<AppComponent>\n        implements INgComponent<AppComponent> { }\n\n@NgRoutable(path = \"dashboard\", parent = {AppComponent.class})\n@NgComponent(\"app-dashboard\")\npublic class DashboardPage extends DivSimple<DashboardPage>\n        implements INgComponent<DashboardPage> { }",
                         "java")
         );

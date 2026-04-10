@@ -21,7 +21,7 @@ public class BuildPipelinePage extends WebsitePage<BuildPipelinePage> implements
                         + "It invokes the TypeScript Compiler which walks every `@NgComponent`, `@NgDirective`, "
                         + "`@NgDataService`, and `@NgRoutable` class. For each, it generates a `.ts` file, registers "
                         + "it in the Angular module, and adds its route to the router config. The result is a complete "
-                        + "Angular 20 project that the Angular CLI builds into a production `dist/` directory.",
+                        + "Angular 21 project that the Angular CLI builds into a production `dist/` directory.",
                 "m"));
 
         content.add(mermaidDiagramWithTitle("Build Flow",

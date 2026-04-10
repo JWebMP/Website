@@ -22,7 +22,6 @@ public final class BootJWebMP
         System.setProperty("jwebmp.process.angular.ts", "false");
         LogUtils.addHighlightedConsoleLogger();
         WebAwesomePageConfigurator.setWaKitCode("fad4033d8cb94cc4");
-
         IGuiceContext.instance().inject();
         ApplicationBuilderService.getInstance().initialize();
         log.info("JWebMP Website ready.");

@@ -16,7 +16,7 @@ This repository powers the **public JWebMP website**, presenting the JWebMP fram
 - Define the primary navigation and page structure using WebAwesome's `WaPage`/`WaMenu` paradigms.
 
 ## 🧩 Plugin Catalog
-- `angular` — Angular 20 application generation
+- `angular` — Angular 21 application generation
 - `web-awesome` — WebAwesome component library
 - `web-awesome-pro` — Premium WebAwesome features
 - `typescript-client` — TypeScript client generation
@@ -32,7 +32,7 @@ This repository powers the **public JWebMP website**, presenting the JWebMP fram
 - **Build Tool**: Maven
 - **Frameworks**: GuicedEE, Vert.x 5, JWebMP, WebAwesome
 - **Architecture**: Modular JPMS services
-- **UI**: JWebMP + WebAwesome + Angular 20
+- **UI**: JWebMP + WebAwesome + Angular 21
 - **Logging**: Log4j2 with Lombok `@Log4j2`
 - **DTO Mapping**: MapStruct
 
@@ -43,7 +43,7 @@ This repository powers the **public JWebMP website**, presenting the JWebMP fram
 mvn clean install
 
 # Run the website
-java -jar target/website-2.0.0-SNAPSHOT.jar
+java -jar target/website-2.0.0-RC1.jar
 # → http://localhost:8766
 ```
 

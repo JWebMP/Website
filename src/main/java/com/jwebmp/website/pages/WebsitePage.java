@@ -6,6 +6,7 @@ import com.jwebmp.plugins.markdown.Markdown;
 import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
+import com.jwebmp.webawesome.components.WaCluster;
 import com.jwebmp.webawesome.components.WaGrid;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.webawesome.components.button.Appearance;
@@ -30,7 +31,8 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
 {
     protected WebsitePage()
     {
-        addStyle("padding:var(--wa-spacing-x-large)");
+        addClass("website-content");
+        addStyle("padding:0 var(--wa-spacing-x-large) var(--wa-spacing-x-large) var(--wa-spacing-x-large)");
         addStyle("max-width:72rem");
     }
 
@@ -144,16 +146,22 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
     {
         var card = new WaCard<>();
         card.setAppearance(Appearance.Outlined);
+        card.addClass("feature-card");
 
         var stack = new WaStack();
         stack.setGap(PageSize.Small);
-        stack.add(headingText("h3", "m", title));
+
+        var titleText = headingText("h3", "m", title);
+        titleText.addClass("feature-card-title");
+        stack.add(titleText);
+
         var bodyCopy = bodyText(body, "m");
         bodyCopy.setWaColorText("quiet");
         stack.add(bodyCopy);
         if (note != null && !note.isBlank())
         {
             var noteText = captionText(note);
+            noteText.addClass("feature-card-note");
             noteText.setWaColorText("quiet");
             stack.add(noteText);
         }
@@ -168,8 +176,11 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
     {
         var section = new WaStack();
         section.setGap(PageSize.Medium);
+        section.addClass("content-section");
 
-        section.add(new WaDivider<>());
+        var divider = new WaDivider<>();
+        divider.addClass("section-divider");
+        section.add(divider);
         section.add(sectionHeader(eyebrow, title, subtitle));
         if (content != null)
         {
@@ -189,7 +200,9 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
         header.setGap(PageSize.Small);
         if (eyebrow != null && !eyebrow.isBlank())
         {
-            header.add(captionText(eyebrow));
+            var eyebrowText = captionText(eyebrow);
+            eyebrowText.addClass("hero-eyebrow");
+            header.add(eyebrowText);
         }
         if (title != null && !title.isBlank())
         {
@@ -236,14 +249,12 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
 
     protected DivSimple<?> codeBlock(String code, PrismLanguage language)
     {
-        var wrapper = new DivSimple<>();
-        wrapper.addClass("code-block");
-
         var md = new Markdown<>("```" + language.getLanguageCode() + "\n" + code + "\n```");
         md.setLineNumbers(true);
         md.setClipboard(true);
-        wrapper.add(md);
-        return wrapper;
+        md.addClass("aside-snippet-code");
+        md.addClass("wa-body-s");
+        return md;
     }
 
     protected DivSimple<?> codeBlockWithTitle(String title, String code)
@@ -263,7 +274,8 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
         var md = new Markdown<>("```" + language.getLanguageCode() + "\n" + code + "\n```");
         md.setLineNumbers(true);
         md.setClipboard(true);
-        md.addClass("code-block");
+        md.addClass("aside-snippet-code");
+        md.addClass("wa-body-s");
         wrapper.add(md);
         return wrapper;
     }
@@ -275,6 +287,39 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
                                    com.jwebmp.core.base.interfaces.IComponentHierarchyBase<?, ?> content)
     {
         return section(eyebrow, title, subtitle, content);
+    }
+
+    // ── Shared CTA section ──────────────────────────────
+
+    /**
+     * Builds the standard "Ready to Build?" call-to-action section
+     * with radial gradient background, centered layout, and consistent copy.
+     * Shared across all pages that need a closing CTA.
+     */
+    protected WaStack buildCallToAction()
+    {
+        var content = new WaStack();
+        content.setGap(PageSize.Medium);
+
+        content.add(bodyText(
+                "Stop context-switching between Java and TypeScript. Build your entire web application "
+                + "in the language you already know.",
+                "l"));
+
+        var ctas = new WaCluster<>();
+        ctas.setGap(PageSize.Small);
+        ctas.addClass("hero-ctas");
+        ctas.add(buildCta("Get Started", "/getting-started", Variant.Brand, null));
+        ctas.add(buildCta("About JWebMP", "/about", Variant.Neutral, Appearance.Outlined));
+        ctas.add(buildCta("View on GitHub", "/github", Variant.Neutral, Appearance.Outlined));
+        content.add(ctas);
+
+        var section = buildSection(null,
+                "Ready to Build?",
+                "From zero to production Angular app — entirely in Java.",
+                false, content);
+        section.addClass("cta-section");
+        return section;
     }
 }
 

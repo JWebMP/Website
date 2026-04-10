@@ -11,6 +11,7 @@ import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
+import com.jwebmp.plugins.markdown.Markdown;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.badge.WaBadge;
@@ -18,10 +19,13 @@ import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.button.WaButton;
 import com.jwebmp.webawesome.components.icon.WaIcon;
 import com.jwebmp.webawesome.components.page.WaPage;
+import com.jwebmp.webawesome.components.popover.WaPopover;
+import com.jwebmp.webawesome.components.popover.WaPopoverPlacements;
 import com.jwebmp.webawesome.components.toast.WaToastDataService;
 import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
 import com.jwebmp.webawesome.components.tree.WaTreeItem;
+import com.jwebmp.webawesome.components.waswitch.WaSwitch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +58,10 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         setTag("ng-container");
         addStyle("width:100%");
         addStyle("height:100%");
-        //addClass("wa-dark");
-
         // ── WaPage is the top-level shell ──
         WaPage<?> page = new WaPage<>();
         page.addStyle("width:100%");
         page.addStyle("height:100%");
-        page.getMain().setPageSize(PageSize.ExtraSmall);
 
         // ── Banner: product navigation bar ──
         var banner = page.getHeader();
@@ -95,8 +96,11 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         jwebmpLink.addClass("appearance-plain");
         jwebmpLink.addAttribute("aria-label", "JWebMP");
         var jwebmpLogo = new DivSimple<>();
-        jwebmpLogo.setTag("span");
-        jwebmpLogo.addClass("logo-jwebmp-svg");
+        jwebmpLogo.setTag("i");
+        jwebmpLogo.addClass("fak");
+        jwebmpLogo.addClass("fa-jwebmp-logo-green");
+        jwebmpLogo.addClass("logo-icon");
+        jwebmpLogo.addClass("logo-jwebmp");
         jwebmpLink.add(jwebmpLogo);
         var jwebmpText = new DivSimple<>();
         jwebmpText.setTag("span");
@@ -137,7 +141,13 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         entityLink.addClass("product-entity-assist");
         entityLink.addClass("appearance-plain");
         entityLink.setID("product-entity-assist");
-        entityLink.add(new WaIcon<>("database").addClass("logo-icon").addClass("logo-entity-assist"));
+        var entityLogo = new DivSimple<>();
+        entityLogo.setTag("i");
+        entityLogo.addClass("fak");
+        entityLogo.addClass("fa-entity-assist-logo");
+        entityLogo.addClass("logo-icon");
+        entityLogo.addClass("logo-entity-assist");
+        entityLink.add(entityLogo);
         cluster.add(entityLink);
         WaTooltip<?> entityTip = new WaTooltip<>();
         entityTip.setForId("product-entity-assist");
@@ -167,8 +177,80 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         versionBadge.setFontSize("var(--wa-font-size-2xs)");
         versionBadge.addStyle("color: var(--wa-color-brand-on-normal)");
         versionBadge.addStyle("background-color: var(--wa-color-brand-normal)");
-        versionBadge.setText("2.0.0-SNAPSHOT");
+        versionBadge.addStyle("cursor: pointer");
+        versionBadge.setText("2.0.0-RC1");
+        versionBadge.setID("snapshot-badge");
         cluster.add(versionBadge);
+
+        // ── Snapshot badge popover with Maven/Gradle repository instructions ──
+        WaPopover<?> snapshotPopover = new WaPopover<>();
+        snapshotPopover.setForElement(versionBadge);
+        snapshotPopover.setPlacement(WaPopoverPlacements.Bottom);
+        snapshotPopover.setMaxWidth("32rem");
+        snapshotPopover.addStyle("--border-color:var(--wa-color-brand-normal)");
+        snapshotPopover.addStyle("--border-width:var(--wa-border-width-s)");
+        snapshotPopover.addStyle("--border-radius:var(--wa-border-radius-l)");
+        snapshotPopover.addStyle("--arrow-color:var(--wa-color-brand-normal)");
+
+        DivSimple<?> popoverContent = new DivSimple<>();
+        popoverContent.addStyle("padding: var(--wa-spacing-medium)");
+
+        var popoverTitle = new DivSimple<>();
+        popoverTitle.setTag("strong");
+        popoverTitle.setText("Snapshot Repository Setup");
+        popoverTitle.addStyle("display:block;margin-bottom:var(--wa-spacing-small);font-size:var(--wa-font-size-m)");
+        popoverContent.add(popoverTitle);
+
+        var popoverDesc = new DivSimple<>();
+        popoverDesc.setTag("p");
+        popoverDesc.addStyle("margin:0 0 var(--wa-spacing-small) 0;font-size:var(--wa-font-size-s);color:var(--wa-color-neutral-700)");
+        popoverDesc.addAttribute("[innerText]", "useGradle ? 'Add to your build.gradle:' : 'Add to your pom.xml:'");
+        popoverContent.add(popoverDesc);
+
+        var mavenMd = new Markdown<>("""
+                ```xml
+                <repository>
+                    <id>guicedee-github</id>
+                    <url>https://maven.pkg.github.com/GuicedEE/*</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                ```""");
+        mavenMd.setClipboard(true);
+        mavenMd.addClass("aside-snippet-code");
+        mavenMd.addClass("wa-body-xs");
+        mavenMd.addAttribute("*ngIf", "!useGradle");
+        popoverContent.add(mavenMd);
+
+        var gradleMd = new Markdown<>("""
+                ```groovy
+                repositories {
+                    maven {
+                        url = uri("https://maven.pkg.github.com/GuicedEE/*")
+                        credentials {
+                            username = project.findProperty("gpr.user")
+                                ?: System.getenv("GITHUB_USER")
+                            password = project.findProperty("gpr.token")
+                                ?: System.getenv("GITHUB_TOKEN")
+                        }
+                    }
+                }
+                ```""");
+        gradleMd.setClipboard(true);
+        gradleMd.addClass("aside-snippet-code");
+        gradleMd.addClass("wa-body-xs");
+        gradleMd.addAttribute("*ngIf", "useGradle");
+        popoverContent.add(gradleMd);
+
+        var authNote = new DivSimple<>();
+        authNote.setTag("p");
+        authNote.addStyle("margin:var(--wa-spacing-small) 0 0 0;font-size:var(--wa-font-size-2xs);color:var(--wa-color-neutral-600)");
+        authNote.setText("&#x1F511; GitHub Packages requires authentication — use a personal access token with <code>read:packages</code> scope.");
+        popoverContent.add(authNote);
+
+        snapshotPopover.add(popoverContent);
+        cluster.add(snapshotPopover);
 
         primary.add(cluster);
 
@@ -177,6 +259,31 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         secondary.addClass("nav-products-secondary");
         secondary.addClass("wa-cluster");
         secondary.addClass("wa-gap-2xs");
+
+        // Maven / Gradle toggle switch
+        DivSimple<?> buildToolToggle = new DivSimple<>();
+        buildToolToggle.addClass("wa-cluster");
+        buildToolToggle.addClass("wa-gap-2xs");
+        buildToolToggle.addClass("wa-align-items-center");
+        buildToolToggle.addStyle("font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)");
+
+        var mavenLabel = new DivSimple<>();
+        mavenLabel.setTag("span");
+        mavenLabel.setText("Maven");
+        buildToolToggle.add(mavenLabel);
+
+        WaSwitch<?> buildToolSwitch = new WaSwitch<>();
+        buildToolSwitch.setSize(com.jwebmp.webawesome.components.Size.Small);
+        buildToolSwitch.bind("useGradle");
+        buildToolSwitch.addAttribute("(ngModelChange)", "onBuildToolChange($event)");
+        buildToolToggle.add(buildToolSwitch);
+
+        var gradleLabel = new DivSimple<>();
+        gradleLabel.setTag("span");
+        gradleLabel.setText("Gradle");
+        buildToolToggle.add(gradleLabel);
+
+        secondary.add(buildToolToggle);
 
         WaButton<?> githubBtn = new WaButton<>();
         githubBtn.setAppearance(Appearance.Plain);
@@ -283,9 +390,11 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         var homeItem = createRouterTreeItem("/home", "Home", "house");
         menuTree.add(homeItem);
 
+        // About
+        menuTree.add(createRouterTreeItem("/about", "About", "circle-info"));
+
         // Getting Started
         var gsItem = createRouterTreeItem("/getting-started", "Getting Started", "rocket");
-        gsItem.add(createRouterTreeItem("/getting-started/bootstrap", "Bootstrap", null));
         gsItem.add(createRouterTreeItem("/getting-started/application", "Application", null));
         gsItem.add(createRouterTreeItem("/getting-started/first-component", "First Component", null));
         gsItem.add(createRouterTreeItem("/getting-started/build-and-run", "Build & Run", null));
@@ -410,8 +519,11 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         drawerLogo.addAttribute("aria-label", "JWebMP Home");
         drawerLogo.addClass("appearance-plain");
         var drawerLogoSpan = new DivSimple<>();
-        drawerLogoSpan.setTag("span");
-        drawerLogoSpan.addClass("logo-jwebmp-svg");
+        drawerLogoSpan.setTag("i");
+        drawerLogoSpan.addClass("fak");
+        drawerLogoSpan.addClass("fa-jwebmp-logo-green");
+        drawerLogoSpan.addClass("logo-icon");
+        drawerLogoSpan.addClass("logo-jwebmp");
         drawerLogo.add(drawerLogoSpan);
         navHeader.add(drawerLogo);
 
@@ -422,9 +534,9 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         navTree.setIndentGuideColor("var(--wa-color-neutral-300)");
 
         navTree.add(createRouterTreeItem("/home", "Home", "house"));
+        navTree.add(createRouterTreeItem("/about", "About", "circle-info"));
 
         var navGs = createRouterTreeItem("/getting-started", "Getting Started", "rocket");
-        navGs.add(createRouterTreeItem("/getting-started/bootstrap", "Bootstrap", null));
         navGs.add(createRouterTreeItem("/getting-started/application", "Application", null));
         navGs.add(createRouterTreeItem("/getting-started/first-component", "First Component", null));
         navGs.add(createRouterTreeItem("/getting-started/build-and-run", "Build & Run", null));
@@ -556,10 +668,13 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         f.add("private document = inject(DOCUMENT);");
         f.add("darkMode = signal(true);");
         f.add("prismTheme = 'prism-solarizedlight';");
+        f.add("useGradle = false;");
         f.add("private _prismThemeCache: Record<string, string> = {};");
         f.add("""
                 private asideRoutes: Record<string, string> = {
+                    '': 'home',
                     'home': 'home',
+                    'about': 'about',
                     'getting-started': 'getting-started'
                 };""");
         return f;
@@ -605,6 +720,12 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
                         })
                         .catch(err => console.warn('Could not load Prism theme:', theme, err));
                 }""");
+        m.add("""
+                onBuildToolChange(value: boolean) {
+                    this.useGradle = value;
+                    localStorage.setItem('jwebmp-build-tool', value ? 'gradle' : 'maven');
+                    window.dispatchEvent(new CustomEvent('jwebmp-build-tool-change', { detail: value }));
+                }""");
         return m;
     }
 
@@ -623,11 +744,15 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
                     this.changePrismTheme(null);
                 }""");
         init.add("""
-                this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe((e: any) => {
+                const savedBuildTool = localStorage.getItem('jwebmp-build-tool');
+                if (savedBuildTool) {
+                    this.useGradle = savedBuildTool === 'gradle';
+                }""");
+        init.add("""
+                this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
                     if (this._asideNavigating) return;
-                    const navStart = e as NavigationStart;
-                    const url = navStart.url;
-                    const parsedUrl = this.router.parseUrl(url);
+                    const navEnd = e as NavigationEnd;
+                    const parsedUrl = this.router.parseUrl(navEnd.urlAfterRedirects);
                     const primarySegments = parsedUrl.root.children['primary']?.segments || [];
                     const primaryPath = primarySegments.length > 0 ? primarySegments[0].path : '';
                     const asidePath = this.asideRoutes[primaryPath];

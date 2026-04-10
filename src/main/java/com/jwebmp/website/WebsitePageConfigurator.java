@@ -1,5 +1,6 @@
 package com.jwebmp.website;
 
+import com.jwebmp.core.Page;
 import com.jwebmp.core.base.angular.client.services.TypescriptIndexPageConfigurator;
 import com.jwebmp.core.base.references.CSSReference;
 import com.jwebmp.core.services.IPage;
@@ -16,6 +17,9 @@ public class WebsitePageConfigurator implements IPageConfigurator<WebsitePageCon
         WebAwesomePageConfigurator.setWaKitCode("fad4033d8cb94cc4");
         FontAwesome5ProPageConfigurator.setKitCode("cf4534f35c");
         page.addCssReference(new CSSReference("JWebMPLanding", 1.0, "/jwebmp-landing.css"));
+        Page<?> p = (Page<?>) page;
+        p.getOptions().setFavIcon("/jwebmp-logo-green-full.svg");
+        p.getOptions().setIcon("/jwebmp-logo-green-full.svg", "any");
         return page;
     }
 

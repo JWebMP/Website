@@ -1,4 +1,4 @@
-package com.jwebmp.website.pages.home;
+package com.jwebmp.website.pages.about;
 
 import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
@@ -8,16 +8,15 @@ import com.jwebmp.core.base.html.Link;
 import com.jwebmp.webawesome.components.text.WaText;
 
 /**
- * Aside component for the Home page.
+ * Aside component for the About page.
  * <p>
- * Renders "On this page" anchor links in the named "aside" router-outlet
- * of the WaPage shell, rather than being inlined inside the main content area.
+ * Renders "On this page" anchor links in the named "aside" router-outlet.
  */
-@NgComponent("jwebmp-home-aside")
-@NgRoutable(path = "home", outlet = "aside")
-public class HomeAsidePage extends DivSimple<HomeAsidePage> implements INgComponent<HomeAsidePage>
+@NgComponent("jwebmp-about-aside")
+@NgRoutable(path = "about", outlet = "aside")
+public class AboutAsidePage extends DivSimple<AboutAsidePage> implements INgComponent<AboutAsidePage>
 {
-    public HomeAsidePage()
+    public AboutAsidePage()
     {
         setTag("aside");
         addClass("home-aside");
@@ -43,9 +42,12 @@ public class HomeAsidePage extends DivSimple<HomeAsidePage> implements INgCompon
         list.addStyle("flex-direction:column");
         list.addStyle("gap:var(--wa-spacing-x-small)");
 
-        list.add(asideLink("hero", "Overview"));
-        list.add(asideLink("why-jwebmp", "Why JWebMP"));
-        list.add(asideLink("component-ecosystem", "Plugins"));
+        list.add(asideLink("about-intro", "Overview"));
+        list.add(asideLink("annotation-driven", "Annotation-Driven"));
+        list.add(asideLink("reactive-stack", "Reactive Stack"));
+        list.add(asideLink("real-time-overview", "Real-Time"));
+        list.add(asideLink("developer-experience", "Developer Experience"));
+        list.add(asideLink("production-ready", "Production Ready"));
 
         add(list);
     }

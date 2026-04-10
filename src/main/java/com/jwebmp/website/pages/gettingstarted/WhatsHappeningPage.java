@@ -30,7 +30,7 @@ public class WhatsHappeningPage extends WebsitePage<WhatsHappeningPage> implemen
                         + "The output is a static SPA ready to deploy anywhere.",
                 null));
 
-        grid.add(featureCard("SSR Mode — Vert.x Serving",
+        grid.add(featureCard("Hosted Mode — Vert.x Serving",
                 "IGuiceContext.inject() discovered JWebMPVertx via SPI, started a non-blocking HTTP server, "
                         + "and registered routes for pages, AJAX events, WebSockets, CSS, and scripts.",
                 null));

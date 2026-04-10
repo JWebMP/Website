@@ -18,7 +18,7 @@ public class ApplicationPage extends WebsitePage<ApplicationPage> implements INg
 
         content.add(bodyText(
                 "This step applies to Angular mode only. @NgApp tells the generator the application "
-                        + "name and root component. SSR mode does not need an application class — the "
+                        + "name and root component. Hosted mode does not need an application class — the "
                         + "Vert.x server discovers pages and components via SPI automatically.",
                 "m"));
 

@@ -15,11 +15,11 @@ public final class PluginCatalog
     public static final String CAT_RUNTIME = "Runtime & Server";
 
     private static final List<String> COMMON_PREREQS = List.of(
-            "Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 20+"
+            "Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 21+"
     );
 
     private static final List<String> COMMON_BADGES = List.of(
-            "Java 25+", "JPMS Modular", "Angular 20", "TypeScript 5"
+            "Java 25+", "JPMS Modular", "Angular 21", "TypeScript 5"
     );
 
     private static final List<PluginEntry> PLUGINS = Collections.unmodifiableList(buildStaticPlugins());
@@ -139,7 +139,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.core</groupId>
                                             <artifactId>core</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.core:jwebmp-core:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.core:jwebmp-core:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           Page<?> page = new Page<>();
@@ -193,7 +193,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp</groupId>
                                             <artifactId>jwebmp-client</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-client:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-client:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           public class MyPageConfigurator
@@ -245,7 +245,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>web-awesome</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           var card = new WaCard<>();
@@ -294,7 +294,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>web-awesome-pro</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome-pro:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome-pro:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           var page = new WaPage();
@@ -312,7 +312,7 @@ public final class PluginCatalog
     {
         return PluginEntry.builder("angular", "Angular Plugin", CAT_ANGULAR, "com.jwebmp.plugins", "angular")
                           .description(
-                                  "Generates complete Angular 20 TypeScript projects from Java annotations — components, routing, modules, "
+                                  "Generates complete Angular 21 TypeScript projects from Java annotations — components, routing, modules, "
                                   + "environment config, STOMP/WebSocket bridge — and serves the SPA via Vert.x with fallback routing. "
                                   + "Annotate your Java classes with @NgApp, @NgComponent, @NgRoutable, @NgDataService — the compiler produces "
                                   + ".ts files, angular.json, package.json, tsconfig.json, routing modules, and environment config.")
@@ -322,7 +322,7 @@ public final class PluginCatalog
                           .jpmsModule("com.jwebmp.core.angular")
                           .readmePath("plugins/angular/README.md")
                           .sourceUrl("https://github.com/JWebMP/Angular")
-                          .techBadges(List.of("Java 25+", "Angular 20", "Vert.x 5", "STOMP/WebSocket", "TypeScript 5", "JPMS Modular"))
+                          .techBadges(List.of("Java 25+", "Angular 21", "Vert.x 5", "STOMP/WebSocket", "TypeScript 5", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of())
                           .features(List.of(
@@ -345,7 +345,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>angular</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:angular:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:angular:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           @NgApp(value = "my-app", bootComponent = AppComponent.class)
@@ -409,7 +409,7 @@ public final class PluginCatalog
                                           <plugin>
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>angular-maven-plugin</artifactId>
-                                            <version>2.0.0-SNAPSHOT</version>
+                                            <version>2.0.0-RC1</version>
                                             <executions>
                                               <execution>
                                                 <goals><goal>build</goal></goals>
@@ -469,7 +469,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>typescript-client</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:typescript-client:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:typescript-client:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           @NgComponent("my-widget")
@@ -510,7 +510,7 @@ public final class PluginCatalog
                           .readmePath("plugins/aggrid/README.md")
                           .docsUrl("https://www.ag-grid.com/documentation/")
                           .sourceUrl("https://github.com/JWebMP/AgGrid")
-                          .techBadges(List.of("Java 25+", "AG Grid 35.0.0", "Angular 20", "TypeScript 5", "JPMS Modular"))
+                          .techBadges(List.of("Java 25+", "AG Grid 35.0.0", "Angular 21", "TypeScript 5", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "ag-grid-community", "^35.0.0",
@@ -526,7 +526,7 @@ public final class PluginCatalog
                                   "Event handling — row selection, cell clicks, custom events with type-safe handlers",
                                   "Real-time updates — WebSocket integration for live data streaming",
                                   "Module registry — AllCommunityModule auto-registered via PageConfigurator",
-                                  "Angular 20 integration — auto-generated components with change detection",
+                                  "Angular 21 integration — auto-generated components with change detection",
                                   "Reactive data binding — built on Vert.x 5 for non-blocking operations",
                                   "JSON serialization — automatic Jackson serialization for Angular binding"
                           ))
@@ -536,7 +536,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>aggrid</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           public class OrderGrid extends AgGrid<OrderGrid> {
@@ -574,7 +574,7 @@ public final class PluginCatalog
                           .readmePath("plugins/aggrid-enterprise/README.md")
                           .docsUrl("https://www.ag-grid.com/documentation/")
                           .sourceUrl("https://github.com/JWebMP/AgGridEnterprise")
-                          .techBadges(List.of("Java 25+", "AG Grid Enterprise 35.0.0", "AG Charts 13.0.0", "Angular 20", "JPMS Modular", "License Required"))
+                          .techBadges(List.of("Java 25+", "AG Grid Enterprise 35.0.0", "AG Charts 13.0.0", "Angular 21", "JPMS Modular", "License Required"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "ag-grid-enterprise", "^35.0.0",
@@ -602,7 +602,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>aggrid-enterprise</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid-enterprise:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid-enterprise:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           // Set license key at startup
@@ -628,7 +628,7 @@ public final class PluginCatalog
         return PluginEntry.builder("agcharts", "AG Charts", CAT_CHARTS, "com.jwebmp.plugins", "agcharts")
                           .description(
                                   "Enterprise charting (AG Charts 13.1.0) — 38 chart types with CRTP fluent API, reactive data binding, "
-                                  + "server-side configuration, and full TypeScript generation for Angular 20. "
+                                  + "server-side configuration, and full TypeScript generation for Angular 21. "
                                   + "Covers line, bar, area, scatter, bubble, pie, donut, histogram, and all cartesian/polar variants.")
                           .upstreamName("AG Charts")
                           .upstreamVersion("13.1.0")
@@ -637,7 +637,7 @@ public final class PluginCatalog
                           .readmePath("plugins/agcharts/README.md")
                           .docsUrl("https://charts.ag-grid.com/javascript/")
                           .sourceUrl("https://github.com/JWebMP/AgCharts")
-                          .techBadges(List.of("Java 25+", "AG Charts 13.1.0", "Angular 20", "TypeScript 5", "JPMS Modular"))
+                          .techBadges(List.of("Java 25+", "AG Charts 13.1.0", "Angular 21", "TypeScript 5", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "ag-charts-community", "^13.1.0",
@@ -663,7 +663,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>agcharts</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           @NgComponent
@@ -702,7 +702,7 @@ public final class PluginCatalog
                           .readmePath("plugins/agcharts-enterprise/README.md")
                           .docsUrl("https://charts.ag-grid.com/javascript/")
                           .sourceUrl("https://github.com/JWebMP/AgChartsEnterprise")
-                          .techBadges(List.of("Java 25+", "AG Charts Enterprise 13.1.0", "Angular 20", "JPMS Modular", "License Required"))
+                          .techBadges(List.of("Java 25+", "AG Charts Enterprise 13.1.0", "Angular 21", "JPMS Modular", "License Required"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "ag-charts-enterprise", "^13.1.0"
@@ -726,7 +726,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>agcharts-enterprise</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts-enterprise:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts-enterprise:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           // Set license key
@@ -779,7 +779,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>chartjs</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:chartjs:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:chartjs:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           BarDataset dataset = new BarDataset()
@@ -815,7 +815,7 @@ public final class PluginCatalog
                           .readmePath("plugins/fullcalendar/README.md")
                           .docsUrl("https://fullcalendar.io/docs")
                           .sourceUrl("https://github.com/JWebMP/FullCalendar")
-                          .techBadges(List.of("Java 25+", "FullCalendar 6.1.19", "Angular 20", "TypeScript 5", "JPMS Modular"))
+                          .techBadges(List.of("Java 25+", "FullCalendar 6.1.19", "Angular 21", "TypeScript 5", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "@fullcalendar/angular", "^6.1.19",
@@ -847,7 +847,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>full-calendar</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           FullCalendarOptions options = new FullCalendarOptions()
@@ -881,8 +881,8 @@ public final class PluginCatalog
                           .readmePath("plugins/fullcalendar-pro/README.md")
                           .docsUrl("https://fullcalendar.io/docs/premium")
                           .sourceUrl("https://github.com/JWebMP/FullCalendarPro")
-                          .techBadges(List.of("Java 25+", "FullCalendar Pro 6.1.19", "Angular 20", "JPMS Modular", "License Required"))
-                          .prerequisites(List.of("Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 20+", "FullCalendar Pro License"))
+                          .techBadges(List.of("Java 25+", "FullCalendar Pro 6.1.19", "Angular 21", "JPMS Modular", "License Required"))
+                          .prerequisites(List.of("Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 21+", "FullCalendar Pro License"))
                           .npmDependencies(Map.of(
                                   "@fullcalendar/resource-timegrid", "^6.1.19",
                                   "@fullcalendar/resource-timeline", "^6.1.19",
@@ -907,7 +907,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>full-calendar-pro</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar-pro:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar-pro:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           FullCalendarOptions options = new FullCalendarOptions()
@@ -942,7 +942,7 @@ public final class PluginCatalog
                           .readmePath("plugins/fontawesome/README.md")
                           .docsUrl("https://fontawesome.com/docs")
                           .sourceUrl("https://github.com/JWebMP/FontAwesome")
-                          .techBadges(List.of("Java 25+", "Font Awesome 7.2.0", "Angular 20", "TypeScript 5", "JPMS Modular"))
+                          .techBadges(List.of("Java 25+", "Font Awesome 7.2.0", "Angular 21", "TypeScript 5", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "@fortawesome/fontawesome-svg-core", "^7.2.0",
@@ -969,7 +969,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>font-awesome</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           // Solid icon
@@ -1001,8 +1001,8 @@ public final class PluginCatalog
                           .readmePath("plugins/fontawesome-pro/README.md")
                           .docsUrl("https://fontawesome.com/docs")
                           .sourceUrl("https://github.com/JWebMP/FontAwesomePro")
-                          .techBadges(List.of("Java 25+", "Font Awesome Pro 7.2.0", "Angular 20", "JPMS Modular", "License Required"))
-                          .prerequisites(List.of("Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 20+", "Font Awesome Pro License"))
+                          .techBadges(List.of("Java 25+", "Font Awesome Pro 7.2.0", "Angular 21", "JPMS Modular", "License Required"))
+                          .prerequisites(List.of("Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 21+", "Font Awesome Pro License"))
                           .npmDependencies(Map.of(
                                   "@fortawesome/pro-solid-svg-icons", "^7.2.0",
                                   "@fortawesome/pro-regular-svg-icons", "^7.2.0",
@@ -1032,7 +1032,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>font-awesome-pro</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome-pro:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome-pro:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           // Pro Regular icon
@@ -1068,7 +1068,7 @@ public final class PluginCatalog
                           .jpmsModule("com.jwebmp.plugins.easingeffects")
                           .readmePath("plugins/easing/README.md")
                           .sourceUrl("https://github.com/JWebMP/Easing")
-                          .techBadges(List.of("Java 25+", "Easing 1.4.1", "Angular 20", "JPMS Modular"))
+                          .techBadges(List.of("Java 25+", "Easing 1.4.1", "Angular 21", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "easing", "*"
@@ -1079,7 +1079,7 @@ public final class PluginCatalog
                                   "Animation categories — Quad, Cubic, Quart, Quint, Expo, Sine, Circ, Elastic, Back, Bounce",
                                   "In/Out/InOut variants — each timing function includes ease-in, ease-out, and ease-in-out",
                                   "Linear and Swing — classic timing functions for simple animations",
-                                  "Angular 20 integration — auto-loaded via PageConfigurator with browser-easing.js",
+                                  "Angular 21 integration — auto-loaded via PageConfigurator with browser-easing.js",
                                   "Zero configuration — auto-registered via ServiceLoader SPI",
                                   "CRTP fluent API for animation configuration"
                           ))
@@ -1089,7 +1089,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>easing-effects</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:easing-effects:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:easing-effects:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           // Use easing effect enum
@@ -1121,8 +1121,8 @@ public final class PluginCatalog
                           .jpmsModule("com.jwebmp.rabbit")
                           .readmePath("rabbitcomms/README.md")
                           .sourceUrl("https://github.com/JWebMP/RabbitMQ")
-                          .techBadges(List.of("Java 25+", "RabbitMQ 3.x", "Vert.x 5", "STOMP", "WebSocket", "Angular 20", "JPMS Modular"))
-                          .prerequisites(List.of("Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 20+", "RabbitMQ Server"))
+                          .techBadges(List.of("Java 25+", "RabbitMQ 3.x", "Vert.x 5", "STOMP", "WebSocket", "Angular 21", "JPMS Modular"))
+                          .prerequisites(List.of("Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 21+", "RabbitMQ Server"))
                           .features(List.of(
                                   "Real-time browser communication — WebSocket-based bidirectional messaging",
                                   "STOMP protocol — industry-standard STOMP over WebSocket with heartbeat support",
@@ -1141,7 +1141,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp</groupId>
                                             <artifactId>jwebmp-rabbitmq</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-rabbitmq:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-rabbitmq:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           // module-info.java
@@ -1196,7 +1196,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp</groupId>
                                             <artifactId>jwebmp-vertx</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-vertx:2.0.0-SNAPSHOT\")")
+                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-vertx:2.0.0-RC1\")")
                           .quickStartCode(
                                   """
                                           @PageConfiguration(url = "/")

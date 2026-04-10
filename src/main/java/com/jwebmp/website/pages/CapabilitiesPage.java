@@ -23,7 +23,7 @@ public class CapabilitiesPage extends WebsitePage<CapabilitiesPage> implements I
         content.add(bodyText(
                 "JWebMP is a full-stack Java framework for building reactive web applications. "
                 + "It produces both the backend (Vert.x HTTP server, Guice DI, AJAX pipeline) and "
-                + "the frontend (Angular 20 SPA) from a single Java codebase. Explore each capability "
+                + "the frontend (Angular 21 SPA) from a single Java codebase. Explore each capability "
                 + "in detail via the menu tree.",
                 "m"));
         layout.add(buildSection("OVERVIEW",
