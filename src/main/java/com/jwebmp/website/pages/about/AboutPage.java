@@ -6,7 +6,7 @@ import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.html.DivSimple;
-import com.jwebmp.plugins.prism.PrismLanguage;
+
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.WaCluster;
@@ -171,31 +171,31 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
         var codeCanvas = new DivSimple<>();
         codeCanvas.addClass("code-canvas");
 
-        var tsDiv = codeBlock(buildSalesDashboardTs(), PrismLanguage.TypeScript);
+        var tsDiv = codeBlock(buildSalesDashboardTs(), 'typescript');
         tsDiv.addAttribute("[hidden]", "activeFile !== 'tab-ts'");
         codeCanvas.add(tsDiv);
 
-        var htmlDiv = codeBlock(buildSalesDashboardHtml(), PrismLanguage.Html);
+        var htmlDiv = codeBlock(buildSalesDashboardHtml(), 'html');
         htmlDiv.addAttribute("[hidden]", "activeFile !== 'tab-html'");
         codeCanvas.add(htmlDiv);
 
-        var gridDiv = codeBlock(buildSampleSalesGridTs(), PrismLanguage.TypeScript);
+        var gridDiv = codeBlock(buildSampleSalesGridTs(), 'typescript');
         gridDiv.addAttribute("[hidden]", "activeFile !== 'tab-grid'");
         codeCanvas.add(gridDiv);
 
-        var gridHtmlDiv = codeBlock(buildSampleSalesGridHtml(), PrismLanguage.Html);
+        var gridHtmlDiv = codeBlock(buildSampleSalesGridHtml(), 'html');
         gridHtmlDiv.addAttribute("[hidden]", "activeFile !== 'tab-grid-html'");
         codeCanvas.add(gridHtmlDiv);
 
-        var chartDiv = codeBlock(buildSampleRevenueChartTs(), PrismLanguage.TypeScript);
+        var chartDiv = codeBlock(buildSampleRevenueChartTs(), 'typescript');
         chartDiv.addAttribute("[hidden]", "activeFile !== 'tab-chart'");
         codeCanvas.add(chartDiv);
 
-        var chartHtmlDiv = codeBlock(buildSampleRevenueChartHtml(), PrismLanguage.Html);
+        var chartHtmlDiv = codeBlock(buildSampleRevenueChartHtml(), 'html');
         chartHtmlDiv.addAttribute("[hidden]", "activeFile !== 'tab-chart-html'");
         codeCanvas.add(chartHtmlDiv);
 
-        var routesDiv = codeBlock(buildAppRoutesTs(), PrismLanguage.TypeScript);
+        var routesDiv = codeBlock(buildAppRoutesTs(), 'typescript');
         routesDiv.addAttribute("[hidden]", "activeFile !== 'tab-routes'");
         codeCanvas.add(routesDiv);
 

@@ -144,7 +144,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         var entityLogo = new DivSimple<>();
         entityLogo.setTag("i");
         entityLogo.addClass("fak");
-        entityLogo.addClass("fa-entity-assist-logo");
+        entityLogo.addClass("fa-entityassist-logo");
         entityLogo.addClass("logo-icon");
         entityLogo.addClass("logo-entity-assist");
         entityLink.add(entityLogo);

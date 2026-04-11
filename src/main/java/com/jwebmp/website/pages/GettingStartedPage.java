@@ -8,7 +8,6 @@ import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
-import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.WaCluster;
@@ -107,7 +106,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                             public MyApplication() {
                                 getOptions().setTitle("My App");
                             }
-                        }""", PrismLanguage.Java));
+                        }""", "java"));
         angularDetails.add(angularContent);
         entryStack.add(angularDetails);
 
@@ -130,7 +129,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                                 System.setProperty("HTTP_ENABLED", "true");
                                 IGuiceContext.instance().inject();
                             }
-                        }""", PrismLanguage.Java));
+                        }""", "java"));
         ssrDetails.add(ssrContent);
         entryStack.add(ssrDetails);
 
@@ -166,7 +165,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                                     </goals>
                                 </execution>
                             </executions>
-                        </plugin>""", PrismLanguage.Xml);
+                        </plugin>""", "java");
         mavenPlugin.addAttribute("*ngIf", "!useGradle");
         bootstrapContent.add(mavenPlugin);
 
@@ -179,7 +178,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                         
                         jwebmpAngular {
                             // runs during the build task
-                        }""", PrismLanguage.Groovy);
+                        }""","groovy");
         gradlePlugin.addAttribute("*ngIf", "useGradle");
         bootstrapContent.add(gradlePlugin);
 
@@ -198,7 +197,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                                 System.setProperty("HTTP_PORT", "8080");
                                 IGuiceContext.instance().inject();
                             }
-                        }"""));
+                        }""","java"));
 
         layout.add(buildSection("BOOTSTRAP",
                 "Configure the Build Plugin",

@@ -8,7 +8,6 @@ import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.plugins.markdown.Markdown;
-import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.text.WaText;
 
 /**
@@ -73,7 +72,7 @@ public class GettingStartedAsidePage extends DivSimple<GettingStartedAsidePage> 
                                     <scope>import</scope>
                                 </dependency>
                             </dependencies>
-                        </dependencyManagement>""", PrismLanguage.Xml, "!useGradle"));
+                        </dependencyManagement>""", "xml", "!useGradle"));
 
         // ── BOM Import (Gradle) ──
         add(compactSnippet("BOM Import",
@@ -82,7 +81,7 @@ public class GettingStartedAsidePage extends DivSimple<GettingStartedAsidePage> 
                             implementation platform(
                                 "com.jwebmp:jwebmp-bom:$jwebmpVersion"
                             )
-                        }""", PrismLanguage.Groovy, "useGradle"));
+                        }""", "groovy", "useGradle"));
 
         // ── Plugin Dependency (Maven) ──
         add(compactSnippet("Plugin Dependency",
@@ -90,14 +89,14 @@ public class GettingStartedAsidePage extends DivSimple<GettingStartedAsidePage> 
                         <dependency>
                             <groupId>com.jwebmp</groupId>
                             <artifactId>jwebmp-core</artifactId>
-                        </dependency>""", PrismLanguage.Xml, "!useGradle"));
+                        </dependency>""", "xml", "!useGradle"));
 
         // ── Plugin Dependency (Gradle) ──
         add(compactSnippet("Plugin Dependency",
                 """
                         dependencies {
                             implementation "com.jwebmp:jwebmp-core"
-                        }""", PrismLanguage.Groovy, "useGradle"));
+                        }""", "groovy", "useGradle"));
 
         // ── Module Descriptor (same for both) ──
         add(compactSnippet("module-info.java",
@@ -105,10 +104,10 @@ public class GettingStartedAsidePage extends DivSimple<GettingStartedAsidePage> 
                         module my.app {
                             requires transitive com.jwebmp.core;
                             opens my.app to com.google.guice;
-                        }""", PrismLanguage.Java, null));
+                        }""", "java", null));
     }
 
-    private DivSimple<?> compactSnippet(String title, String code, PrismLanguage language, String ngIf)
+    private DivSimple<?> compactSnippet(String title, String code, String language, String ngIf)
     {
         var wrapper = new DivSimple<>();
         wrapper.addClass("aside-snippet");
@@ -125,7 +124,7 @@ public class GettingStartedAsidePage extends DivSimple<GettingStartedAsidePage> 
         label.addClass("aside-snippet-label");
         wrapper.add(label);
 
-        var md = new Markdown<>("```" + language.getLanguageCode() + "\n" + code + "\n```");
+        var md = new Markdown<>("```" + language + "\n" + code + "\n```");
         md.setClipboard(true);
         md.addClass("aside-snippet-code");
         md.addClass("wa-body-s");

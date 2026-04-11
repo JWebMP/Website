@@ -3,7 +3,6 @@ package com.jwebmp.website.pages.realtime;
 import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
-import com.jwebmp.plugins.prism.PrismLanguage;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.website.pages.WebsitePage;
@@ -31,7 +30,7 @@ public class CommunicationLayersPage extends WebsitePage<CommunicationLayersPage
                           │  Vert.x Event Bus   Built-in STOMP/WS       │  ← Zero infrastructure
                           │  RabbitMQ Comms     Broker-backed STOMP/WS   │  ← Production scale
                           └─────────────────────────────────────────────┘\
-                        """, PrismLanguage.PlainText));
+                        """, "plaintext"));
 
         content.add(bodyText(
                 "The request/response layer is always present. REST endpoints, AJAX event handlers, and "

@@ -6,7 +6,7 @@ import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
-import com.jwebmp.plugins.prism.PrismLanguage;
+
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.website.pages.WebsitePage;
@@ -56,7 +56,7 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
         content.add(mvnBuild);
 
         // Gradle build command
-        var gradleBuild = codeBlockWithTitle("Terminal — Gradle", "./gradlew build", PrismLanguage.Bash);
+        var gradleBuild = codeBlockWithTitle("Terminal — Gradle", "./gradlew build", 'bash');
         gradleBuild.addAttribute("*ngIf", "useGradle");
         content.add(gradleBuild);
 
@@ -70,7 +70,7 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
                 """
                         # The built SPA is in target/webroot/
                         # Serve it however you like — nginx, Apache, CDN, or:
-                        npx serve target/webroot/my-app""", PrismLanguage.Bash));
+                        npx serve target/webroot/my-app""", 'bash'));
 
         content.add(bodyText(
                 "In hosted mode, the Vert.x HTTP server serves the application. Start it "
@@ -81,7 +81,7 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
                 """
                         java -jar target/my-app.jar
                         
-                        # Open http://localhost:8080""", PrismLanguage.Bash));
+                        # Open http://localhost:8080""", 'bash'));
 
         layout.add(buildSection("STEP 6",
                 "Build and Run",
