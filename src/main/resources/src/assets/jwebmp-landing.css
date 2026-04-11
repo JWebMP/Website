@@ -43,6 +43,7 @@ main {
 }
 .logo-activity-master {
     color: var(--brand-activity-master-orange);
+    font-size: 2rem;
 }
 
 &::slotted(main), &::slotted(section) {
@@ -94,10 +95,10 @@ a {
         --brand-activity-master-orange: #ff8c00;
 
         /* Product nav/drawer fill-quiet (light); .wa-dark overrides for dark */
-        --nav-products-fill-quiet-jwebmp: color-mix(in oklab, var(--brand-jwebmp-green), white 65%);
-        --nav-products-fill-quiet-guicedee: color-mix(in oklab, var(--brand-guicedee-pink), white 65%);
-        --nav-products-fill-quiet-entity-assist: color-mix(in oklab, var(--brand-entity-assist-blue), white 65%);
-        --nav-products-fill-quiet-activity-master: color-mix(in oklab, var(--brand-activity-master-orange), white 65%);
+        --nav-products-fill-quiet-jwebmp: color-mix(in oklab, var(--brand-jwebmp-green), white 55%);
+        --nav-products-fill-quiet-guicedee: color-mix(in oklab, var(--brand-guicedee-pink), white 55%);
+        --nav-products-fill-quiet-entity-assist: color-mix(in oklab, var(--brand-entity-assist-blue), white 55%);
+        --nav-products-fill-quiet-activity-master: color-mix(in oklab, var(--brand-activity-master-orange), white 55%);
     }
 
     .wa-dark {

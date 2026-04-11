@@ -163,7 +163,13 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         activityLink.addClass("product-activity-master");
         activityLink.addClass("appearance-plain");
         activityLink.setID("product-activity-master");
-        activityLink.add(new WaIcon<>("tasks").addClass("logo-icon").addClass("logo-activity-master"));
+        var activityLogo = new DivSimple<>();
+        activityLogo.setTag("i");
+        activityLogo.addClass("fak");
+        activityLogo.addClass("fa-activitymaster-logo");
+        activityLogo.addClass("logo-icon");
+        activityLogo.addClass("logo-activity-master");
+        activityLink.add(activityLogo);
         cluster.add(activityLink);
         WaTooltip<?> activityTip = new WaTooltip<>();
         activityTip.setForId("product-activity-master");
@@ -178,7 +184,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         versionBadge.addStyle("color: var(--wa-color-brand-on-normal)");
         versionBadge.addStyle("background-color: var(--wa-color-brand-normal)");
         versionBadge.addStyle("cursor: pointer");
-        versionBadge.setText("2.0.0-RC3");
+        versionBadge.setText("2.0.0-RC4");
         versionBadge.setID("snapshot-badge");
         cluster.add(versionBadge);
 

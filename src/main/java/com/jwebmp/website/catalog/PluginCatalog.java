@@ -139,7 +139,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.core</groupId>
                                             <artifactId>core</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.core:jwebmp-core:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.core:jwebmp-core:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           Page<?> page = new Page<>();
@@ -193,7 +193,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp</groupId>
                                             <artifactId>jwebmp-client</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-client:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-client:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           public class MyPageConfigurator
@@ -245,7 +245,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>web-awesome</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           var card = new WaCard<>();
@@ -294,7 +294,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>web-awesome-pro</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome-pro:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:web-awesome-pro:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           var page = new WaPage();
@@ -345,7 +345,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>angular</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:angular:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:angular:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           @NgApp(value = "my-app", bootComponent = AppComponent.class)
@@ -409,7 +409,7 @@ public final class PluginCatalog
                                           <plugin>
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>angular-maven-plugin</artifactId>
-                                            <version>2.0.0-RC3</version>
+                                            <version>2.0.0-RC4</version>
                                             <executions>
                                               <execution>
                                                 <goals><goal>build</goal></goals>
@@ -469,7 +469,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>typescript-client</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:typescript-client:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:typescript-client:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           @NgComponent("my-widget")
@@ -536,7 +536,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>aggrid</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           public class OrderGrid extends AgGrid<OrderGrid> {
@@ -602,7 +602,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>aggrid-enterprise</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid-enterprise:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:aggrid-enterprise:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           // Set license key at startup
@@ -663,7 +663,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>agcharts</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           @NgComponent
@@ -726,7 +726,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>agcharts-enterprise</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts-enterprise:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:agcharts-enterprise:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           // Set license key
@@ -779,7 +779,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>chartjs</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:chartjs:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:chartjs:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           BarDataset dataset = new BarDataset()
@@ -847,7 +847,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>full-calendar</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           FullCalendarOptions options = new FullCalendarOptions()
@@ -907,7 +907,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>full-calendar-pro</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar-pro:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:full-calendar-pro:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           FullCalendarOptions options = new FullCalendarOptions()
@@ -969,7 +969,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>font-awesome</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           // Solid icon
@@ -1032,7 +1032,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>font-awesome-pro</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome-pro:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:font-awesome-pro:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           // Pro Regular icon
@@ -1089,7 +1089,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp.plugins</groupId>
                                             <artifactId>easing-effects</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp.plugins:easing-effects:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:easing-effects:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           // Use easing effect enum
@@ -1141,7 +1141,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp</groupId>
                                             <artifactId>jwebmp-rabbitmq</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-rabbitmq:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-rabbitmq:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           // module-info.java
@@ -1196,7 +1196,7 @@ public final class PluginCatalog
                                             <groupId>com.jwebmp</groupId>
                                             <artifactId>jwebmp-vertx</artifactId>
                                           </dependency>""")
-                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-vertx:2.0.0-RC3\")")
+                          .gradleSnippet("implementation(\"com.jwebmp:jwebmp-vertx:2.0.0-RC4\")")
                           .quickStartCode(
                                   """
                                           @PageConfiguration(url = "/")
