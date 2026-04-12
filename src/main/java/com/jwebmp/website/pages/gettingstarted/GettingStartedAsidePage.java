@@ -6,6 +6,7 @@ import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.core.base.angular.components.NgIf;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.plugins.markdown.Markdown;
 import com.jwebmp.webawesome.components.text.WaText;
@@ -111,10 +112,6 @@ public class GettingStartedAsidePage extends DivSimple<GettingStartedAsidePage> 
     {
         var wrapper = new DivSimple<>();
         wrapper.addClass("aside-snippet");
-        if (ngIf != null)
-        {
-            wrapper.addAttribute("*ngIf", ngIf);
-        }
 
         var label = new WaText<>();
         label.setTag("div");
@@ -129,6 +126,13 @@ public class GettingStartedAsidePage extends DivSimple<GettingStartedAsidePage> 
         md.addClass("aside-snippet-code");
         md.addClass("wa-body-s");
         wrapper.add(md);
+
+        if (ngIf != null)
+        {
+            var ifWrapper = new NgIf(ngIf);
+            ifWrapper.add(wrapper);
+            return ifWrapper;
+        }
 
         return wrapper;
     }

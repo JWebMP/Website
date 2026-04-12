@@ -8,6 +8,7 @@ import com.jwebmp.core.base.angular.client.annotations.references.NgImportProvid
 import com.jwebmp.core.base.angular.client.annotations.references.NgImportReference;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.core.base.angular.components.NgIf;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
@@ -226,8 +227,9 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         mavenMd.setClipboard(true);
         mavenMd.addClass("aside-snippet-code");
         mavenMd.addClass("wa-body-xs");
-        mavenMd.addAttribute("*ngIf", "!useGradle");
-        popoverContent.add(mavenMd);
+        var mavenIf = new NgIf("!useGradle");
+        mavenIf.add(mavenMd);
+        popoverContent.add(mavenIf);
 
         var gradleMd = new Markdown<>("""
                 ```groovy
@@ -246,8 +248,9 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         gradleMd.setClipboard(true);
         gradleMd.addClass("aside-snippet-code");
         gradleMd.addClass("wa-body-xs");
-        gradleMd.addAttribute("*ngIf", "useGradle");
-        popoverContent.add(gradleMd);
+        var gradleIf = new NgIf("useGradle");
+        gradleIf.add(gradleMd);
+        popoverContent.add(gradleIf);
 
         var authNote = new DivSimple<>();
         authNote.setTag("p");
@@ -280,6 +283,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         WaSwitch<?> buildToolSwitch = new WaSwitch<>();
         buildToolSwitch.setSize(com.jwebmp.webawesome.components.Size.Small);
+        buildToolSwitch.setName("useGradle");
         buildToolSwitch.bind("useGradle");
         buildToolSwitch.addAttribute("(ngModelChange)", "onBuildToolChange($event)");
         buildToolToggle.add(buildToolSwitch);

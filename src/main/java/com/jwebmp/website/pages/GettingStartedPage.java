@@ -6,6 +6,7 @@ import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.core.base.angular.components.NgIf;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
 import com.jwebmp.webawesome.components.PageSize;
@@ -59,7 +60,6 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
 
         // ── Prerequisites (Maven) ──
         var mavenPrereqs = new DivSimple<>();
-        mavenPrereqs.addAttribute("*ngIf", "!useGradle");
 
         var mavenPrereqLabel = captionText("Prerequisites");
         mavenPrereqs.add(mavenPrereqLabel);
@@ -70,11 +70,12 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
         mavenPills.add(prereqPill("Maven 3.9+", "https://maven.apache.org", Variant.Neutral));
         mavenPills.add(prereqPill("Node.js 22+", "https://nodejs.org", Variant.Warning));
         mavenPrereqs.add(mavenPills);
-        content.add(mavenPrereqs);
+        var mavenPrereqsIf = new NgIf("!useGradle");
+        mavenPrereqsIf.add(mavenPrereqs);
+        content.add(mavenPrereqsIf);
 
         // ── Prerequisites (Gradle) ──
         var gradlePrereqs = new DivSimple<>();
-        gradlePrereqs.addAttribute("*ngIf", "useGradle");
 
         var gradlePrereqLabel = captionText("Prerequisites");
         gradlePrereqs.add(gradlePrereqLabel);
@@ -85,7 +86,9 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
         gradlePills.add(prereqPill("Gradle 8.6+", "https://gradle.org", Variant.Neutral));
         gradlePills.add(prereqPill("Node.js 22+", "https://nodejs.org", Variant.Warning));
         gradlePrereqs.add(gradlePills);
-        content.add(gradlePrereqs);
+        var gradlePrereqsIf = new NgIf("useGradle");
+        gradlePrereqsIf.add(gradlePrereqs);
+        content.add(gradlePrereqsIf);
 
         // ── Entry Points ──
         var entryStack = new WaStack();
@@ -166,8 +169,9 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                                 </execution>
                             </executions>
                         </plugin>""", "java");
-        mavenPlugin.addAttribute("*ngIf", "!useGradle");
-        bootstrapContent.add(mavenPlugin);
+        var mavenPluginIf = new NgIf("!useGradle");
+        mavenPluginIf.add(mavenPlugin);
+        bootstrapContent.add(mavenPluginIf);
 
         // Gradle plugin
         var gradlePlugin = codeBlockWithTitle("Angular mode — Gradle plugin (build.gradle.kts)",
@@ -179,8 +183,9 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                         jwebmpAngular {
                             // runs during the build task
                         }""","groovy");
-        gradlePlugin.addAttribute("*ngIf", "useGradle");
-        bootstrapContent.add(gradlePlugin);
+        var gradlePluginIf = new NgIf("useGradle");
+        gradlePluginIf.add(gradlePlugin);
+        bootstrapContent.add(gradlePluginIf);
 
         var pluginNote = captionText(
                 "The plugin discovers your annotated classes, generates TypeScript, "

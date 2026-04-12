@@ -6,6 +6,7 @@ import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.core.base.angular.components.NgIf;
 
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.WaStack;
@@ -52,13 +53,15 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
 
         // Maven build command
         var mvnBuild = codeBlockWithTitle("Terminal — Maven", "mvn clean install");
-        mvnBuild.addAttribute("*ngIf", "!useGradle");
-        content.add(mvnBuild);
+        var mvnBuildIf = new NgIf("!useGradle");
+        mvnBuildIf.add(mvnBuild);
+        content.add(mvnBuildIf);
 
         // Gradle build command
-        var gradleBuild = codeBlockWithTitle("Terminal — Gradle", "./gradlew build", 'bash');
-        gradleBuild.addAttribute("*ngIf", "useGradle");
-        content.add(gradleBuild);
+        var gradleBuild = codeBlockWithTitle("Terminal — Gradle", "./gradlew build", "bash");
+        var gradleBuildIf = new NgIf("useGradle");
+        gradleBuildIf.add(gradleBuild);
+        content.add(gradleBuildIf);
 
         content.add(bodyText(
                 "In Angular mode, the build plugin generates TypeScript, runs npm install and "
@@ -70,7 +73,7 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
                 """
                         # The built SPA is in target/webroot/
                         # Serve it however you like — nginx, Apache, CDN, or:
-                        npx serve target/webroot/my-app""", 'bash'));
+                        npx serve target/webroot/my-app""", "bash"));
 
         content.add(bodyText(
                 "In hosted mode, the Vert.x HTTP server serves the application. Start it "
@@ -81,7 +84,7 @@ public class BuildAndRunPage extends WebsitePage<BuildAndRunPage> implements INg
                 """
                         java -jar target/my-app.jar
                         
-                        # Open http://localhost:8080""", 'bash'));
+                        # Open http://localhost:8080""", "bash"));
 
         layout.add(buildSection("STEP 6",
                 "Build and Run",
