@@ -131,7 +131,7 @@ public final class PluginEntry
         private final String artifactId;
 
         private String description;
-        private String version = "2.0.0-RC5";
+        private String version = "2.0.0-RC6";
         private String upstreamName;
         private String upstreamVersion;
         private String upstreamUrl;
