@@ -43,7 +43,7 @@ This repository powers the **public JWebMP website**, presenting the JWebMP fram
 mvn clean install
 
 # Run the website
-java -jar target/website-2.0.0-RC7.jar
+java -jar target/website-2.0.0-RC8.jar
 # → http://localhost:8766
 ```
 
