@@ -218,11 +218,74 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
 
     // ── Diagram helpers ──────────────────────────────
 
+    /**
+     * Mermaid dark-mode theme init block aligned with Web Awesome dark palette.
+     * Uses the "dark" base theme with overrides for backgrounds, borders, text,
+     * and line/arrow colours so diagrams blend with the WA dark surface.
+     */
+    private static final String MERMAID_DARK_INIT = """
+            %%{init: {
+              'theme': 'dark',
+              'themeVariables': {
+                'darkMode': true,
+                'background': '#1a1a2e',
+                'primaryColor': '#6366f1',
+                'primaryTextColor': '#e2e8f0',
+                'primaryBorderColor': '#818cf8',
+                'secondaryColor': '#1e293b',
+                'secondaryTextColor': '#cbd5e1',
+                'secondaryBorderColor': '#475569',
+                'tertiaryColor': '#0f172a',
+                'tertiaryTextColor': '#94a3b8',
+                'tertiaryBorderColor': '#334155',
+                'lineColor': '#818cf8',
+                'textColor': '#e2e8f0',
+                'mainBkg': '#1e293b',
+                'nodeBorder': '#818cf8',
+                'clusterBkg': '#0f172a',
+                'clusterBorder': '#475569',
+                'titleColor': '#e2e8f0',
+                'edgeLabelBackground': '#1e293b',
+                'nodeTextColor': '#e2e8f0',
+                'actorTextColor': '#e2e8f0',
+                'actorBorder': '#818cf8',
+                'actorBkg': '#1e293b',
+                'actorLineColor': '#818cf8',
+                'signalColor': '#818cf8',
+                'signalTextColor': '#e2e8f0',
+                'labelBoxBkgColor': '#1e293b',
+                'labelBoxBorderColor': '#475569',
+                'labelTextColor': '#e2e8f0',
+                'loopTextColor': '#cbd5e1',
+                'noteBkgColor': '#1e293b',
+                'noteBorderColor': '#6366f1',
+                'noteTextColor': '#e2e8f0',
+                'activationBorderColor': '#818cf8',
+                'activationBkgColor': '#1e293b',
+                'sequenceNumberColor': '#1a1a2e',
+                'sectionBkgColor': '#1e293b',
+                'altSectionBkgColor': '#0f172a',
+                'gridColor': '#334155',
+                'taskBorderColor': '#818cf8',
+                'taskBkgColor': '#1e293b',
+                'taskTextColor': '#e2e8f0',
+                'activeTaskBorderColor': '#a5b4fc',
+                'activeTaskBkgColor': '#312e81',
+                'doneTaskBkgColor': '#475569',
+                'doneTaskBorderColor': '#64748b',
+                'critBorderColor': '#f87171',
+                'critBkgColor': '#7f1d1d',
+                'fontFamily': 'Inter, system-ui, sans-serif',
+                'fontSize': '14px'
+              }
+            }}%%
+            """;
+
     protected DivSimple<?> mermaidDiagram(String mermaidCode)
     {
         var wrapper = new DivSimple<>();
         wrapper.addClass("mermaid-diagram");
-        var md = new Markdown<>("```mermaid\n" + mermaidCode + "\n```");
+        var md = new Markdown<>("```mermaid\n" + MERMAID_DARK_INIT + mermaidCode + "\n```");
         md.setMermaid(true);
         wrapper.add(md);
         return wrapper;
