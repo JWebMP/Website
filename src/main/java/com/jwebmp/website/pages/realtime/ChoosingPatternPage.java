@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/choosing-a-pattern")
 public class ChoosingPatternPage extends WebsitePage<ChoosingPatternPage> implements INgComponent<ChoosingPatternPage> {
     public ChoosingPatternPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         content.add(bodyText("Most applications start with REST and AJAX — they cover the majority of client-server interactions. Add real-time when your use case demands it. All patterns coexist in the same application.", "m"));
         var grid = grid(2);

@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/rest-and-ajax")
 public class RestAndAjaxPage extends WebsitePage<RestAndAjaxPage> implements INgComponent<RestAndAjaxPage> {
     public RestAndAjaxPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(richText(

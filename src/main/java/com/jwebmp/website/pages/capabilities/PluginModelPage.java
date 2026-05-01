@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "capabilities/plugin-model")
 public class PluginModelPage extends WebsitePage<PluginModelPage> implements INgComponent<PluginModelPage> {
     public PluginModelPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         var grid = grid(2);
         grid.add(featureCard("JPMS Modules", "Every plugin ships a module-info.java with explicit exports, requires, provides, and uses. Clean dependency boundaries. JLink-ready for minimal Docker images.", null));

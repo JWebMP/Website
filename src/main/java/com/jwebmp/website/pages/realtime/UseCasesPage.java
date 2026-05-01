@@ -14,9 +14,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/use-cases")
 public class UseCasesPage extends WebsitePage<UseCasesPage> implements INgComponent<UseCasesPage> {
     public UseCasesPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         var grid = grid(2);
         grid.add(featureCard("CRUD Applications", "REST endpoints for API access. AJAX events for form submissions and interactive buttons. Standard request/response — no real-time needed.", "REST + AJAX"));

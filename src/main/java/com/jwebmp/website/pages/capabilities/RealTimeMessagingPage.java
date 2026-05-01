@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "capabilities/real-time-messaging")
 public class RealTimeMessagingPage extends WebsitePage<RealTimeMessagingPage> implements INgComponent<RealTimeMessagingPage> {
     public RealTimeMessagingPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         var grid = grid(2);
         grid.add(featureCard("RabbitMQ WebSocket Bridge", "STOMP over WebSocket connects Angular clients directly to RabbitMQ exchanges. Server publishes via AMQP; browsers receive via STOMP. Automatic reconnection, heartbeat monitoring, and SockJS fallback.", null));

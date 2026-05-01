@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "capabilities/spi-extensibility")
 public class SpiExtensibilityPage extends WebsitePage<SpiExtensibilityPage> implements INgComponent<SpiExtensibilityPage> {
     public SpiExtensibilityPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(

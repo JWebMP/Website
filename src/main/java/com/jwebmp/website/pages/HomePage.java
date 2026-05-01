@@ -23,7 +23,7 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
     {
         removeClass("website-content");
 
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
 
         layout.add(buildHero());
@@ -38,7 +38,7 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
 
     private WaStack buildHero()
     {
-        var hero = new WaStack();
+        var hero = new WaStack<>();
         hero.setGap(PageSize.Large);
         hero.setID("hero");
         hero.addClass("hero-banner");
@@ -88,7 +88,7 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
 
     private WaStack buildHighlights()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         var grid = grid(3);
@@ -135,7 +135,7 @@ public class HomePage extends WebsitePage<HomePage> implements INgComponent<Home
 
     private WaStack buildComponentEcosystem()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(

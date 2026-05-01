@@ -46,11 +46,11 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
 {
     public GettingStartedPage()
     {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
         getMain().add(layout);
 
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(
@@ -91,11 +91,11 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
         content.add(gradlePrereqsIf);
 
         // ── Entry Points ──
-        var entryStack = new WaStack();
+        var entryStack = new WaStack<>();
         entryStack.setGap(PageSize.Medium);
 
         var angularDetails = new WaDetails<>("Angular Mode (Client-Side/MicroFront SPA)");
-        var angularContent = new WaStack();
+        var angularContent = new WaStack<>();
         angularContent.add(bodyText(
                 "Include the Angular plugin and the build plugin generates "
                 + "a complete Angular 21 single-page application. "
@@ -114,7 +114,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
         entryStack.add(angularDetails);
 
         var ssrDetails = new WaDetails<>("Hosted Mode (JWebMP + GuicedEE Backend)");
-        var ssrContent = new WaStack();
+        var ssrContent = new WaStack<>();
         ssrContent.add(bodyText(
                 "JWebMP hosts the application on a Vert.x 5 endpoint alongside your GuicedEE backend. "
                 + "REST APIs, WebSockets, authentication, and persistence all run on the same process. "
@@ -144,7 +144,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                 false, content));
 
         // ── Bootstrap: Build Plugin (Angular) / Boot.java (Hosted) ──
-        var bootstrapContent = new WaStack();
+        var bootstrapContent = new WaStack<>();
         bootstrapContent.setGap(PageSize.Medium);
 
         bootstrapContent.add(bodyText(
@@ -215,7 +215,7 @@ public class GettingStartedPage extends WebsitePage<GettingStartedPage> implemen
                 + "Use the menu tree to navigate each remaining step.",
                 "m");
 
-        var closingSection = new WaStack();
+        var closingSection = new WaStack<>();
         closingSection.setGap(PageSize.Medium);
         closingSection.add(closingNote);
         layout.add(closingSection);

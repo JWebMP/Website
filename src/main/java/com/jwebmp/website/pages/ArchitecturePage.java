@@ -13,12 +13,12 @@ public class ArchitecturePage extends WebsitePage<ArchitecturePage> implements I
     public ArchitecturePage()
     {
 
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
         getMain().add(layout);
 
         // Overview only — sub-sections are now individual pages
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         content.add(bodyText(
                 "JWebMP is a layered architecture where each layer has a single responsibility. "

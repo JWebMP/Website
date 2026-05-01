@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/data-services")
 public class DataServicesPage extends WebsitePage<DataServicesPage> implements INgComponent<DataServicesPage> {
     public DataServicesPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(richText("`@NgDataService` generates a typed Angular service that communicates with the server via the `EventBusService`. Define a Java class, annotate it, and implement `getData()` — the framework generates the TypeScript service, registers a listener, and handles serialization. The Angular component receives an `Observable` of your data type.", "m"));

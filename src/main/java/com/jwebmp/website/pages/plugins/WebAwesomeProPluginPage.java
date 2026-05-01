@@ -36,7 +36,7 @@ public class WebAwesomeProPluginPage extends PluginDetailPage<WebAwesomeProPlugi
         return List.of(
                 new PluginEntry.ExampleSnippet("Full Application Shell",
                         "Build a complete application shell with header, navigation, main content, and footer.",
-                        "var page = new WaPage();\npage.getHeader().add(new WaText<>().setText(\"My Application\"));\npage.getNavigation().add(buildMenuItems());\npage.getMain().add(new RouterOutlet());\npage.getFooter().add(new WaText<>().setText(\"2026 My Corp\"));",
+                        "var page = new WaPage();\npage.getHeader().add(new WaText<>().setText(\"My Application\"));\npage.getNavigation().add(buildMenuItems());\npage.getMain().add(new RouterOutlet<>());\npage.getFooter().add(new WaText<>().setText(\"2026 My Corp\"));",
                         "java")
         );
     }

@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "architecture/runtime")
 public class RuntimePage extends WebsitePage<RuntimePage> implements INgComponent<RuntimePage> {
     public RuntimePage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         var grid = grid(2);
 

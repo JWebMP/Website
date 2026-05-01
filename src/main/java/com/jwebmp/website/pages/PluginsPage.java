@@ -25,12 +25,12 @@ public class PluginsPage extends WebsitePage<PluginsPage> implements INgComponen
     private void buildPluginsPage()
     {
 
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
         getMain().add(layout);
 
         // Intro
-        var intro = new WaStack();
+        var intro = new WaStack<>();
         intro.setGap(PageSize.Medium);
         intro.add(richText(
                 "Every JWebMP plugin is a proper JPMS module with an explicit `module-info.java`. "
@@ -78,7 +78,7 @@ public class PluginsPage extends WebsitePage<PluginsPage> implements INgComponen
         var card = new WaCard<>();
         card.setAppearance(Appearance.Outlined);
 
-        var stack = new WaStack();
+        var stack = new WaStack<>();
         stack.setGap(PageSize.Small);
 
         // Title

@@ -32,7 +32,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
     protected PluginDetailPage(PluginEntry plugin)
     {
 
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
         getMain().add(layout);
 
@@ -43,7 +43,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         var card = new WaCard<>();
         card.setAppearance(Appearance.Outlined);
 
-        var outerStack = new WaStack();
+        var outerStack = new WaStack<>();
         outerStack.setGap(PageSize.Medium);
 
         outerStack.add(buildPluginHeader(plugin));
@@ -113,7 +113,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
 
     private WaStack buildPluginHeader(PluginEntry plugin)
     {
-        var header = new WaStack();
+        var header = new WaStack<>();
         header.setGap(PageSize.Small);
         header.add(headingText("h1", "xl", plugin.getName()));
         header.add(bodyText(plugin.getDescription(), "m"));
@@ -143,7 +143,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
 
     private WaStack buildCoordinatesSection(PluginEntry plugin)
     {
-        var coordsStack = new WaStack();
+        var coordsStack = new WaStack<>();
         coordsStack.setGap(PageSize.ExtraSmall);
         coordsStack.add(captionText("COORDINATES & MODULE"));
         coordsStack.add(bodyText("Maven: " + plugin.getGroupId() + ":" + plugin.getArtifactId(), "s"));
@@ -172,7 +172,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var installStack = new WaStack();
+        var installStack = new WaStack<>();
         installStack.setGap(PageSize.ExtraSmall);
         installStack.add(captionText("INSTALLATION"));
         installStack.add(codeBlockWithTitle("Maven", plugin.getMavenSnippet(), "xml"));
@@ -191,7 +191,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var npmStack = new WaStack();
+        var npmStack = new WaStack<>();
         npmStack.setGap(PageSize.ExtraSmall);
         npmStack.add(captionText("NPM DEPENDENCIES (auto-included)"));
 
@@ -213,7 +213,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var section = new WaStack();
+        var section = new WaStack<>();
         section.setGap(PageSize.Small);
         section.add(captionText("COMPONENTS"));
 
@@ -225,7 +225,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             var compCard = new WaCard<>();
             compCard.setAppearance(Appearance.Outlined);
-            var stack = new WaStack();
+            var stack = new WaStack<>();
             stack.setGap(PageSize.ExtraSmall);
             stack.add(headingText("h4", "s", comp.className()));
             var desc = bodyText(comp.description(), "s");
@@ -252,7 +252,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var featuresStack = new WaStack();
+        var featuresStack = new WaStack<>();
         featuresStack.setGap(PageSize.ExtraSmall);
         featuresStack.add(captionText("FEATURES"));
 
@@ -274,13 +274,13 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var section = new WaStack();
+        var section = new WaStack<>();
         section.setGap(PageSize.Medium);
         section.add(captionText("EXAMPLES"));
 
         for (PluginEntry.ExampleSnippet example : examples)
         {
-            var exStack = new WaStack();
+            var exStack = new WaStack<>();
             exStack.setGap(PageSize.ExtraSmall);
             exStack.add(headingText("h4", "s", example.title()));
             if (example.description() != null && !example.description().isBlank())
@@ -303,7 +303,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var quickStack = new WaStack();
+        var quickStack = new WaStack<>();
         quickStack.setGap(PageSize.ExtraSmall);
         quickStack.add(captionText("QUICK START"));
         quickStack.add(codeBlock(plugin.getQuickStartCode()));
@@ -319,13 +319,13 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var section = new WaStack();
+        var section = new WaStack<>();
         section.setGap(PageSize.Small);
         section.add(captionText("SPI EXTENSION POINT DETAILS"));
 
         for (PluginEntry.SpiDetail spi : spiDetails)
         {
-            var row = new WaStack();
+            var row = new WaStack<>();
             row.setGap(PageSize.ExtraSmall);
 
             var nameCluster = new WaCluster<>();
@@ -351,7 +351,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var spiStack = new WaStack();
+        var spiStack = new WaStack<>();
         spiStack.setGap(PageSize.ExtraSmall);
         spiStack.add(captionText("SPI EXTENSION POINTS"));
 
@@ -388,13 +388,13 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var section = new WaStack();
+        var section = new WaStack<>();
         section.setGap(PageSize.Small);
         section.add(captionText("CONFIGURATION"));
 
         for (PluginEntry.ConfigEntry config : configurations)
         {
-            var row = new WaStack();
+            var row = new WaStack<>();
             row.setGap(PageSize.ExtraSmall);
 
             var nameCluster = new WaCluster<>();
@@ -429,7 +429,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var prereqStack = new WaStack();
+        var prereqStack = new WaStack<>();
         prereqStack.setGap(PageSize.ExtraSmall);
         prereqStack.add(captionText("PREREQUISITES"));
 

@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/rabbitmq")
 public class RabbitMQPage extends WebsitePage<RabbitMQPage> implements INgComponent<RabbitMQPage> {
     public RabbitMQPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         content.add(richText("For deployments that need durable messaging, multi-instance fan-out, or broker-managed persistence, add the RabbitMQ Comms module. Server-side Java publishes via AMQP to RabbitMQ fanout exchanges. Browser-side Angular connects directly to RabbitMQ via the Web STOMP plugin. Each group name maps to a fanout exchange — messages broadcast to every subscribed client.", "m"));
         var grid = grid(2);

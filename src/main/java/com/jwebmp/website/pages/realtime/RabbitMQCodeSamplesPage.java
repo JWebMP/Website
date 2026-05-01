@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/rabbitmq-code-samples")
 public class RabbitMQCodeSamplesPage extends WebsitePage<RabbitMQCodeSamplesPage> implements INgComponent<RabbitMQCodeSamplesPage> {
     public RabbitMQCodeSamplesPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         content.add(codeBlockWithTitle("Server: publish to a RabbitMQ group", "@Inject\nprivate RabbitPublishToGroup publisher;\n\npublisher.publish(\"dashboard-updates\", jsonPayload);\npublisher.publish(\"user-\" + userId, notification);"));
         content.add(codeBlockWithTitle("Client: declarative subscription (Java component)", "var dashboard = new DivSimple<>();\ndashboard.addAttribute(\"[data-rabbit-groups]\", \"'live-feed'\");\nadd(dashboard);"));

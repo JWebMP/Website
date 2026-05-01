@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "capabilities/rendering")
 public class RenderingPage extends WebsitePage<RenderingPage> implements INgComponent<RenderingPage> {
     public RenderingPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         var grid = grid(2);
         grid.add(featureCard("Complete HTML5 Element Library", "Every HTML5 element — Div, Span, Table, Form, Input (22 typed variants), Select, Canvas, Video, Article, Section — is a typed Java class with CRTP fluent API. Child constraints are enforced at compile time.", null));

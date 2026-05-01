@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/vertx-event-bus")
 public class VertxEventBusPage extends WebsitePage<VertxEventBusPage> implements INgComponent<VertxEventBusPage> {
     public VertxEventBusPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         content.add(richText("When you need server-to-browser push, the Angular plugin includes a built-in STOMP server at `/eventbus` backed by the Vert.x event bus. No external broker required. The generated `EventBusService` manages connections, reconnection, and message routing. Plugins like AG Grid, FullCalendar, and Chart.js already use this for live data push.", "m"));
         var grid = grid(2);

@@ -254,7 +254,7 @@ public final class PluginCatalog
                                           var button = new WaButton<>("Click Me", Variant.Brand);
                                           button.setAppearance(Appearance.Filled);
                                           
-                                          var stack = new WaStack();
+                                          var stack = new WaStack<>();
                                           stack.setGap(PageSize.Medium);
                                           stack.add(card);
                                           stack.add(button);""")

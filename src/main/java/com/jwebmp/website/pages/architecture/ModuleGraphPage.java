@@ -14,9 +14,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "architecture/module-graph")
 public class ModuleGraphPage extends WebsitePage<ModuleGraphPage> implements INgComponent<ModuleGraphPage> {
     public ModuleGraphPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(richText(

@@ -40,7 +40,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 {
     public AboutPage()
     {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
 
         layout.add(buildIntro());
@@ -58,7 +58,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 
     private WaStack buildIntro()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(
@@ -115,7 +115,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 
     private WaStack buildAnnotationDriven()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(richText(
@@ -243,7 +243,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 
     private WaStack buildReactiveStack()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         var grid = grid(2);
@@ -285,7 +285,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 
     private WaStack buildRealTimeOverview()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(richText(
@@ -322,7 +322,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 
     private WaStack buildDeveloperExperience()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         var grid = grid(2);
@@ -364,7 +364,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 
     private WaStack buildProductionReady()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         var grid = grid(3);

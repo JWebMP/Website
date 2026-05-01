@@ -38,7 +38,7 @@ public class FontAwesomePluginPage extends PluginDetailPage<FontAwesomePluginPag
                         "java"),
                 new PluginEntry.ExampleSnippet("Layered Icons",
                         "Combine multiple icons with layers and counters.",
-                        "var layers = new FontAwesomeLayers();\nlayers.add(new FontAwesome(FontAwesomeStyles.Solid, FontAwesomeIcons.envelope));\nlayers.add(new FontAwesomeLayerCounter(\"99+\"));",
+                        "var layers = new FontAwesomeLayers<>();\nlayers.add(new FontAwesome(FontAwesomeStyles.Solid, FontAwesomeIcons.envelope));\nlayers.add(new FontAwesomeLayerCounter(\"99+\"));",
                         "java")
         );
     }

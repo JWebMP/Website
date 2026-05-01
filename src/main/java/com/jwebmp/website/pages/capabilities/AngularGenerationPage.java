@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "capabilities/angular-generation")
 public class AngularGenerationPage extends WebsitePage<AngularGenerationPage> implements INgComponent<AngularGenerationPage> {
     public AngularGenerationPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         var grid = grid(2);
         grid.add(featureCard("Component Generation", "@NgComponent, @NgDirective, @NgDataService — Java classes become Angular components with templates, imports, and lifecycle hooks. @NgField, @NgSignal, @NgMethod generate TypeScript class members.", null));

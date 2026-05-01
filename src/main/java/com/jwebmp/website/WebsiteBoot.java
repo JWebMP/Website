@@ -158,7 +158,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         // Activity Master
         Link<?> activityLink = new Link<>();
         activityLink.setTag("a");
-        activityLink.addAttribute("href", "https://github.com/Activity-Master/");
+        activityLink.addAttribute("href", "https://activity-master.com/");
         activityLink.addAttribute("target", "_blank");
         activityLink.addClass("product");
         activityLink.addClass("product-activity-master");
@@ -626,7 +626,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         navGuicedeeLink.setText("GuicedEE");
         navFooter.add(navGuicedeeLink);
 
-        page.getMain().add(new RouterOutlet());
+        page.getMain().add(new RouterOutlet<>());
         page.getAside().add(new RouterOutlet("aside"));
 
         add(page);

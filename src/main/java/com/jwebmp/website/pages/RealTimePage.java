@@ -15,12 +15,12 @@ public class RealTimePage extends WebsitePage<RealTimePage> implements INgCompon
     public RealTimePage()
     {
 
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
         getMain().add(layout);
 
         // Intro only — sub-sections are now individual pages
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(

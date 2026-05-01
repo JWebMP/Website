@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/communication-layers")
 public class CommunicationLayersPage extends WebsitePage<CommunicationLayersPage> implements INgComponent<CommunicationLayersPage> {
     public CommunicationLayersPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(codeBlockWithTitle("Communication Stack",

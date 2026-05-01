@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "architecture/data-flow")
 public class DataFlowPage extends WebsitePage<DataFlowPage> implements INgComponent<DataFlowPage> {
     public DataFlowPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(mermaidDiagramWithTitle("Request-Response Flow",

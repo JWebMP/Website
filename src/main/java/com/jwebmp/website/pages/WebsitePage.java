@@ -147,7 +147,7 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
         card.setAppearance(Appearance.Outlined);
         card.addClass("feature-card");
 
-        var stack = new WaStack();
+        var stack = new WaStack<>();
         stack.setGap(PageSize.Small);
 
         var titleText = headingText("h3", "m", title);
@@ -173,7 +173,7 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
     protected WaStack section(String eyebrow, String title, String subtitle,
                               com.jwebmp.core.base.interfaces.IComponentHierarchyBase<?, ?> content)
     {
-        var section = new WaStack();
+        var section = new WaStack<>();
         section.setGap(PageSize.Medium);
         section.addClass("content-section");
 
@@ -195,7 +195,7 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
 
     protected WaStack sectionHeader(String eyebrow, String title, String subtitle)
     {
-        var header = new WaStack();
+        var header = new WaStack<>();
         header.setGap(PageSize.Small);
         if (eyebrow != null && !eyebrow.isBlank())
         {
@@ -297,7 +297,7 @@ public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J>
      */
     protected WaStack buildCallToAction()
     {
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
 
         content.add(bodyText(

@@ -13,12 +13,12 @@ public class CapabilitiesPage extends WebsitePage<CapabilitiesPage> implements I
     public CapabilitiesPage()
     {
 
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
         getMain().add(layout);
 
         // Overview only — sub-sections are now individual pages
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         content.add(bodyText(
                 "JWebMP is a full-stack Java framework for building reactive web applications. "

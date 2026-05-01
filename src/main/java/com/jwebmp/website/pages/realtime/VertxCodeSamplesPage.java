@@ -11,9 +11,9 @@ import com.jwebmp.website.pages.WebsitePage;
 @NgRoutable(path = "real-time/vertx-code-samples")
 public class VertxCodeSamplesPage extends WebsitePage<VertxCodeSamplesPage> implements INgComponent<VertxCodeSamplesPage> {
     public VertxCodeSamplesPage() {
-        var layout = new WaStack();
+        var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
-        var content = new WaStack();
+        var content = new WaStack<>();
         content.setGap(PageSize.Medium);
         content.add(codeBlockWithTitle("Server: publish via Vert.x event bus", "// Publish to all browsers listening on \"dashboard\"\nStompEventBusPublisher.publish(vertx, \"dashboard\", jsonPayload);\n\n// Or via IGuicedWebSocket (injected)\n@Inject IGuicedWebSocket webSocket;\nwebSocket.broadcastMessage(\"dashboard\", jsonPayload);"));
         content.add(codeBlockWithTitle("Server: custom WebSocket receiver", "public class MyDataReceiver\n    implements IWebSocketMessageReceiver<MyResponse, MyDataReceiver> {\n\n    @Override\n    public String getMessageDirector() { return \"myData\"; }\n\n    @Override\n    public Uni<MyResponse> receiveMessage(WebSocketMessageReceiver<?> msg) {\n        return Uni.createFrom().item(new MyResponse(data));\n    }\n}"));
