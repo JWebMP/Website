@@ -11,6 +11,23 @@ import java.util.List;
 @NgRoutable(path = "plugins/angular")
 public class AngularPluginPage extends PluginDetailPage<AngularPluginPage>
 {
+    public static final List<PluginEntry.ComponentInfo> COMPONENTS = List.of(
+            new PluginEntry.ComponentInfo("NGApplication", "Base class for @NgApp — defines the Angular application", "com.jwebmp.core.angular",
+                    List.of(), List.of(), List.of(new PluginEntry.ConstructorInfo("extends NGApplication", "Extend to define your app")), List.of(), List.of(), List.of(), List.of()),
+            new PluginEntry.ComponentInfo("NgIf", "Angular 17+ @if control-flow component", "com.jwebmp.core.angular.components",
+                    List.of(), List.of(), List.of(new PluginEntry.ConstructorInfo("new NgIf(String condition)", "Creates an @if block")), List.of(), List.of(), List.of(), List.of()),
+            new PluginEntry.ComponentInfo("NgFor", "Angular 17+ @for control-flow component", "com.jwebmp.core.angular.components",
+                    List.of(), List.of(), List.of(new PluginEntry.ConstructorInfo("new NgFor()", "Creates an @for block")), List.of(), List.of(), List.of(), List.of()),
+            new PluginEntry.ComponentInfo("RouterLink", "Router link with [routerLink], [queryParams], [state] binding", "com.jwebmp.core.angular.components",
+                    List.of(), List.of(), List.of(new PluginEntry.ConstructorInfo("new RouterLink()", "Creates a router link")), List.of(), List.of(), List.of(), List.of()),
+            new PluginEntry.ComponentInfo("RouterOutlet", "Angular router outlet placeholder", "com.jwebmp.core.angular.components",
+                    List.of(), List.of(), List.of(new PluginEntry.ConstructorInfo("new RouterOutlet()", "Creates a router outlet")), List.of(), List.of(), List.of(), List.of()),
+            new PluginEntry.ComponentInfo("TypeScriptCompiler", "Orchestrates .ts code generation from Java annotations", "com.jwebmp.core.angular.compiler",
+                    List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of()),
+            new PluginEntry.ComponentInfo("StompServer", "STOMP/WebSocket bridge at /eventbus", "com.jwebmp.core.angular.websocket",
+                    List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of())
+    );
+
     public AngularPluginPage()
     {
         super(PluginCatalog.getById("angular").orElseThrow());
@@ -19,15 +36,7 @@ public class AngularPluginPage extends PluginDetailPage<AngularPluginPage>
     @Override
     protected List<PluginEntry.ComponentInfo> pluginComponents()
     {
-        return List.of(
-                new PluginEntry.ComponentInfo("NGApplication", "Base class for @NgApp — defines the Angular application", "com.jwebmp.core.angular"),
-                new PluginEntry.ComponentInfo("NgIf", "Angular 17+ @if control-flow component", "com.jwebmp.core.angular.components"),
-                new PluginEntry.ComponentInfo("NgFor", "Angular 17+ @for control-flow component", "com.jwebmp.core.angular.components"),
-                new PluginEntry.ComponentInfo("RouterLink", "Router link with [routerLink], [queryParams], [state] binding", "com.jwebmp.core.angular.components"),
-                new PluginEntry.ComponentInfo("RouterOutlet", "Angular router outlet placeholder", "com.jwebmp.core.angular.components"),
-                new PluginEntry.ComponentInfo("TypeScriptCompiler", "Orchestrates .ts code generation from Java annotations", "com.jwebmp.core.angular.compiler"),
-                new PluginEntry.ComponentInfo("StompServer", "STOMP/WebSocket bridge at /eventbus", "com.jwebmp.core.angular.websocket")
-        );
+        return COMPONENTS;
     }
 
     @Override

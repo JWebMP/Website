@@ -63,14 +63,66 @@ public final class PluginEntry
     // ── SPI extensions consumed ───────────────────────
     private final List<String> spiUses;
 
+    // ── Framework flag ───────────────────────────────
+    private final boolean framework;
+
     // ══════════════════════════════════════════════════
     //  Inner record types — used by detail pages
     // ══════════════════════════════════════════════════
 
     /**
+     * A property/API option exposed by a component.
+     */
+    public record PropertyInfo(String name, String type, String defaultValue, String description) {}
+
+    /**
      * A Java component class exposed by a plugin.
      */
-    public record ComponentInfo(String className, String description, String packageName) {}
+    public record ComponentInfo(String className, String description, String packageName,
+                                List<PropertyInfo> properties, List<ExampleSnippet> examples,
+                                List<ConstructorInfo> constructors, List<MethodInfo> methods,
+                                List<EventInfo> events, List<SlotInfo> slots,
+                                List<String> implementsInterfaces)
+    {
+
+        /** Returns an anchor-safe ID like {@code comp-wa-button}. */
+        public String anchorId()
+        {
+            return "comp-" + className.replaceAll("([a-z])([A-Z])", "$1-$2").toLowerCase();
+        }
+
+        /** Whether this component has rich detail beyond just a name and description. */
+        public boolean hasDetail()
+        {
+            return (properties != null && !properties.isEmpty())
+                   || (examples != null && !examples.isEmpty())
+                   || (constructors != null && !constructors.isEmpty())
+                   || (methods != null && !methods.isEmpty())
+                   || (events != null && !events.isEmpty())
+                   || (slots != null && !slots.isEmpty())
+                   || (implementsInterfaces != null && !implementsInterfaces.isEmpty());
+        }
+    }
+
+    /**
+     * A constructor signature.
+     */
+    public record ConstructorInfo(String signature, String description) {}
+
+    /**
+     * A public method exposed by a component.
+     */
+    public record MethodInfo(String name, String returnType, String signature, String description) {}
+
+    /**
+     * An event emitted by a component.
+     */
+    public record EventInfo(String name, String description) {}
+
+    /**
+     * A slot exposed by a component.
+     */
+    public record SlotInfo(String name, String description) {}
 
     /**
      * A code example demonstrating plugin usage.
@@ -115,6 +167,7 @@ public final class PluginEntry
         this.licenseNote = builder.licenseNote;
         this.spiProvides = builder.spiProvides == null ? List.of() : Collections.unmodifiableList(builder.spiProvides);
         this.spiUses = builder.spiUses == null ? List.of() : Collections.unmodifiableList(builder.spiUses);
+        this.framework = builder.framework;
     }
 
     public static Builder builder(String id, String name, String category, String groupId, String artifactId)
@@ -151,6 +204,7 @@ public final class PluginEntry
         private String licenseNote;
         private List<String> spiProvides;
         private List<String> spiUses;
+        private boolean framework;
 
         private Builder(String id, String name, String category, String groupId, String artifactId)
         {
@@ -182,6 +236,7 @@ public final class PluginEntry
         public Builder licenseNote(String val) { licenseNote = val; return this; }
         public Builder spiProvides(List<String> val) { spiProvides = val; return this; }
         public Builder spiUses(List<String> val) { spiUses = val; return this; }
+        public Builder framework(boolean val) { framework = val; return this; }
 
         public PluginEntry build()
         {

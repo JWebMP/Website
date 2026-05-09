@@ -26,29 +26,34 @@ public class BuildPipelinePage extends WebsitePage<BuildPipelinePage> implements
 
         content.add(mermaidDiagramWithTitle("Build Flow",
                 """
-                        graph TD
-                          MVN["mvn install"]
-                          COMPILE["compile: javac compiles Java sources"]
-                          PROCESS["process-classes: Angular Maven Plugin"]
-                          DISCOVER["Discovers @NgApp classes on classpath"]
-                          TSCOMPILE["TypeScriptCompiler generates .ts files"]
-                          MODPROC["AngularModuleProcessor builds module tree"]
-                          COMPPROC["ComponentProcessor emits component .ts"]
-                          DEPMGR["DependencyManager writes package.json"]
-                          APPSETUP["AngularAppSetup generates angular.json"]
-                          NGBUILD["npm install + ng build --configuration production"]
-                          PACKAGE["package: dist/ bundled into the JAR"]
+                        graph LR
+                          MVN["mvn install"] --> COMPILE["javac"]
+                          COMPILE --> PLUGIN["Angular Maven Plugin"]
 
-                          MVN --> COMPILE --> PROCESS
-                          PROCESS --> DISCOVER
-                          PROCESS --> TSCOMPILE
-                          PROCESS --> MODPROC
-                          PROCESS --> COMPPROC
-                          PROCESS --> DEPMGR
-                          PROCESS --> APPSETUP
-                          DEPMGR --> NGBUILD
-                          APPSETUP --> NGBUILD
-                          NGBUILD --> PACKAGE
+                          subgraph CODEGEN["Code Generation"]
+                            direction TB
+                            DISCOVER["Discover @NgApp"]
+                            TSCOMPILE["Generate .ts files"]
+                            MODPROC["Build module tree"]
+                            COMPPROC["Emit components"]
+                            DISCOVER --> TSCOMPILE --> MODPROC --> COMPPROC
+                          end
+
+                          subgraph SCAFFOLD["Project Scaffold"]
+                            direction TB
+                            DEPMGR["Write package.json"]
+                            APPSETUP["Write angular.json"]
+                          end
+
+                          PLUGIN --> CODEGEN
+                          PLUGIN --> SCAFFOLD
+                          CODEGEN --> NGBUILD["ng build --prod"]
+                          SCAFFOLD --> NGBUILD
+                          NGBUILD --> PACKAGE["dist/ → JAR"]
+
+                          style CODEGEN fill:#1e3a5f,stroke:#60a5fa,stroke-width:2px,color:#e2e8f0
+                          style SCAFFOLD fill:#1a3330,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+                          style PACKAGE fill:#312e81,stroke:#818cf8,stroke-width:2px,color:#e2e8f0
                         """));
 
         layout.add(buildSection("BUILD",
@@ -58,4 +63,3 @@ public class BuildPipelinePage extends WebsitePage<BuildPipelinePage> implements
         getMain().add(layout);
     }
 }
-

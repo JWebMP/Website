@@ -23,31 +23,32 @@ public class StackDiagramPage extends WebsitePage<StackDiagramPage> implements I
 
         content.add(mermaidDiagramWithTitle("The JWebMP Stack",
                 """
-                        block-beta
-                          columns 1
-                          block:app["YOUR APPLICATION"]
-                            columns 3
-                            a1["@NgComponent"] a2["@NgRoutable"] a3["@NgDataService"]
+                        graph TD
+                          subgraph APP["YOUR APPLICATION"]
+                            direction LR
+                            a1["@NgComponent"] ~~~ a2["@NgRoutable"] ~~~ a3["@NgDataService"]
                           end
-                          space
-                          block:plugins["PLUGINS & COMPONENTS"]
-                            columns 3
-                            p1["WebAwesome"] p2["AG Grid"] p3["Charts"]
-                            p4["RabbitMQ"] p5["Font Awesome"] p6["Calendar"]
+                          subgraph PLUGINS["PLUGINS & COMPONENTS"]
+                            direction LR
+                            p1["WebAwesome"] ~~~ p2["AG Grid"] ~~~ p3["Charts"]
+                            p4["RabbitMQ"] ~~~ p5["Font Awesome"] ~~~ p6["Calendar"]
                           end
-                          space
-                          block:core["JWEBMP CORE"]
-                            columns 3
-                            c1["HTML Elements"] c2["CSS Builder"] c3["Events"]
-                            c4["AJAX Pipeline"] c5["Angular Generator"] c6["TS Compiler"]
+                          subgraph CORE["JWEBMP CORE"]
+                            direction LR
+                            c1["HTML Elements"] ~~~ c2["CSS Builder"] ~~~ c3["Events"]
+                            c4["AJAX Pipeline"] ~~~ c5["Angular Generator"] ~~~ c6["TS Compiler"]
                           end
-                          space
-                          block:foundation["GUICEDEE FOUNDATION"]
-                            columns 3
-                            f1["Google Guice DI"] f2["SPI Discovery"] f3["JPMS"]
-                            f4["Vert.x 5 HTTP"] f5["Event Bus"] f6["Call Scopes"]
+                          subgraph FOUNDATION["GUICEDEE FOUNDATION"]
+                            direction LR
+                            f1["Google Guice DI"] ~~~ f2["SPI Discovery"] ~~~ f3["JPMS"]
+                            f4["Vert.x 5 HTTP"] ~~~ f5["Event Bus"] ~~~ f6["Call Scopes"]
                           end
-                          app --> plugins --> core --> foundation
+                          APP ==> PLUGINS ==> CORE ==> FOUNDATION
+
+                          style APP fill:#312e81,stroke:#818cf8,stroke-width:2px,color:#e2e8f0
+                          style PLUGINS fill:#1e3a5f,stroke:#60a5fa,stroke-width:2px,color:#e2e8f0
+                          style CORE fill:#1a3330,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+                          style FOUNDATION fill:#3b1a1a,stroke:#f87171,stroke-width:2px,color:#e2e8f0
                         """));
 
         layout.add(buildSection("STACK",
@@ -57,4 +58,3 @@ public class StackDiagramPage extends WebsitePage<StackDiagramPage> implements I
         getMain().add(layout);
     }
 }
-

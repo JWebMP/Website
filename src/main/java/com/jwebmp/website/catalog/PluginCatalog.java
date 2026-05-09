@@ -11,6 +11,7 @@ public final class PluginCatalog
     public static final String CAT_SCHEDULING = "Scheduling";
     public static final String CAT_ICONS = "Icons";
     public static final String CAT_ANIMATION = "Animation";
+    public static final String CAT_LIBRARIES = "Libraries";
     public static final String CAT_MESSAGING = "Real-Time Messaging";
     public static final String CAT_RUNTIME = "Runtime & Server";
 
@@ -55,6 +56,36 @@ public final class PluginCatalog
                       .findFirst();
     }
 
+    public static List<PluginEntry> getFrameworks()
+    {
+        return PLUGINS.stream()
+                      .filter(PluginEntry::isFramework)
+                      .toList();
+    }
+
+    public static List<PluginEntry> getNonFrameworkPlugins()
+    {
+        return PLUGINS.stream()
+                      .filter(p -> !p.isFramework())
+                      .toList();
+    }
+
+    public static List<String> getNonFrameworkCategories()
+    {
+        return PLUGINS.stream()
+                      .filter(p -> !p.isFramework())
+                      .map(PluginEntry::getCategory)
+                      .distinct()
+                      .toList();
+    }
+
+    public static List<PluginEntry> getNonFrameworkByCategory(String category)
+    {
+        return PLUGINS.stream()
+                      .filter(p -> !p.isFramework() && p.getCategory().equals(category))
+                      .toList();
+    }
+
     // ══════════════════════════════════════════════════
     //  Plugin definitions
     // ══════════════════════════════════════════════════
@@ -68,6 +99,8 @@ public final class PluginCatalog
         plugins.add(buildClient());
         plugins.add(buildWebAwesome());
         plugins.add(buildWebAwesomePro());
+        plugins.add(buildBootstrap());
+        plugins.add(buildAngularMaterial());
 
         // ── Angular Generation ────────────────────────
         plugins.add(buildAngular());
@@ -77,6 +110,7 @@ public final class PluginCatalog
         // ── Data & Grids ──────────────────────────────
         plugins.add(buildAgGrid());
         plugins.add(buildAgGridEnterprise());
+        plugins.add(buildDataTables());
 
         // ── Charts & Visualisation ────────────────────
         plugins.add(buildAgCharts());
@@ -93,6 +127,12 @@ public final class PluginCatalog
 
         // ── Animation ─────────────────────────────────
         plugins.add(buildEasing());
+        plugins.add(buildWavesEffect());
+
+        // ── Libraries ────────────────────────────────
+        plugins.add(buildJQuery());
+        plugins.add(buildJQueryUI());
+        plugins.add(buildGlobalize());
 
         // ── Real-Time Messaging ───────────────────────
         plugins.add(buildRabbitMQ());
@@ -217,6 +257,7 @@ public final class PluginCatalog
     private static PluginEntry buildWebAwesome()
     {
         return PluginEntry.builder("web-awesome", "WebAwesome", CAT_RENDERING, "com.jwebmp.plugins", "web-awesome")
+                          .framework(true)
                           .description(
                                   "Modern, accessible web component library — buttons, cards, tabs, dialogs, grids, stacks, inputs, "
                                   + "overlays, and layout primitives, all wrapped as type-safe CRTP Java builders with dark-mode theming. "
@@ -265,6 +306,7 @@ public final class PluginCatalog
     private static PluginEntry buildWebAwesomePro()
     {
         return PluginEntry.builder("web-awesome-pro", "WebAwesome Pro", CAT_RENDERING, "com.jwebmp.plugins", "web-awesome-pro")
+                          .framework(true)
                           .description(
                                   "Premium WebAwesome plugin — WaPage layout system with 18 sub-components (banner, header, navigation, "
                                   + "main, aside, footer, menu, dialog wrappers) for full application shell composition. "
@@ -302,6 +344,132 @@ public final class PluginCatalog
                                           page.getNavigation().add(menuItems);
                                           page.getMain().add(content);
                                           page.getFooter().add(footerContent);""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildBootstrap()
+    {
+        return PluginEntry.builder("bootstrap", "Bootstrap", CAT_RENDERING, "com.jwebmp.plugins", "bootstrap")
+                          .framework(true)
+                          .description(
+                                  "Bootstrap 5.3.8 — the most popular responsive CSS framework with 40+ type-safe Java component wrappers. "
+                                  + "Cards, modals, navbars, forms, carousels, accordions, toasts, alerts, dropdowns, and more with CRTP fluent APIs, "
+                                  + "SCSS theming, Popper.js positioning, and ng-bootstrap 20 Angular integration.")
+                          .upstreamName("Bootstrap")
+                          .upstreamVersion("5.3.8")
+                          .upstreamUrl("https://getbootstrap.com/")
+                          .jpmsModule("com.jwebmp.plugins.bootstrap")
+                          .readmePath("plugins/bootstrap/README.md")
+                          .docsUrl("https://getbootstrap.com/docs/")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Bootstrap 5.3.8", "ng-bootstrap 20", "Angular 21", "TypeScript 5", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "bootstrap", "^5.3.8",
+                                  "@ng-bootstrap/ng-bootstrap", "^20.0.0",
+                                  "@popperjs/core", "*",
+                                  "@angular/localize", "^21.0.0"
+                          ))
+                          .features(List.of(
+                                  "40+ components — Cards, modals, navbars, accordions, carousels, toasts, alerts, badges, buttons, and more",
+                                  "SCSS theming — Bootstrap SCSS loaded for full theme customization",
+                                  "ng-bootstrap 20 — Angular-native Bootstrap components",
+                                  "Responsive grid — Container, row, and column layout system",
+                                  "Form controls — Input groups, form groups, validation styles, date/time pickers",
+                                  "Navigation — Navbar, navs, tabs, breadcrumbs, pagination",
+                                  "Modals — Show/hide/shown/hidden event lifecycle",
+                                  "Carousel — Slide shows with events, features, and options",
+                                  "Dropdown — Toggleable menus with events and positioning via Popper.js",
+                                  "Button groups — Checkbox, radio, switch, and toolbar variants",
+                                  "Cards — Flexible content containers with themed layouts",
+                                  "Toasts — Lightweight notification components with events",
+                                  "Auto component detection — IOnComponentAdded SPI auto-applies Bootstrap classes",
+                                  "CRTP fluent API for component configuration",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>bootstrap</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:bootstrap:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Card component
+                                          BSCard<?> card = new BSCard<>();
+                                          card.addCardHeader("Header");
+                                          card.addCardBody("Content");
+                                          card.addCardFooter("Footer");
+                                          
+                                          // Modal with events
+                                          BSModal<?> modal = new BSModal<>();
+                                          modal.addTitle("Confirm");
+                                          modal.addModalBody("Are you sure?");
+                                          modal.addDismissButton("Cancel");
+                                          modal.addPrimaryButton("OK");""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions", "IOnComponentAdded", "IOnComponentConfigured"))
+                          .build();
+    }
+
+    private static PluginEntry buildAngularMaterial()
+    {
+        return PluginEntry.builder("angular-material", "Angular Material", CAT_RENDERING, "com.jwebmp.plugins", "angular-material")
+                          .framework(true)
+                          .description(
+                                  "Angular Material 19.1.4 — Google's official Material Design component library for Angular with 30+ type-safe Java wrappers. "
+                                  + "Accordion, autocomplete, buttons, checkboxes, chips, dialogs, form fields, icons, progress bars, selects, and tables "
+                                  + "with CRTP fluent APIs, Roboto font injection, Material Icons, and prebuilt Azure Blue theme.")
+                          .upstreamName("Angular Material")
+                          .upstreamVersion("19.1.4")
+                          .upstreamUrl("https://material.angular.io/")
+                          .jpmsModule("com.jwebmp.core.angular.angular")
+                          .readmePath("plugins/angular-material/README.md")
+                          .docsUrl("https://material.angular.io/components/categories")
+                          .sourceUrl("https://github.com/JWebMP/AngularMaterial")
+                          .techBadges(List.of("Java 25+", "Angular Material 19.1.4", "Angular 21", "TypeScript 5", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "@angular/material", "^19.1.4",
+                                  "@angular/animations", "^19.0.1"
+                          ))
+                          .features(List.of(
+                                  "30+ Material Design components — Accordion, Autocomplete, Button, Checkbox, Chips, Dialog, Form Field, Icon, Progress Bar, Select, Table",
+                                  "Prebuilt themes — Azure Blue theme auto-loaded via @NgStyleSheet",
+                                  "Material Icons — Google Material Icons font auto-injected",
+                                  "Roboto font — auto-injected via page configurator",
+                                  "Accordion — expansion panels with display modes, toggle positions, and action rows",
+                                  "Form fields — mat-form-field wrappers with label, hint, error, prefix/suffix support",
+                                  "Autocomplete — type-ahead suggestions with filtering",
+                                  "Chips — input chips with autocomplete and grid layout",
+                                  "Dialog — modal dialogs with typed data passing",
+                                  "Table — mat-table with sorting, pagination, and data sources",
+                                  "Select — single and multi-select dropdowns",
+                                  "Progress bars — determinate, indeterminate, buffer, and query modes with color variants",
+                                  "CRTP fluent API for component configuration",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>angular-material</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:angular-material:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Accordion with expansion panels
+                                          var accordion = new MatAccordion<>();
+                                          var panel = new MatAccordionPanel<>();
+                                          panel.getHeader().getTitle().setText("Section 1");
+                                          panel.getContent().add(new Paragraph<>().setText("Content"));
+                                          accordion.add(panel);
+                                          
+                                          // Button with icon
+                                          var button = new MatButton<>();
+                                          button.add(new MatIcon<>("home"));
+                                          button.setText("Home");""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -618,6 +786,71 @@ public final class PluginCatalog
                                               .addRowGroupColumn("region")
                                               .addValueColumn("revenue");""")
                           .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildDataTables()
+    {
+        return PluginEntry.builder("datatables", "DataTables", CAT_DATA, "com.jwebmp.plugins", "data-tables")
+                          .description(
+                                  "DataTables.net 2.3.8 — advanced interactive HTML tables with multi-column sorting, filtering, "
+                                  + "pagination, AJAX server-side processing, responsive layouts, export buttons (PDF/Excel/CSV), "
+                                  + "search panes, row grouping, virtual scrolling, and dozens of extensions with type-safe Java options.")
+                          .upstreamName("DataTables.net")
+                          .upstreamVersion("2.3.8")
+                          .upstreamUrl("https://www.datatables.net/")
+                          .jpmsModule("com.jwebmp.plugins.datatable")
+                          .readmePath("plugins/datatables/README.md")
+                          .docsUrl("https://datatables.net/manual/")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "DataTables 2.3.8", "jQuery 4.0.0", "Angular 21", "TypeScript 5", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "datatables.net", "^2.3.8",
+                                  "datatables.net-dt", "^2.3.8",
+                                  "jszip", "^3.10.1",
+                                  "pdfmake", "^0.3.7"
+                          ))
+                          .features(List.of(
+                                  "Multi-column sorting with custom sort types",
+                                  "Global and per-column filtering",
+                                  "Multiple pagination types (simple, full, numbers)",
+                                  "AJAX server-side processing with search DTOs",
+                                  "Responsive — auto-collapse columns on small screens",
+                                  "Buttons — export to PDF, Excel, CSV, copy, print",
+                                  "AutoFill — Excel-like click-and-drag cell filling",
+                                  "ColReorder — drag-and-drop column reordering",
+                                  "FixedColumns/FixedHeader — freeze columns and headers",
+                                  "KeyTable — keyboard navigation between cells",
+                                  "RowGroup — automatic grouping by column value",
+                                  "RowReorder — drag-and-drop row reordering",
+                                  "Scroller — virtual scrolling for large datasets",
+                                  "SearchPanes — faceted search panels",
+                                  "Select — row/column/cell selection",
+                                  "Type-safe options — all as JSON-serializable Java classes",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>data-tables</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:data-tables:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          DataTable<?> table = new DataTable<>("myTable");
+                                          table.getOptions()
+                                               .setPaging(true)
+                                               .setSearching(true)
+                                               .setOrdering(true);
+                                          
+                                          // Add export buttons
+                                          table.getOptions().getButtons()
+                                               .add(DataTableButtons.Excel);
+                                          table.getOptions().getButtons()
+                                               .add(DataTableButtons.Pdf);""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
                           .build();
     }
 
@@ -1053,6 +1286,175 @@ public final class PluginCatalog
                           .build();
     }
 
+    // ── Libraries ─────────────────────────────────────
+
+    private static PluginEntry buildJQuery()
+    {
+        return PluginEntry.builder("jquery", "jQuery", CAT_LIBRARIES, "com.jwebmp.plugins", "jquery")
+                          .description(
+                                  "jQuery 4.0.0 integration — provides jQuery and jQuery Migrate as global scripts for plugins "
+                                  + "and components that depend on jQuery APIs. Auto-injected into the Angular build with correct "
+                                  + "load ordering via PageConfigurator and @NgScript annotations.")
+                          .upstreamName("jQuery")
+                          .upstreamVersion("4.0.0")
+                          .upstreamUrl("https://jquery.com/")
+                          .jpmsModule("com.jwebmp.plugins.jquery")
+                          .readmePath("plugins/jquery/README.md")
+                          .docsUrl("https://api.jquery.com/")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "jQuery 4.0.0", "Angular 21", "TypeScript 5", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "jquery", "^4.0.0",
+                                  "jquery-migrate", "^4.0.2",
+                                  "@types/jquery", "*"
+                          ))
+                          .features(List.of(
+                                  "jQuery 4.0.0 — latest major release with modern browser support",
+                                  "jQuery Migrate 4.0.2 — backward compatibility layer for legacy jQuery plugins",
+                                  "TypeScript types — full @types/jquery for IDE autocomplete and type safety",
+                                  "Automatic script loading — jQuery and Migrate auto-injected via Angular build",
+                                  "Script ordering — sort-ordered @NgScript annotations ensure correct load sequence",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI",
+                                  "JPMS module — proper Java module with explicit dependencies"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>jquery</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:jquery:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // module-info.java
+                                          module com.myapp {
+                                              requires com.jwebmp.plugins.jquery;
+                                          }
+                                          
+                                          // jQuery is automatically available as a global script.
+                                          // $ and jQuery are accessible in the browser.
+                                          // No additional Java configuration needed.""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildJQueryUI()
+    {
+        return PluginEntry.builder("jquery-ui", "jQuery UI", CAT_LIBRARIES, "com.jwebmp.plugins", "jquery-ui")
+                          .framework(true)
+                          .description(
+                                  "jQuery UI 1.14.2 — curated set of user interface interactions, effects, widgets, and themes built on jQuery. "
+                                  + "Provides type-safe Java wrappers for 20+ widgets including Accordion, Autocomplete, Datepicker, Dialog, "
+                                  + "Draggable, Droppable, Slider, Sortable, Tabs, and Tooltips with JSON-serializable options.")
+                          .upstreamName("jQuery UI")
+                          .upstreamVersion("1.14.2")
+                          .upstreamUrl("https://jqueryui.com/")
+                          .jpmsModule("com.jwebmp.plugins.jqueryui")
+                          .readmePath("plugins/jquery-ui/README.md")
+                          .docsUrl("https://api.jqueryui.com/")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "jQuery UI 1.14.2", "jQuery 4.0.0", "Angular 21", "TypeScript 5", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "jquery-ui", "^1.14.2"
+                          ))
+                          .features(List.of(
+                                  "Accordion — collapsible content panels with animation and easing options",
+                                  "Autocomplete — suggestions with AJAX server-side data support",
+                                  "Button — enhanced buttons and button sets with icons",
+                                  "Datepicker — full-featured date selection with localization",
+                                  "Dialog — modal and modeless dialog boxes with positioning",
+                                  "Draggable — make elements draggable with containment and grid snapping",
+                                  "Droppable — define drop targets with accept filtering",
+                                  "Menu — themeable menu with keyboard navigation",
+                                  "Progress Bar — determinate and indeterminate progress indicators",
+                                  "Resizable — make elements resizable with handles and constraints",
+                                  "Selectable — lasso-selection for element groups",
+                                  "Select Menu — styled dropdown replacement",
+                                  "Slider — range and value sliders with steps",
+                                  "Sortable — reorderable lists with drag-and-drop",
+                                  "Spinner — numeric input with increment/decrement buttons",
+                                  "Tabs — tabbed content panels",
+                                  "Tooltips — configurable tooltips with positioning options",
+                                  "Type-safe options — all widget options as JSON-serializable Java classes",
+                                  "CRTP fluent API for widget configuration",
+                                  "jQuery UI base theme auto-loaded via CSS",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>jquery-ui</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:jquery-ui:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Accordion with animation
+                                          JQUIAccordion accordion = new JQUIAccordion();
+                                          accordion.addAccordianTab(tab1);
+                                          accordion.addAccordianTab(tab2);
+                                          accordion.getOptions().setCollapsible(true);
+                                          accordion.getOptions().getAnimate()
+                                              .setEasing(JQEasingEffects.easeInBack);
+                                          
+                                          // Autocomplete with AJAX
+                                          JQUIAutoComplete ac = new JQUIAutoComplete("search");
+                                          ac.getOptions().setAjax(true, ac);""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions", "IGuiceScanModuleExclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildGlobalize()
+    {
+        return PluginEntry.builder("globalize", "Globalize", CAT_LIBRARIES, "com.jwebmp.plugins", "globalize")
+                          .description(
+                                  "Internationalization and localization using Globalize.js and Unicode CLDR data. "
+                                  + "Provides 350+ culture definitions for number formatting, date patterns, currency, "
+                                  + "plural rules, and relative time. Required dependency for jQuery UI locale-aware widgets.")
+                          .upstreamName("Globalize.js")
+                          .upstreamVersion("1.2.2")
+                          .upstreamUrl("https://github.com/globalizejs/globalize")
+                          .jpmsModule("com.jwebmp.plugins.globalize.cultures")
+                          .readmePath("plugins/globalize/README.md")
+                          .docsUrl("https://github.com/globalizejs/globalize/wiki")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Globalize 1.2.2", "Unicode CLDR", "Angular 21", "TypeScript 5", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "globalize", "*"
+                          ))
+                          .features(List.of(
+                                  "350+ Unicode CLDR culture definitions",
+                                  "Number formatting and parsing per locale",
+                                  "Date and time formatting and parsing",
+                                  "Currency formatting",
+                                  "Plural rule support",
+                                  "Relative time formatting",
+                                  "Unit formatting",
+                                  "Message formatting with ICU syntax",
+                                  "Type-safe GlobalizeCultures enum for all locales",
+                                  "Required by jQuery UI for Datepicker/Spinner localization",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>globalize</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:globalize:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Automatically loaded as a jQuery UI dependency.
+                                          // To reference a culture programmatically:
+                                          GlobalizeCultures culture = GlobalizeCultures.en_US;
+                                          String tag = culture.toString(); // "en-US\"""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
     // ── Animation ─────────────────────────────────────
 
     private static PluginEntry buildEasing()
@@ -1106,6 +1508,54 @@ public final class PluginCatalog
                           .build();
     }
 
+    private static PluginEntry buildWavesEffect()
+    {
+        return PluginEntry.builder("waves", "Waves Effect", CAT_ANIMATION, "com.jwebmp.plugins", "waveseffect")
+                          .description(
+                                  "Material-design inspired click/tap ripple effect using Waves.js — adds beautiful ripple animations "
+                                  + "to buttons and interactive elements with multiple style variants (Light, Circle, Button, Float, Block).")
+                          .upstreamName("Waves.js")
+                          .upstreamVersion("0.7.6")
+                          .upstreamUrl("https://github.com/fians/Waves")
+                          .jpmsModule("com.jwebmp.plugins.waveseffect")
+                          .readmePath("plugins/waves-effect/README.md")
+                          .docsUrl("https://fians.github.io/Waves/")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Waves 0.7.6", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "node-waves", "^0.7.6"
+                          ))
+                          .features(List.of(
+                                  "Material ripple effect — Google Material Design inspired click/tap animations",
+                                  "Multiple effect styles — Light, Circle, Button, Float, Block variants",
+                                  "CSS selector targeting — apply waves to any DOM elements via selector",
+                                  "Auto-initialization — Waves.init() called automatically via feature",
+                                  "SCSS styles included — full Waves stylesheet auto-registered",
+                                  "Type-safe enum — WavesEffects enum for all effect variants",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>waveseffect</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:waveseffect:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Attach waves to a component
+                                          var button = new WaButton<>("Click Me");
+                                          button.addFeature(new WavesAttachFeature(button));
+                                          
+                                          // Apply via CSS selector with effect variant
+                                          var feature = new WavesApplyToSelectorFeature(".btn",
+                                              WavesEffects.Waves_Light);
+                                          page.getBody().addFeature(feature);""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
     // ── Real-Time Messaging ───────────────────────────
 
     private static PluginEntry buildRabbitMQ()
@@ -1149,7 +1599,7 @@ public final class PluginCatalog
                                               requires com.jwebmp.rabbit;
                                               requires com.guicedee.rabbit;
                                           }
-                                          
+
                                           // Environment variables:
                                           // RABBITMQ_HOST=localhost
                                           // RABBITMQ_PORT=5672

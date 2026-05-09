@@ -1,0 +1,328 @@
+@layer wa-utils {
+    /*  products nav */
+    .nav-products .product {
+        border-radius: var(--wa-border-radius-s) var(--wa-border-radius-s) 0 0;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    /* full sized */
+    .wrapper-nav-products {
+        background-color: var(--nav-products-bg, var(--wa-color-surface-lowered));
+        padding-block-start: var(--wa-space-xs);
+        padding-inline: var(--wa-space-xs);
+        inline-size: 100%;
+        transition: background-color var(--wa-transition-slow) var(--wa-transition-easing);
+    }
+
+    wa-page:has(.wrapper-nav-products, .nav-products-drawer) {
+        &:has(.product-jwebmp:hover) {
+            --nav-products-bg: var(--nav-products-fill-quiet-jwebmp);
+        }
+        &:has(.product-guicedee:hover) {
+            --nav-products-bg: var(--nav-products-fill-quiet-guicedee);
+        }
+        &:has(.product-entity-assist:hover) {
+            --nav-products-bg: var(--nav-products-fill-quiet-entity-assist);
+        }
+        &:has(.product-activity-master:hover) {
+            --nav-products-bg: var(--nav-products-fill-quiet-activity-master);
+        }
+    }
+
+    .nav-products-full {
+        .product {
+            padding-inline: var(--wa-space-3xs);
+        }
+
+        /* Tighten wa-button internal spacing for product icon buttons */
+        wa-button.product::part(base) {
+            padding-inline: var(--wa-space-2xs);
+            gap: var(--wa-space-3xs);
+            align-items: center;
+        }
+
+        wa-button.product::part(label) {
+            display: flex;
+            align-items: center;
+            gap: var(--wa-space-3xs);
+        }
+
+        /* Vertically center icons inside product buttons */
+        wa-button.product wa-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            vertical-align: middle;
+        }
+
+        .logo-icon {
+            font-size: 1.75rem;
+        }
+
+        wa-button.product wa-icon.logo-icon {
+            font-size: 1.75rem;
+        }
+
+        .product-active .logo-icon,
+        wa-button.product-active wa-icon.logo-icon {
+            font-size: 2rem;
+        }
+    }
+
+    .nav-products-secondary .pseudo-product wa-icon {
+        color: var(--wa-color-brand);
+        font-size: var(--wa-font-size-l);
+    }
+
+    /* drawer-based */
+    .nav-products-drawer {
+        .product {
+            padding-inline: var(--wa-form-control-padding-inline);
+            height: var(--wa-form-control-height);
+
+            &.product-active {
+                --nudge-inline-start: calc(var(--wa-form-control-padding-inline) * -1.5);
+            }
+
+            &:nth-child(n + 4) {
+                margin-inline-start: calc(-1 * var(--wa-form-control-padding-inline));
+            }
+        }
+    }
+
+    /* header */
+    wa-page > [slot='header'] {
+        padding: 0;
+        gap: 0;
+        container-type: inline-size;
+        container-name: header;
+        background-color: var(--nav-products-bg, var(--wa-color-surface-lowered));
+    }
+
+    wa-page::part(header) {
+        background-color: var(--nav-products-bg, var(--wa-color-surface-lowered));
+    }
+
+    @container header (inline-size <= 80ch) {
+        .header-nav,
+        .header-toolbar,
+        .wrapper-nav-products {
+            display: block;
+        }
+
+        .header-logo-simple {
+            display: block;
+        }
+    }
+
+    @container header (inline-size > 80ch) {
+        .header-logo-simple {
+            display: none;
+        }
+
+        .header-toggle-nav {
+            margin-inline-start: var(--wa-space-s);
+        }
+    }
+}
+
+/* Nav toggle */
+wa-page[view='mobile'] > [slot='header'] .header-toggle-nav {
+    display: block;
+}
+
+wa-page[view='desktop'] > [slot='header'] .header-toggle-nav {
+    display: none;
+}
+
+/* Mobile: hide product text and version badge */
+wa-page[view='mobile'] .product-jwebmp.product-active {
+    font-size: 0;
+}
+wa-page[view='mobile'] .product-jwebmp.product-active > .logo-jwebmp-svg {
+    font-size: 1rem;
+}
+
+wa-page[view='mobile'] .product-star,
+wa-page[view='mobile'] .product-docs,
+wa-page[view='mobile'] .version-badge {
+    display: none;
+}
+
+wa-page[view='mobile'] {
+    --menu-width: 0px;
+    --aside-width: 0px;
+}
+wa-page[view='mobile'] > [slot='menu'] {
+    display: none;
+}
+wa-page[view='mobile'] > [slot='aside'] {
+    display: none;
+}
+
+wa-page::part(drawer) {
+    --size: auto;
+}
+
+/* drawer-based products nav */
+wa-page::part(drawer__header) {
+    background-color: var(--drawer-header-bg, var(--wa-color-surface-lowered));
+    padding-block-start: 0;
+    transition: background-color var(--wa-transition-slow) var(--wa-transition-easing);
+}
+
+wa-page:has(.nav-products-drawer .product-jwebmp:hover) {
+    --drawer-header-bg: var(--nav-products-fill-quiet-jwebmp);
+}
+wa-page:has(.nav-products-drawer .product-guicedee:hover) {
+    --drawer-header-bg: var(--nav-products-fill-quiet-guicedee);
+}
+wa-page:has(.nav-products-drawer .product-entity-assist:hover) {
+    --drawer-header-bg: var(--nav-products-fill-quiet-entity-assist);
+}
+wa-page:has(.nav-products-drawer .product-activity-master:hover) {
+    --drawer-header-bg: var(--nav-products-fill-quiet-activity-master);
+}
+
+wa-page::part(drawer__header-actions) {
+    align-self: center;
+}
+
+wa-page > [slot='navigation-header'] {
+    background-color: transparent;
+    padding-block-end: var(--wa-space-xs);
+}
+
+/* colophon */
+#colophon .the-socials {
+    margin-inline-start: calc(var(--wa-space-xs) * -1);
+
+    a[target='_blank'] {
+        color: var(--wa-color-text-quiet);
+        padding-inline: var(--wa-space-xs);
+
+        &:hover {
+            color: var(--wa-color-text-normal);
+        }
+    }
+}
+
+/* Make tree-item links fill the full row so the entire area is clickable */
+wa-tree-item > a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+}
+
+wa-tree-item:has(> a)::part(label) {
+    display: block;
+    width: 100%;
+}
+
+wa-tree-item:has(> a)::part(item) {
+    cursor: pointer;
+}
+
+/* Ensure cards in grids have equal height and footers align to bottom */
+wa-grid wa-card {
+    height: 100%;
+}
+
+wa-card::part(base) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+wa-card::part(body) {
+    flex: 1 1 auto;
+}
+
+wa-card::part(footer) {
+    flex: 0 0 auto;
+}
+
+/* Built-on attribution links */
+.built-on-links a {
+    text-decoration: none;
+    padding: var(--wa-space-3xs) var(--wa-space-xs);
+    border-radius: var(--wa-border-radius-m);
+    transition:
+        background-color var(--wa-transition-fast) var(--wa-transition-easing),
+        color var(--wa-transition-fast) var(--wa-transition-easing),
+        transform var(--wa-transition-fast) var(--wa-transition-easing),
+        box-shadow var(--wa-transition-fast) var(--wa-transition-easing);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wa-space-2xs);
+}
+
+.built-on-links a wa-icon,
+.built-on-links a .built-on-logo {
+    font-size: var(--wa-font-size-m);
+    opacity: 0.7;
+    transition: opacity var(--wa-transition-fast) var(--wa-transition-easing);
+}
+
+.built-on-links a:hover wa-icon,
+.built-on-links a:hover .built-on-logo {
+    opacity: 1;
+}
+
+.built-on-links a:hover {
+    background-color: color-mix(in srgb, var(--wa-color-brand-normal) 12%, transparent);
+    color: var(--wa-color-brand-dark) !important;
+    transform: translateX(var(--wa-space-3xs));
+    box-shadow: inset 2px 0 0 var(--wa-color-brand-normal);
+}
+
+.built-on-links a:active {
+    background-color: color-mix(in srgb, var(--wa-color-brand-normal) 20%, transparent);
+    transform: translateX(var(--wa-space-3xs)) scale(0.98);
+}
+
+.wa-dark .built-on-links a:hover {
+    background-color: color-mix(in srgb, var(--wa-color-brand-normal) 18%, transparent);
+    color: var(--wa-color-brand-light) !important;
+}
+
+/* Drawer navigation: tighten spacing between header and tree, fix alignment */
+wa-page > [slot='navigation'] {
+    padding: 0;
+}
+
+wa-page > [slot='navigation'] wa-tree {
+    padding-inline: 0;
+}
+
+wa-page::part(drawer__body) {
+    padding-block-start: 0;
+}
+
+/* Push tree items left in menu sidebar and drawer navigation */
+wa-page > [slot='menu'] wa-tree,
+wa-page > [slot='navigation'] wa-tree {
+    --indent-size: 0;
+    padding-inline-start: 0;
+    margin-inline-start: -40px;
+}
+
+wa-page > [slot='menu'] wa-tree-item::part(item),
+wa-page > [slot='navigation'] wa-tree-item::part(item) {
+    padding-inline-start: var(--wa-space-2xs);
+}
+
+pre {
+    border-radius: inherit !important;
+}
+
+@media print {
+    a:not(.anchor-heading)[href]::after {
+        content: ' (' attr(href) ')';
+    }
+}
+

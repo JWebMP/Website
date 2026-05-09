@@ -27,6 +27,10 @@ import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
 import com.jwebmp.webawesome.components.tree.WaTreeItem;
 import com.jwebmp.webawesome.components.waswitch.WaSwitch;
+import com.jwebmp.webawesome.components.WaDiv;
+import com.jwebmp.webawesome.tokens.WaBorderToken;
+import com.jwebmp.webawesome.tokens.WaSpaceToken;
+import com.jwebmp.webawesome.tokens.WaTypographyToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +51,15 @@ import java.util.List;
 @NgBootImportReference(value = "provideHttpClient", reference = "@angular/common/http")
 @NgBootImportProvider("provideHttpClient()")
 @NgBootImportReference(value = "LOCALE_ID", reference = "@angular/core")
+@NgBootImportReference(value = "registerLocaleData", reference = "@angular/common")
 @NgBootImportReference(value = "localeEnZa", reference = "@angular/common/locales/en-ZA", direct = true)
 @NgImportReference(value = "localeEnZa", reference = "@angular/common/locales/en-ZA", direct = true, wrapValueInBraces = false)
+@NgImportReference(value = "LOCALE_ID", reference = "@angular/core")
+@NgImportReference(value = "registerLocaleData", reference = "@angular/common")
 @NgImportReference(value = "signal", reference = "@angular/core")
 @NgImportReference(value = "DOCUMENT", reference = "@angular/common")
 @NgImportReference(value = "Router, NavigationStart, NavigationEnd", reference = "@angular/router")
+@NgImportReference(value = "inject", reference = "@angular/core")
 @NgImportReference(value = "filter", reference = "rxjs/operators")
 @NgComponentReference(WaToastDataService.class)
 public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<WebsiteBoot> {
@@ -59,10 +67,14 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         setTag("ng-container");
         addStyle("width:100%");
         addStyle("height:100%");
+
         // ── WaPage is the top-level shell ──
         WaPage<?> page = new WaPage<>();
         page.addStyle("width:100%");
         page.addStyle("height:100%");
+
+        // ── WaPage settings ──
+        page.getMain().setPageSize(PageSize.ExtraSmall);
 
         // ── Banner: product navigation bar ──
         var banner = page.getHeader();
@@ -88,105 +100,105 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         cluster.addClass("wa-gap-0");
 
         // JWebMP — active product
-        Link<?> jwebmpLink = new Link<>();
-        jwebmpLink.setTag("a");
-        jwebmpLink.addAttribute("routerLink", "/home");
-        jwebmpLink.addClass("product");
-        jwebmpLink.addClass("product-jwebmp");
-        jwebmpLink.addClass("product-active");
-        jwebmpLink.addClass("appearance-plain");
-        jwebmpLink.addAttribute("aria-label", "JWebMP");
-        var jwebmpLogo = new DivSimple<>();
-        jwebmpLogo.setTag("i");
+        WaButton<?> jwebmpBtn = new WaButton<>();
+        jwebmpBtn.setAppearance(Appearance.Plain);
+        jwebmpBtn.setVariant(Variant.Brand);
+        jwebmpBtn.addAttribute("routerLink", "/home");
+        jwebmpBtn.addClass("product");
+        jwebmpBtn.addClass("product-jwebmp");
+        jwebmpBtn.addClass("product-active");
+        jwebmpBtn.setID("product-jwebmp");
+        jwebmpBtn.setSize(com.jwebmp.webawesome.components.Size.Small);
+        var jwebmpLogo = new WaIcon<>();
         jwebmpLogo.addClass("fak");
-        jwebmpLogo.addClass("fa-jwebmp-logo-green");
+        jwebmpLogo.addClass("fa-jwebmp-logo");
         jwebmpLogo.addClass("logo-icon");
         jwebmpLogo.addClass("logo-jwebmp");
-        jwebmpLink.add(jwebmpLogo);
-        var jwebmpText = new DivSimple<>();
-        jwebmpText.setTag("span");
-        jwebmpText.addClass("logo-jwebmp-text");
-        jwebmpLink.add(jwebmpText);
-
-        cluster.add(jwebmpLink);
+        jwebmpLogo.addAttribute("label", "JWebMP");
+        jwebmpBtn.add(jwebmpLogo);
+        jwebmpBtn.setText("JWebMP");
+        jwebmpBtn.setRenderTextBeforeChildren(false);
+        cluster.add(jwebmpBtn);
 
         // GuicedEE
-        Link<?> guicedeeLink = new Link<>();
-        guicedeeLink.setTag("a");
-        guicedeeLink.addAttribute("href", "https://guicedee.com");
-        guicedeeLink.addAttribute("target", "_blank");
-        guicedeeLink.addClass("product");
-        guicedeeLink.addClass("product-guicedee");
-        guicedeeLink.addClass("appearance-plain");
-        guicedeeLink.setID("product-guicedee");
-
-        var guicedeeLogo = new DivSimple<>();
-        guicedeeLogo.setTag("i");
+        WaButton<?> guicedeeBtn = new WaButton<>();
+        guicedeeBtn.setAppearance(Appearance.Plain);
+        guicedeeBtn.setVariant(Variant.Brand);
+        guicedeeBtn.setAsLink("https://guicedee.com", "guicedee", null);
+        guicedeeBtn.addClass("product");
+        guicedeeBtn.addClass("product-guicedee");
+        guicedeeBtn.setID("product-guicedee");
+        guicedeeBtn.setSize(com.jwebmp.webawesome.components.Size.Small);
+        var guicedeeLogo = new WaIcon<>();
         guicedeeLogo.addClass("fak");
         guicedeeLogo.addClass("fa-guicedee-logo");
         guicedeeLogo.addClass("logo-icon");
         guicedeeLogo.addClass("logo-guicedee");
-        guicedeeLink.add(guicedeeLogo);
-        cluster.add(guicedeeLink);
+        guicedeeLogo.addAttribute("label", "GuicedEE");
+        guicedeeBtn.add(guicedeeLogo);
+        cluster.add(guicedeeBtn);
         WaTooltip<?> guicedeeTip = new WaTooltip<>();
         guicedeeTip.setForId("product-guicedee");
         guicedeeTip.setText("GuicedEE");
         cluster.add(guicedeeTip);
 
         // Entity Assist
-        Link<?> entityLink = new Link<>();
-        entityLink.setTag("a");
-        entityLink.addAttribute("href", "https://entityassist.com");
-        entityLink.addAttribute("target", "_blank");
-        entityLink.addClass("product");
-        entityLink.addClass("product-entity-assist");
-        entityLink.addClass("appearance-plain");
-        entityLink.setID("product-entity-assist");
-        var entityLogo = new DivSimple<>();
-        entityLogo.setTag("i");
+        WaButton<?> entityBtn = new WaButton<>();
+        entityBtn.setAppearance(Appearance.Plain);
+        entityBtn.setVariant(Variant.Brand);
+        entityBtn.setAsLink("https://entityassist.com", "entityassist", null);
+        entityBtn.addClass("product");
+        entityBtn.addClass("product-entity-assist");
+        entityBtn.setID("product-entity-assist");
+        entityBtn.setSize(com.jwebmp.webawesome.components.Size.Small);
+        var entityLogo = new WaIcon<>();
         entityLogo.addClass("fak");
         entityLogo.addClass("fa-entityassist-logo");
         entityLogo.addClass("logo-icon");
         entityLogo.addClass("logo-entity-assist");
-        entityLink.add(entityLogo);
-        cluster.add(entityLink);
+        entityLogo.addAttribute("label", "Entity Assist");
+        entityBtn.add(entityLogo);
+        cluster.add(entityBtn);
         WaTooltip<?> entityTip = new WaTooltip<>();
         entityTip.setForId("product-entity-assist");
         entityTip.setText("Entity Assist");
         cluster.add(entityTip);
 
         // Activity Master
-        Link<?> activityLink = new Link<>();
-        activityLink.setTag("a");
-        activityLink.addAttribute("href", "https://activity-master.com/");
-        activityLink.addAttribute("target", "_blank");
-        activityLink.addClass("product");
-        activityLink.addClass("product-activity-master");
-        activityLink.addClass("appearance-plain");
-        activityLink.setID("product-activity-master");
-        var activityLogo = new DivSimple<>();
-        activityLogo.setTag("i");
+        WaButton<?> activityBtn = new WaButton<>();
+        activityBtn.setAppearance(Appearance.Plain);
+        activityBtn.setVariant(Variant.Brand);
+        activityBtn.setAsLink("https://activity-master.com/", "activitymaster", null);
+        activityBtn.addClass("product");
+        activityBtn.addClass("product-activity-master");
+        activityBtn.setID("product-activity-master");
+        activityBtn.setSize(com.jwebmp.webawesome.components.Size.Small);
+        var activityLogo = new WaIcon<>();
         activityLogo.addClass("fak");
-        activityLogo.addClass("fa-activitymaster-logo");
+        activityLogo.addClass("fa-activity-master-logo");
         activityLogo.addClass("logo-icon");
         activityLogo.addClass("logo-activity-master");
-        activityLink.add(activityLogo);
-        cluster.add(activityLink);
+        activityLogo.addAttribute("label", "Activity Master");
+        activityBtn.add(activityLogo);
+        cluster.add(activityBtn);
         WaTooltip<?> activityTip = new WaTooltip<>();
         activityTip.setForId("product-activity-master");
         activityTip.setText("Activity Master");
         cluster.add(activityTip);
 
+        // ── Version badge ──
         WaBadge<?> versionBadge = new WaBadge<>();
         versionBadge.addClass("version-badge");
         versionBadge.setVariant(Variant.Brand);
         versionBadge.setPill(true);
-        versionBadge.setFontSize("var(--wa-font-size-2xs)");
-        versionBadge.addStyle("color: var(--wa-color-brand-on-normal)");
-        versionBadge.addStyle("background-color: var(--wa-color-brand-normal)");
-        versionBadge.addStyle("cursor: pointer");
+        versionBadge.setFontSize(WaTypographyToken.FontSize2XS);
+        versionBadge.setOnColour(Variant.Brand);
+        versionBadge.setFillColour(Variant.Brand);
+        versionBadge.addStyle("border", "2px solid var(--wa-color-brand-light)");
+        versionBadge.addStyle("box-shadow", "0 0 6px color-mix(in srgb, var(--wa-color-brand-normal) 40%, transparent)");
+        versionBadge.addStyle("cursor", "pointer");
         versionBadge.setText("2.0.0-SNAPSHOT");
-        versionBadge.setID("snapshot-badge");
+        versionBadge.setID("version-badge");
         cluster.add(versionBadge);
 
         // ── Snapshot badge popover with Maven/Gradle repository instructions ──
@@ -194,23 +206,25 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         snapshotPopover.setForElement(versionBadge);
         snapshotPopover.setPlacement(WaPopoverPlacements.Bottom);
         snapshotPopover.setMaxWidth("32rem");
-        snapshotPopover.addStyle("--border-color:var(--wa-color-brand-normal)");
-        snapshotPopover.addStyle("--border-width:var(--wa-border-width-s)");
-        snapshotPopover.addStyle("--border-radius:var(--wa-border-radius-l)");
-        snapshotPopover.addStyle("--arrow-color:var(--wa-color-brand-normal)");
+        snapshotPopover.setPopoverBorderColor(Variant.Brand);
+        snapshotPopover.setPopoverBorderWidth(WaBorderToken.WidthS);
+        snapshotPopover.setPopoverBorderRadius(WaBorderToken.RadiusL);
+        snapshotPopover.setArrowColor(Variant.Brand);
 
-        DivSimple<?> popoverContent = new DivSimple<>();
-        popoverContent.addStyle("padding: var(--wa-spacing-medium)");
+        var popoverContent = new WaDiv<>();
+        popoverContent.setPadding(WaSpaceToken.SpaceM);
 
-        var popoverTitle = new DivSimple<>();
-        popoverTitle.setTag("strong");
+        var popoverTitle = new WaDiv<>("strong");
         popoverTitle.setText("Snapshot Repository Setup");
-        popoverTitle.addStyle("display:block;margin-bottom:var(--wa-spacing-small);font-size:var(--wa-font-size-m)");
+        popoverTitle.addStyle("display", "block");
+        popoverTitle.addStyle("margin-block-end", WaSpaceToken.SpaceS.var());
+        popoverTitle.setFontSize(WaTypographyToken.FontSizeM);
         popoverContent.add(popoverTitle);
 
-        var popoverDesc = new DivSimple<>();
-        popoverDesc.setTag("p");
-        popoverDesc.addStyle("margin:0 0 var(--wa-spacing-small) 0;font-size:var(--wa-font-size-s);color:var(--wa-color-neutral-700)");
+        var popoverDesc = new WaDiv<>("p");
+        popoverDesc.addStyle("margin-block-end", WaSpaceToken.SpaceS.var());
+        popoverDesc.setFontSize(WaTypographyToken.FontSizeS);
+        popoverDesc.addStyle("color", "var(--wa-color-neutral-700)");
         popoverDesc.addAttribute("[innerText]", "useGradle ? 'Add to your build.gradle:' : 'Add to your pom.xml:'");
         popoverContent.add(popoverDesc);
 
@@ -252,9 +266,10 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         gradleIf.add(gradleMd);
         popoverContent.add(gradleIf);
 
-        var authNote = new DivSimple<>();
-        authNote.setTag("p");
-        authNote.addStyle("margin:var(--wa-spacing-small) 0 0 0;font-size:var(--wa-font-size-2xs);color:var(--wa-color-neutral-600)");
+        var authNote = new WaDiv<>("p");
+        authNote.addStyle("margin-block-start", WaSpaceToken.SpaceS.var());
+        authNote.setFontSize(WaTypographyToken.FontSize2XS);
+        authNote.addStyle("color", "var(--wa-color-neutral-600)");
         authNote.setText("&#x1F511; GitHub Packages requires authentication — use a personal access token with <code>read:packages</code> scope.");
         popoverContent.add(authNote);
 
@@ -270,11 +285,12 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         secondary.addClass("wa-gap-2xs");
 
         // Maven / Gradle toggle switch
-        DivSimple<?> buildToolToggle = new DivSimple<>();
+        var buildToolToggle = new WaDiv<>();
         buildToolToggle.addClass("wa-cluster");
         buildToolToggle.addClass("wa-gap-2xs");
         buildToolToggle.addClass("wa-align-items-center");
-        buildToolToggle.addStyle("font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)");
+        buildToolToggle.setFontSize(WaTypographyToken.FontSizeXS);
+        buildToolToggle.addStyle("color", "var(--wa-color-text-quiet)");
 
         var mavenLabel = new DivSimple<>();
         mavenLabel.setTag("span");
@@ -317,7 +333,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         starBtn.addClass("pseudo-product");
         starBtn.addClass("product-star");
         starBtn.setID("product-star");
-        starBtn.add(new WaIcon<>("star").addAttribute("label", "Star this Repository"));
+        starBtn.add(new WaIcon<>("star").addAttribute("family", "sharp-duotone").addAttribute("label", "Star this Repository"));
         secondary.add(starBtn);
         WaTooltip<?> starTip = new WaTooltip<>();
         starTip.setForId("product-star");
@@ -331,12 +347,27 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         docsBtn.addClass("pseudo-product");
         docsBtn.addClass("product-docs");
         docsBtn.setID("product-docs");
-        docsBtn.add(new WaIcon<>("brain-circuit").addAttribute("label", "AI Skills Repository"));
+        docsBtn.add(new WaIcon<>("brain-circuit").addAttribute("family", "sharp-duotone").addAttribute("label", "AI Skills Repository"));
         secondary.add(docsBtn);
         WaTooltip<?> docsTip = new WaTooltip<>();
         docsTip.setForId("product-docs");
         docsTip.setText("AI Skills Repository");
         secondary.add(docsTip);
+
+        WaButton<?> patreonBtn = new WaButton<>();
+        patreonBtn.setAppearance(Appearance.Plain);
+        patreonBtn.setVariant(Variant.Brand);
+        patreonBtn.setAsLink("https://www.patreon.com/GedMarc", "jwebmp-patreon", null);
+        patreonBtn.addClass("pseudo-product");
+        patreonBtn.addClass("product-patreon");
+        patreonBtn.setID("product-patreon");
+        patreonBtn.add(new WaIcon<>("patreon").addAttribute("family", "brands")
+                                              .addAttribute("label", "Patreon"));
+        secondary.add(patreonBtn);
+        WaTooltip<?> patreonTip = new WaTooltip<>();
+        patreonTip.setForId("product-patreon");
+        patreonTip.setText("Support me on Patreon");
+        secondary.add(patreonTip);
 
         // Theme toggle (dark ↔ light)
         WaButton<?> themeBtn = new WaButton<>();
@@ -348,6 +379,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         themeBtn.setID("product-theme");
         var themeIcon = new WaIcon<>();
         themeIcon.addAttribute("[name]", "darkMode() ? 'sun-bright' : 'moon'");
+        themeIcon.addAttribute("family", "sharp-duotone");
         themeIcon.addAttribute("label", "Toggle Theme");
         themeBtn.add(themeIcon);
         secondary.add(themeBtn);
@@ -355,35 +387,6 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         themeTip.setForId("product-theme");
         themeTip.setText("Toggle Theme");
         secondary.add(themeTip);
-
-        // Prism syntax theme selector (dropdown triggered by icon button)
-       /* var prismDropdown = new WaDropDown<>();
-        prismDropdown.addClass("pseudo-product");
-        prismDropdown.setSelectEvent("changePrismTheme($event)");
-
-        var prismBtn = new WaButton<>();
-        prismBtn.setAppearance(Appearance.Plain);
-        prismBtn.setVariant(Variant.Brand);
-        prismBtn.setID("product-code-theme");
-        prismBtn.add(new WaIcon<>("code").addAttribute("label", "Code Theme"));
-        prismDropdown.setButton(prismBtn);
-
-        for (var theme : PrismTheme.values()) {
-            // Skip community themes not in the standard prismjs package
-            if (theme == PrismTheme.OneDark || theme == PrismTheme.OneLight) continue;
-            prismDropdown.addItem(
-                    theme.name().replaceAll("([a-z])([A-Z])", "$1 $2"),
-                    theme.getCssFileName()
-            );
-        }
-        secondary.add(prismDropdown);
-
-        WaTooltip<?> prismTip = new WaTooltip<>();
-        prismTip.setForId("product-code-theme");
-        prismTip.setText("Code Theme");
-        secondary.add(prismTip);
-
-        */
 
         primary.add(secondary);
         nav.add(primary);
@@ -397,116 +400,92 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         menuTree.setIndentGuideColor("var(--wa-color-neutral-300)");
 
         // Home
-        var homeItem = createRouterTreeItem("/home", "Home", "house");
-        menuTree.add(homeItem);
+        menuTree.add(createRouterTreeItem("/home", "Home", "house"));
 
         // About
         menuTree.add(createRouterTreeItem("/about", "About", "circle-info"));
 
         // Getting Started
-        var gsItem = createRouterTreeItem("/getting-started", "Getting Started", "rocket");
-        gsItem.add(createRouterTreeItem("/getting-started/application", "Application", null));
-        gsItem.add(createRouterTreeItem("/getting-started/first-component", "First Component", null));
-        gsItem.add(createRouterTreeItem("/getting-started/build-and-run", "Build & Run", null));
-        gsItem.add(createRouterTreeItem("/getting-started/whats-happening", "What's Happening", null));
-        gsItem.add(createRouterTreeItem("/getting-started/next-steps", "Next Steps", null));
-        menuTree.add(gsItem);
+        menuTree.add(createRouterTreeItem("/getting-started", "Getting Started", "rocket"));
 
         // Architecture
-        var archItem = createRouterTreeItem("/architecture", "Architecture", "sitemap");
-        archItem.add(createRouterTreeItem("/architecture/stack", "Stack Diagram", null));
-        archItem.add(createRouterTreeItem("/architecture/build-pipeline", "Build Pipeline", null));
-        archItem.add(createRouterTreeItem("/architecture/runtime", "Runtime", null));
-        archItem.add(createRouterTreeItem("/architecture/data-flow", "Data Flow", null));
-        archItem.add(createRouterTreeItem("/architecture/module-graph", "Module Graph", null));
-        menuTree.add(archItem);
+        menuTree.add(createRouterTreeItem("/architecture", "Architecture", "sitemap"));
 
-        // Plugins & Components — category tree
-        var pluginsItem = createRouterTreeItem("/plugins", "Plugins", "puzzle-piece");
+        // Plugins & Components
+        menuTree.add(createRouterTreeItem("/plugins", "Plugins", "puzzle-piece"));
 
-        // Rendering & UI
-        var catRendering = createRouterTreeItem("/plugins", "Rendering & UI", null);
-        catRendering.add(createRouterTreeItem("/plugins/core", "JWebMP Core", null));
-        catRendering.add(createRouterTreeItem("/plugins/client", "JWebMP Client", null));
-        catRendering.add(createRouterTreeItem("/plugins/web-awesome", "WebAwesome", null));
-        catRendering.add(createRouterTreeItem("/plugins/web-awesome-pro", "WebAwesome Pro", null));
-        pluginsItem.add(catRendering);
-
-        // Angular Generation
-        var catAngular = createRouterTreeItem("/plugins", "Angular Generation", null);
-        catAngular.add(createRouterTreeItem("/plugins/angular", "Angular Plugin", null));
-        catAngular.add(createRouterTreeItem("/plugins/angular-maven-plugin", "Angular Maven Plugin", null));
-        catAngular.add(createRouterTreeItem("/plugins/typescript-client", "TypeScript Client", null));
-        pluginsItem.add(catAngular);
-
-        // Data & Grids
-        var catData = createRouterTreeItem("/plugins", "Data & Grids", null);
-        catData.add(createRouterTreeItem("/plugins/aggrid", "AG Grid", null));
-        catData.add(createRouterTreeItem("/plugins/aggrid-enterprise", "AG Grid Enterprise", null));
-        pluginsItem.add(catData);
-
-        // Charts & Visualisation
-        var catCharts = createRouterTreeItem("/plugins", "Charts & Visualisation", null);
-        catCharts.add(createRouterTreeItem("/plugins/agcharts", "AG Charts", null));
-        catCharts.add(createRouterTreeItem("/plugins/agcharts-enterprise", "AG Charts Enterprise", null));
-        catCharts.add(createRouterTreeItem("/plugins/chartjs", "Chart.js", null));
-        pluginsItem.add(catCharts);
-
-        // Scheduling
-        var catScheduling = createRouterTreeItem("/plugins", "Scheduling", null);
-        catScheduling.add(createRouterTreeItem("/plugins/fullcalendar", "FullCalendar", null));
-        catScheduling.add(createRouterTreeItem("/plugins/fullcalendar-pro", "FullCalendar Pro", null));
-        pluginsItem.add(catScheduling);
-
-        // Icons
-        var catIcons = createRouterTreeItem("/plugins", "Icons", null);
-        catIcons.add(createRouterTreeItem("/plugins/fontawesome", "Font Awesome", null));
-        catIcons.add(createRouterTreeItem("/plugins/fontawesome-pro", "Font Awesome Pro", null));
-        pluginsItem.add(catIcons);
-
-        // Animation
-        var catAnimation = createRouterTreeItem("/plugins", "Animation", null);
-        catAnimation.add(createRouterTreeItem("/plugins/easing", "Easing Effects", null));
-        pluginsItem.add(catAnimation);
-
-        // Real-Time Messaging
-        var catMessaging = createRouterTreeItem("/plugins", "Real-Time Messaging", null);
-        catMessaging.add(createRouterTreeItem("/plugins/rabbitmq", "RabbitMQ Comms", null));
-        pluginsItem.add(catMessaging);
-
-        // Runtime & Server
-        var catRuntime = createRouterTreeItem("/plugins", "Runtime & Server", null);
-        catRuntime.add(createRouterTreeItem("/plugins/vertx", "JWebMP Vert.x", null));
-        pluginsItem.add(catRuntime);
-
-        menuTree.add(pluginsItem);
+        // UI Frameworks
+        menuTree.add(createRouterTreeItem("/frameworks", "UI Frameworks", "layer-group"));
 
         // Capabilities
-        var capItem = createRouterTreeItem("/capabilities", "Capabilities", "star");
-        capItem.add(createRouterTreeItem("/capabilities/rendering", "Rendering", null));
-        capItem.add(createRouterTreeItem("/capabilities/angular-generation", "Angular Generation", null));
-        capItem.add(createRouterTreeItem("/capabilities/event-system", "Event System", null));
-        capItem.add(createRouterTreeItem("/capabilities/real-time-messaging", "Real-Time Messaging", null));
-        capItem.add(createRouterTreeItem("/capabilities/plugin-model", "Plugin Model", null));
-        capItem.add(createRouterTreeItem("/capabilities/spi-extensibility", "SPI Extensibility", null));
-        menuTree.add(capItem);
+        menuTree.add(createRouterTreeItem("/capabilities", "Capabilities", "star"));
 
-        // Real-Time
-        var rtItem = createRouterTreeItem("/real-time", "Data", "bolt");
-        rtItem.add(createRouterTreeItem("/real-time/communication-layers", "Communication Layers", null));
-        rtItem.add(createRouterTreeItem("/real-time/rest-and-ajax", "REST & AJAX", null));
-        rtItem.add(createRouterTreeItem("/real-time/data-services", "Data Services", null));
-        rtItem.add(createRouterTreeItem("/real-time/vertx-event-bus", "Vert.x Event Bus", null));
-        rtItem.add(createRouterTreeItem("/real-time/vertx-code-samples", "Vert.x Code Samples", null));
-        rtItem.add(createRouterTreeItem("/real-time/rabbitmq", "RabbitMQ", null));
-        rtItem.add(createRouterTreeItem("/real-time/rabbitmq-code-samples", "RabbitMQ Code Samples", null));
-        rtItem.add(createRouterTreeItem("/real-time/choosing-a-pattern", "Choosing a Pattern", null));
-        rtItem.add(createRouterTreeItem("/real-time/use-cases", "Use Cases", null));
-        menuTree.add(rtItem);
+        // Real-Time / Data
+        menuTree.add(createRouterTreeItem("/real-time", "Data", "bolt"));
 
-        // GitHub (no sub-items)
-        menuTree.add(createRouterTreeItem("/github", "GitHub", "code-branch"));
+        // Support (external)
+        menuTree.add(createExternalTreeItem("https://www.patreon.com/GedMarc", "Support", "life-ring"));
+
         menu.add(menuTree);
+
+        // ── Built-on attribution links below menu tree ──
+        var builtOn = new WaDiv<>();
+        builtOn.setPadding(WaSpaceToken.SpaceM);
+        builtOn.addStyle("border-top", "1px solid var(--wa-color-neutral-200)");
+        builtOn.addStyle("margin-top", "auto");
+        var builtOnLabel = new DivSimple<>();
+        builtOnLabel.setTag("span");
+        builtOnLabel.setText("Built on");
+        builtOnLabel.addClass("wa-body-2xs");
+        builtOnLabel.addStyle("color", "var(--wa-color-text-quiet)");
+        builtOnLabel.addStyle("display", "block");
+        builtOnLabel.addStyle("margin-bottom", WaSpaceToken.SpaceXS.var());
+        builtOn.add(builtOnLabel);
+        var builtOnLinks = new DivSimple<>();
+        builtOnLinks.addClass("wa-stack");
+        builtOnLinks.addClass("wa-gap-2xs");
+        builtOnLinks.addClass("built-on-links");
+
+        Link<?> angularAwesomeLink = new Link<>();
+        angularAwesomeLink.setTag("a");
+        angularAwesomeLink.addAttribute("href", "https://www.npmjs.com/package/angular-awesome");
+        angularAwesomeLink.addAttribute("target", "angular-awesome");
+        angularAwesomeLink.add(new WaIcon<>("npm").addAttribute("family", "brands"));
+        angularAwesomeLink.setText("Angular Awesome");
+        angularAwesomeLink.setRenderTextBeforeChildren(false);
+        angularAwesomeLink.addClass("wa-body-xs");
+        angularAwesomeLink.addStyle("color", "var(--wa-color-brand-normal)");
+        builtOnLinks.add(angularAwesomeLink);
+
+        Link<?> webAwesomeLink = new Link<>();
+        webAwesomeLink.setTag("a");
+        webAwesomeLink.addAttribute("href", "https://www.webawesome.com");
+        webAwesomeLink.addAttribute("target", "web-awesome");
+        webAwesomeLink.add(new WaIcon<>("web-awesome").addAttribute("family", "sharp-duotone"));
+        webAwesomeLink.setText("Web Awesome");
+        webAwesomeLink.setRenderTextBeforeChildren(false);
+        webAwesomeLink.addClass("wa-body-xs");
+        webAwesomeLink.addStyle("color", "var(--wa-color-brand-normal)");
+        builtOnLinks.add(webAwesomeLink);
+
+        Link<?> guicedeeMenuLink = new Link<>();
+        guicedeeMenuLink.setTag("a");
+        guicedeeMenuLink.addAttribute("href", "https://guicedee.com");
+        guicedeeMenuLink.addAttribute("target", "guicedee");
+        var guicedeeBuiltIcon = new DivSimple<>();
+        guicedeeBuiltIcon.setTag("i");
+        guicedeeBuiltIcon.addClass("fak");
+        guicedeeBuiltIcon.addClass("fa-guicedee-logo");
+        guicedeeBuiltIcon.addClass("built-on-logo");
+        guicedeeMenuLink.add(guicedeeBuiltIcon);
+        guicedeeMenuLink.setText("GuicedEE");
+        guicedeeMenuLink.setRenderTextBeforeChildren(false);
+        guicedeeMenuLink.addClass("wa-body-xs");
+        guicedeeMenuLink.addStyle("color", "var(--wa-color-brand-normal)");
+        builtOnLinks.add(guicedeeMenuLink);
+
+        builtOn.add(builtOnLinks);
+        menu.add(builtOn);
 
         // ── Navigation Toggle (burger button, slot="navigation-toggle") ──
         var navToggle = page.getNavigationToggle();
@@ -514,12 +493,12 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         burgerBtn.setAppearance(Appearance.Plain);
         burgerBtn.setVariant(Variant.Neutral);
         burgerBtn.addAttribute("aria-label", "Toggle navigation menu");
-        burgerBtn.add(new WaIcon<>("bars"));
+        burgerBtn.add(new WaIcon<>("bars").addAttribute("family", "sharp-duotone"));
         navToggle.add(burgerBtn);
 
         // ── Navigation Toggle Icon (slot="navigation-toggle-icon") ──
         var navToggleIcon = page.getNavigationToggleIcon();
-        navToggleIcon.add(new WaIcon<>("bars"));
+        navToggleIcon.add(new WaIcon<>("bars").addAttribute("family", "sharp-duotone"));
 
         // ── Navigation Header (branding inside the drawer, slot="navigation-header") ──
         var navHeader = page.getNavigationHeader();
@@ -531,10 +510,12 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         var drawerLogoSpan = new DivSimple<>();
         drawerLogoSpan.setTag("i");
         drawerLogoSpan.addClass("fak");
-        drawerLogoSpan.addClass("fa-jwebmp-logo-green");
+        drawerLogoSpan.addClass("fa-jwebmp-logo");
         drawerLogoSpan.addClass("logo-icon");
         drawerLogoSpan.addClass("logo-jwebmp");
         drawerLogo.add(drawerLogoSpan);
+        drawerLogo.setText("JWebMP");
+        drawerLogo.setRenderTextBeforeChildren(false);
         navHeader.add(drawerLogo);
 
         // ── Burger Menu Navigation (drawer contents, slot="navigation") ──
@@ -545,89 +526,76 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         navTree.add(createRouterTreeItem("/home", "Home", "house"));
         navTree.add(createRouterTreeItem("/about", "About", "circle-info"));
-
-        var navGs = createRouterTreeItem("/getting-started", "Getting Started", "rocket");
-        navGs.add(createRouterTreeItem("/getting-started/application", "Application", null));
-        navGs.add(createRouterTreeItem("/getting-started/first-component", "First Component", null));
-        navGs.add(createRouterTreeItem("/getting-started/build-and-run", "Build & Run", null));
-        navGs.add(createRouterTreeItem("/getting-started/whats-happening", "What's Happening", null));
-        navGs.add(createRouterTreeItem("/getting-started/next-steps", "Next Steps", null));
-        navTree.add(navGs);
-
-        var navArch = createRouterTreeItem("/architecture", "Architecture", "sitemap");
-        navArch.add(createRouterTreeItem("/architecture/stack", "Stack Diagram", null));
-        navArch.add(createRouterTreeItem("/architecture/build-pipeline", "Build Pipeline", null));
-        navArch.add(createRouterTreeItem("/architecture/runtime", "Runtime", null));
-        navArch.add(createRouterTreeItem("/architecture/data-flow", "Data Flow", null));
-        navArch.add(createRouterTreeItem("/architecture/module-graph", "Module Graph", null));
-        navTree.add(navArch);
-
-        var navPlugins = createRouterTreeItem("/plugins", "Plugins", "puzzle-piece");
-        navPlugins.add(createRouterTreeItem("/plugins/core", "JWebMP Core", null));
-        navPlugins.add(createRouterTreeItem("/plugins/client", "JWebMP Client", null));
-        navPlugins.add(createRouterTreeItem("/plugins/web-awesome", "WebAwesome", null));
-        navPlugins.add(createRouterTreeItem("/plugins/web-awesome-pro", "WebAwesome Pro", null));
-        navPlugins.add(createRouterTreeItem("/plugins/angular", "Angular Plugin", null));
-        navPlugins.add(createRouterTreeItem("/plugins/angular-maven-plugin", "Angular Maven Plugin", null));
-        navPlugins.add(createRouterTreeItem("/plugins/typescript-client", "TypeScript Client", null));
-        navPlugins.add(createRouterTreeItem("/plugins/aggrid", "AG Grid", null));
-        navPlugins.add(createRouterTreeItem("/plugins/aggrid-enterprise", "AG Grid Enterprise", null));
-        navPlugins.add(createRouterTreeItem("/plugins/agcharts", "AG Charts", null));
-        navPlugins.add(createRouterTreeItem("/plugins/agcharts-enterprise", "AG Charts Enterprise", null));
-        navPlugins.add(createRouterTreeItem("/plugins/chartjs", "Chart.js", null));
-        navPlugins.add(createRouterTreeItem("/plugins/fullcalendar", "FullCalendar", null));
-        navPlugins.add(createRouterTreeItem("/plugins/fullcalendar-pro", "FullCalendar Pro", null));
-        navPlugins.add(createRouterTreeItem("/plugins/fontawesome", "Font Awesome", null));
-        navPlugins.add(createRouterTreeItem("/plugins/fontawesome-pro", "Font Awesome Pro", null));
-        navPlugins.add(createRouterTreeItem("/plugins/easing", "Easing Effects", null));
-        navPlugins.add(createRouterTreeItem("/plugins/rabbitmq", "RabbitMQ Comms", null));
-        navPlugins.add(createRouterTreeItem("/plugins/vertx", "JWebMP Vert.x", null));
-        navTree.add(navPlugins);
-
-        var navCap = createRouterTreeItem("/capabilities", "Capabilities", "star");
-        navCap.add(createRouterTreeItem("/capabilities/rendering", "Rendering", null));
-        navCap.add(createRouterTreeItem("/capabilities/angular-generation", "Angular Generation", null));
-        navCap.add(createRouterTreeItem("/capabilities/event-system", "Event System", null));
-        navCap.add(createRouterTreeItem("/capabilities/real-time-messaging", "Real-Time Messaging", null));
-        navCap.add(createRouterTreeItem("/capabilities/plugin-model", "Plugin Model", null));
-        navCap.add(createRouterTreeItem("/capabilities/spi-extensibility", "SPI Extensibility", null));
-        navTree.add(navCap);
-
-        var navRt = createRouterTreeItem("/real-time", "Data", "bolt");
-        navRt.add(createRouterTreeItem("/real-time/communication-layers", "Communication Layers", null));
-        navRt.add(createRouterTreeItem("/real-time/rest-and-ajax", "REST & AJAX", null));
-        navRt.add(createRouterTreeItem("/real-time/data-services", "Data Services", null));
-        navRt.add(createRouterTreeItem("/real-time/vertx-event-bus", "Vert.x Event Bus", null));
-        navRt.add(createRouterTreeItem("/real-time/vertx-code-samples", "Vert.x Code Samples", null));
-        navRt.add(createRouterTreeItem("/real-time/rabbitmq", "RabbitMQ", null));
-        navRt.add(createRouterTreeItem("/real-time/rabbitmq-code-samples", "RabbitMQ Code Samples", null));
-        navRt.add(createRouterTreeItem("/real-time/choosing-a-pattern", "Choosing a Pattern", null));
-        navRt.add(createRouterTreeItem("/real-time/use-cases", "Use Cases", null));
-        navTree.add(navRt);
-
-        navTree.add(createRouterTreeItem("/github", "GitHub", "code-branch"));
+        navTree.add(createRouterTreeItem("/getting-started", "Getting Started", "rocket"));
+        navTree.add(createRouterTreeItem("/architecture", "Architecture", "sitemap"));
+        navTree.add(createRouterTreeItem("/plugins", "Plugins", "puzzle-piece"));
+        navTree.add(createRouterTreeItem("/frameworks", "UI Frameworks", "layer-group"));
+        navTree.add(createRouterTreeItem("/capabilities", "Capabilities", "star"));
+        navTree.add(createRouterTreeItem("/real-time", "Data", "bolt"));
+        navTree.add(createExternalTreeItem("https://www.patreon.com/GedMarc", "Support", "life-ring"));
         burgerMenuNavigation.add(navTree);
 
-        // ── Navigation Footer (external links inside the drawer, slot="navigation-footer") ──
-        var navFooter = page.getNavigationFooter();
-        Link<?> navGithubLink = new Link<>();
-        navGithubLink.setTag("a");
-        navGithubLink.addAttribute("href", "https://github.com/GedMarc/JWebMP");
-        navGithubLink.addAttribute("target", "_blank");
-        navGithubLink.add(new WaIcon<>("github").addAttribute("family", "brands"));
-        navGithubLink.setText("GitHub");
-        navFooter.add(navGithubLink);
+        // ── Built-on attribution links below drawer tree ──
+        var drawerBuiltOn = new WaDiv<>();
+        drawerBuiltOn.setPadding(WaSpaceToken.SpaceM);
+        drawerBuiltOn.addStyle("border-top", "1px solid var(--wa-color-neutral-200)");
+        drawerBuiltOn.addStyle("margin-top", "auto");
+        var drawerBuiltOnLabel = new DivSimple<>();
+        drawerBuiltOnLabel.setTag("span");
+        drawerBuiltOnLabel.setText("Built on");
+        drawerBuiltOnLabel.addClass("wa-body-2xs");
+        drawerBuiltOnLabel.addStyle("color", "var(--wa-color-text-quiet)");
+        drawerBuiltOnLabel.addStyle("display", "block");
+        drawerBuiltOnLabel.addStyle("margin-bottom", WaSpaceToken.SpaceXS.var());
+        drawerBuiltOn.add(drawerBuiltOnLabel);
+        var drawerBuiltOnLinks = new DivSimple<>();
+        drawerBuiltOnLinks.addClass("wa-stack");
+        drawerBuiltOnLinks.addClass("wa-gap-2xs");
+        drawerBuiltOnLinks.addClass("built-on-links");
 
-        Link<?> navGuicedeeLink = new Link<>();
-        navGuicedeeLink.setTag("a");
-        navGuicedeeLink.addAttribute("href", "https://guicedee.com");
-        navGuicedeeLink.addAttribute("target", "_blank");
-        navGuicedeeLink.add(new WaIcon<>("cubes"));
-        navGuicedeeLink.setText("GuicedEE");
-        navFooter.add(navGuicedeeLink);
+        Link<?> drawerAngularLink = new Link<>();
+        drawerAngularLink.setTag("a");
+        drawerAngularLink.addAttribute("href", "https://www.npmjs.com/package/angular-awesome");
+        drawerAngularLink.addAttribute("target", "angular-awesome");
+        drawerAngularLink.add(new WaIcon<>("npm").addAttribute("family", "brands"));
+        drawerAngularLink.setText("Angular Awesome");
+        drawerAngularLink.setRenderTextBeforeChildren(false);
+        drawerAngularLink.addClass("wa-body-xs");
+        drawerAngularLink.addStyle("color", "var(--wa-color-brand-normal)");
+        drawerBuiltOnLinks.add(drawerAngularLink);
+
+        Link<?> drawerWebAwesomeLink = new Link<>();
+        drawerWebAwesomeLink.setTag("a");
+        drawerWebAwesomeLink.addAttribute("href", "https://www.webawesome.com");
+        drawerWebAwesomeLink.addAttribute("target", "web-awesome");
+        drawerWebAwesomeLink.add(new WaIcon<>("web-awesome").addAttribute("family", "sharp-duotone"));
+        drawerWebAwesomeLink.setText("Web Awesome");
+        drawerWebAwesomeLink.setRenderTextBeforeChildren(false);
+        drawerWebAwesomeLink.addClass("wa-body-xs");
+        drawerWebAwesomeLink.addStyle("color", "var(--wa-color-brand-normal)");
+        drawerBuiltOnLinks.add(drawerWebAwesomeLink);
+
+        Link<?> drawerGuicedeeLink = new Link<>();
+        drawerGuicedeeLink.setTag("a");
+        drawerGuicedeeLink.addAttribute("href", "https://guicedee.com");
+        drawerGuicedeeLink.addAttribute("target", "guicedee");
+        var drawerGuicedeeBuiltIcon = new DivSimple<>();
+        drawerGuicedeeBuiltIcon.setTag("i");
+        drawerGuicedeeBuiltIcon.addClass("fak");
+        drawerGuicedeeBuiltIcon.addClass("fa-guicedee-logo");
+        drawerGuicedeeBuiltIcon.addClass("built-on-logo");
+        drawerGuicedeeLink.add(drawerGuicedeeBuiltIcon);
+        drawerGuicedeeLink.setText("GuicedEE");
+        drawerGuicedeeLink.setRenderTextBeforeChildren(false);
+        drawerGuicedeeLink.addClass("wa-body-xs");
+        drawerGuicedeeLink.addStyle("color", "var(--wa-color-brand-normal)");
+        drawerBuiltOnLinks.add(drawerGuicedeeLink);
+
+        drawerBuiltOn.add(drawerBuiltOnLinks);
+        burgerMenuNavigation.add(drawerBuiltOn);
 
         page.getMain().add(new RouterOutlet<>());
-        page.getAside().add(new RouterOutlet("aside"));
+        page.getAside().add(new RouterOutlet<>("aside"));
 
         add(page);
     }
@@ -646,10 +614,29 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         link.setRenderTextBeforeChildren(false);
         if (icon != null)
         {
-            WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color: var(--wa-color-brand-on-normal)");
+            WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color", "var(--wa-color-brand-on-normal)");
+            waIcon.setFamily("sharp-duotone");
             link.add(waIcon);
         }
         link.setText("&nbsp;"+ text);
+        return item;
+    }
+
+    private static WaTreeItem<?> createExternalTreeItem(String url, String text, String icon)
+    {
+        WaTreeItem<?> item = new WaTreeItem<>();
+        Link<?> link = new Link<>("#");
+        item.add(link);
+        link.addAttribute("href", url);
+        link.addAttribute("target", "jwebmp-external");
+        link.setRenderTextBeforeChildren(false);
+        if (icon != null)
+        {
+            WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color", "var(--wa-color-brand-on-normal)");
+            waIcon.setFamily("sharp-duotone");
+            link.add(waIcon);
+        }
+        link.setText("&nbsp;" + text);
         return item;
     }
 
@@ -666,7 +653,6 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
     @Override
     public List<String> providers() {
         var p = INgComponent.super.providers();
-        p.add("provideLocaleData(localeEnZa, 'en-ZA'");
         return p;
     }
 
@@ -685,7 +671,12 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
                     '': 'home',
                     'home': 'home',
                     'about': 'about',
-                    'getting-started': 'getting-started'
+                    'getting-started': 'getting-started',
+                    'architecture': 'architecture',
+                    'capabilities': 'capabilities',
+                    'real-time': 'real-time',
+                    'plugins': 'plugins',
+                    'frameworks': 'frameworks'
                 };""");
         return f;
     }
@@ -742,6 +733,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
     @Override
     public List<String> onInit() {
         var init = new ArrayList<>(INgComponent.super.onInit());
+        init.add("registerLocaleData(localeEnZa, 'en-ZA')");
         init.add("""
                 const savedTheme = localStorage.getItem('jwebmp-theme');
                 const prefersDark = savedTheme ? savedTheme === 'dark' : true;

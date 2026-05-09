@@ -29,25 +29,42 @@ public class ModuleGraphPage extends WebsitePage<ModuleGraphPage> implements INg
                 """
                         graph TD
                           CORE["com.jwebmp.core"]
-                          CLIENT["com.jwebmp.client<br/>SPI contracts, AJAX pipeline"]
-                          GUICEE["com.guicedee.client<br/>DI, lifecycle, CallScope"]
-                          VERTX["com.guicedee.vertx<br/>Vert.x lifecycle, event bus"]
-                          VXC["io.vertx.core"]
-                          VXW["io.vertx.web"]
-                          GUICE["com.google.guice<br/>Dependency injection"]
-                          JACKSON["com.fasterxml.jackson<br/>JSON serialization"]
-                          JAKARTA["jakarta.validation<br/>Bean Validation"]
-                          COMMONS["org.apache.commons.*<br/>Utilities"]
 
-                          CORE --> CLIENT
-                          CORE --> GUICEE
-                          CORE --> VERTX
-                          CORE --> VXC
-                          CORE --> VXW
-                          CORE --> GUICE
-                          CORE --> JACKSON
-                          CORE --> JAKARTA
-                          CORE --> COMMONS
+                          subgraph JWEBMP["JWebMP Layer"]
+                            CLIENT["com.jwebmp.client<br/><i>SPI contracts, AJAX</i>"]
+                          end
+
+                          subgraph GUICEDEE["GuicedEE Layer"]
+                            GUICEE["com.guicedee.client<br/><i>DI, lifecycle, CallScope</i>"]
+                            VERTX["com.guicedee.vertx<br/><i>Vert.x lifecycle</i>"]
+                          end
+
+                          subgraph RUNTIME["Runtime Libraries"]
+                            VXC["io.vertx.core"]
+                            VXW["io.vertx.web"]
+                            GUICE["com.google.guice"]
+                            JACKSON["com.fasterxml.jackson"]
+                          end
+
+                          subgraph SPECS["Jakarta Specs"]
+                            JAKARTA["jakarta.validation"]
+                            COMMONS["org.apache.commons"]
+                          end
+
+                          CORE ==> CLIENT
+                          CORE ==> GUICEE
+                          CORE ==> VERTX
+                          GUICEE --> GUICE
+                          VERTX --> VXC
+                          VERTX --> VXW
+                          CORE -.-> JACKSON
+                          CORE -.-> JAKARTA
+                          CORE -.-> COMMONS
+
+                          style JWEBMP fill:#312e81,stroke:#818cf8,stroke-width:2px,color:#e2e8f0
+                          style GUICEDEE fill:#1e3a5f,stroke:#60a5fa,stroke-width:2px,color:#e2e8f0
+                          style RUNTIME fill:#1a3330,stroke:#34d399,stroke-width:2px,color:#e2e8f0
+                          style SPECS fill:#3b1a1a,stroke:#f87171,stroke-width:2px,color:#e2e8f0
                         """));
 
         var ctas = new WaCluster<>();

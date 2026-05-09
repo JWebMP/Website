@@ -45,6 +45,10 @@ module com.jwebmp.website {
     opens com.jwebmp.website.pages.capabilities to com.google.guice;
     opens com.jwebmp.website.pages.realtime to com.google.guice;
     opens com.jwebmp.website.pages.plugins to com.google.guice;
+    opens com.jwebmp.website.pages.plugins.components to com.google.guice;
+    opens com.jwebmp.website.pages.frameworks to com.google.guice;
+    opens com.jwebmp.website.pages.frameworks.components to com.google.guice;
+    opens com.jwebmp.website.pages.aside to com.google.guice;
 
     provides TypescriptIndexPageConfigurator with WebsitePageConfigurator;
     provides IPageConfigurator with WebsitePageConfigurator;

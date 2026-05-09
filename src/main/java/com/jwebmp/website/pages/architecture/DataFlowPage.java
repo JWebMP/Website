@@ -19,23 +19,31 @@ public class DataFlowPage extends WebsitePage<DataFlowPage> implements INgCompon
         content.add(mermaidDiagramWithTitle("Request-Response Flow",
                 """
                         sequenceDiagram
-                          participant Browser
-                          participant Vertx as Vert.x Server
-                          participant Handler as Java Handler
+                          participant B as 🌐 Browser
+                          participant V as ⚡ Vert.x Server
+                          participant H as ☕ Java Handler
 
-                          Browser->>Vertx: GET /dashboard
-                          Vertx->>Browser: index.html + dist/ (StaticHandler)
+                          rect rgba(99, 102, 241, 0.1)
+                          Note over B,V: Page Delivery
+                          B->>V: GET /dashboard
+                          V-->>B: index.html + dist/ assets
+                          end
 
-                          Browser->>Vertx: POST /jwajax (AjaxCall JSON)
-                          Vertx->>Handler: deserialize
-                          Handler->>Handler: intercept chain
-                          Handler->>Handler: fireEvent()
-                          Handler->>Vertx: AjaxResponse
-                          Vertx->>Browser: DOM updates JSON
+                          rect rgba(52, 211, 153, 0.1)
+                          Note over B,H: AJAX Event Cycle
+                          B->>V: POST /jwajax
+                          V->>H: deserialize AjaxCall
+                          H->>H: intercept → fireEvent()
+                          H-->>V: AjaxResponse
+                          V-->>B: DOM update instructions
+                          end
 
-                          Browser->>Vertx: WS /eventbus (STOMP subscribe)
-                          Vertx->>Handler: RabbitMQ exchange
-                          Vertx->>Browser: STOMP message
+                          rect rgba(248, 113, 113, 0.1)
+                          Note over B,H: Real-Time Push
+                          B->>V: WS /eventbus STOMP
+                          V->>H: RabbitMQ exchange
+                          V-->>B: STOMP message push
+                          end
                         """));
 
         layout.add(buildSection("DATA FLOW", "Request, Event, and Message Paths",
@@ -43,4 +51,3 @@ public class DataFlowPage extends WebsitePage<DataFlowPage> implements INgCompon
         getMain().add(layout);
     }
 }
-

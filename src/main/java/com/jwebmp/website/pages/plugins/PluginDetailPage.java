@@ -1,6 +1,11 @@
 package com.jwebmp.website.pages.plugins;
 
+import com.jwebmp.core.base.angular.client.annotations.references.NgImportReference;
+import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
+import com.jwebmp.core.base.angular.client.annotations.structures.NgMethod;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.core.base.angular.components.NgIf;
+
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
 import com.jwebmp.webawesome.components.WaCluster;
@@ -8,6 +13,7 @@ import com.jwebmp.webawesome.components.WaGrid;
 import com.jwebmp.webawesome.components.WaStack;
 import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.card.WaCard;
+import com.jwebmp.webawesome.components.details.WaDetails;
 import com.jwebmp.webawesome.components.divider.WaDivider;
 import com.jwebmp.website.catalog.PluginEntry;
 import com.jwebmp.website.pages.WebsitePage;
@@ -27,10 +33,37 @@ import java.util.Map;
  * configurations — is provided by overriding the protected template
  * methods. Each plugin page knows its own setup best.
  */
+@NgField("useGradle = false;")
+@NgField("private _storageListener: any;")
+@NgField("private _customListener: any;")
+@NgImportReference(value = "OnDestroy, OnInit", reference = "@angular/core")
+@NgMethod("""
+        ngOnInit() {
+            const saved = localStorage.getItem('jwebmp-build-tool');
+            if (saved) { this.useGradle = saved === 'gradle'; }
+            this._storageListener = (e: StorageEvent) => {
+                if (e.key === 'jwebmp-build-tool') {
+                    this.useGradle = e.newValue === 'gradle';
+                }
+            };
+            this._customListener = (e: any) => {
+                this.useGradle = e.detail;
+            };
+            window.addEventListener('storage', this._storageListener);
+            window.addEventListener('jwebmp-build-tool-change', this._customListener);
+        }""")
+@NgMethod("""
+        ngOnDestroy() {
+            window.removeEventListener('storage', this._storageListener);
+            window.removeEventListener('jwebmp-build-tool-change', this._customListener);
+        }""")
 public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends WebsitePage<J> implements INgComponent<J>
 {
+    private final String pluginId;
+
     protected PluginDetailPage(PluginEntry plugin)
     {
+        this.pluginId = plugin.getId();
 
         var layout = new WaStack<>();
         layout.setGap(PageSize.ExtraLarge);
@@ -168,19 +201,31 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
 
     private void addInstallationSection(WaStack parent, PluginEntry plugin)
     {
-        if (plugin.getMavenSnippet() == null)
+        if (plugin.getMavenSnippet() == null && plugin.getGradleSnippet() == null)
         {
             return;
         }
+        var details = new WaDetails<>();
+        details.setSummary("Installation");
+
         var installStack = new WaStack<>();
         installStack.setGap(PageSize.ExtraSmall);
-        installStack.add(captionText("INSTALLATION"));
-        installStack.add(codeBlockWithTitle("Maven", plugin.getMavenSnippet(), "xml"));
+
+        if (plugin.getMavenSnippet() != null)
+        {
+            var mavenIf = new NgIf("!useGradle");
+            mavenIf.add(codeBlockWithTitle("Maven", plugin.getMavenSnippet(), "xml"));
+            installStack.add(mavenIf);
+        }
         if (plugin.getGradleSnippet() != null)
         {
-            installStack.add(codeBlockWithTitle("Gradle (Kotlin DSL)", plugin.getGradleSnippet(), "kotlin"));
+            var gradleIf = new NgIf("useGradle");
+            gradleIf.add(codeBlockWithTitle("Gradle (Kotlin DSL)", plugin.getGradleSnippet(), "kotlin"));
+            installStack.add(gradleIf);
         }
-        parent.add(installStack);
+
+        details.add(installStack);
+        parent.add(details);
     }
 
     // ── NPM dependencies ─────────────────────────────
@@ -191,17 +236,16 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var npmStack = new WaStack<>();
-        npmStack.setGap(PageSize.ExtraSmall);
-        npmStack.add(captionText("NPM DEPENDENCIES (auto-included)"));
+        var details = new WaDetails<>();
+        details.setSummary("NPM Dependencies (auto-included)");
 
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> dep : plugin.getNpmDependencies().entrySet())
         {
             sb.append("\"").append(dep.getKey()).append("\": \"").append(dep.getValue()).append("\"\n");
         }
-        npmStack.add(codeBlock(sb.toString().trim(), "json"));
-        parent.add(npmStack);
+        details.add(codeBlock(sb.toString().trim(), "json"));
+        parent.add(details);
     }
 
     // ── Components ────────────────────────────────────
@@ -213,35 +257,69 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var section = new WaStack<>();
-        section.setGap(PageSize.Small);
-        section.add(captionText("COMPONENTS"));
 
-        var componentGrid = new WaGrid<>();
-        componentGrid.setGap(PageSize.Small);
-        componentGrid.setMinColumnSize("18rem");
+        var section = new WaStack<>();
+        section.setGap(PageSize.Medium);
+        section.add(headingText("h2", "l", "Components (" + components.size() + ")"));
+        section.add(bodyText("Click any component to see its full API — properties, constructors, methods, events, slots, and examples.", "m"));
+
+        var grid = new WaGrid<>();
+        grid.setGap(PageSize.Small);
+        grid.setMinColumnSize("18rem");
 
         for (PluginEntry.ComponentInfo comp : components)
         {
-            var compCard = new WaCard<>();
-            compCard.setAppearance(Appearance.Outlined);
-            var stack = new WaStack<>();
-            stack.setGap(PageSize.ExtraSmall);
-            stack.add(headingText("h4", "s", comp.className()));
-            var desc = bodyText(comp.description(), "s");
-            desc.setWaColorText("quiet");
-            stack.add(desc);
-            if (comp.packageName() != null && !comp.packageName().isBlank())
-            {
-                var pkg = captionText(comp.packageName());
-                pkg.setWaColorText("quiet");
-                stack.add(pkg);
-            }
-            compCard.add(stack);
-            componentGrid.add(compCard);
+            grid.add(buildComponentCard(comp));
         }
-        section.add(componentGrid);
+
+        section.add(grid);
         parent.add(section);
+    }
+
+    private WaCard buildComponentCard(PluginEntry.ComponentInfo comp)
+    {
+        var compCard = new WaCard<>();
+        compCard.setAppearance(Appearance.Outlined);
+
+        var stack = new WaStack<>();
+        stack.setGap(PageSize.ExtraSmall);
+        stack.add(headingText("h4", "s", comp.className()));
+
+        var desc = bodyText(comp.description(), "s");
+        desc.setWaColorText("quiet");
+        stack.add(desc);
+
+        // Summary badges
+        var badges = new WaCluster<>();
+        badges.setGap(PageSize.ExtraSmall);
+        if (comp.properties() != null && !comp.properties().isEmpty())
+        {
+            badges.add(buildTag(comp.properties().size() + " props", Variant.Brand));
+        }
+        if (comp.methods() != null && !comp.methods().isEmpty())
+        {
+            badges.add(buildTag(comp.methods().size() + " methods", Variant.Neutral));
+        }
+        if (comp.events() != null && !comp.events().isEmpty())
+        {
+            badges.add(buildTag(comp.events().size() + " events", Variant.Warning));
+        }
+        if (comp.slots() != null && !comp.slots().isEmpty())
+        {
+            badges.add(buildTag(comp.slots().size() + " slots", Variant.Neutral));
+        }
+        if (comp.examples() != null && !comp.examples().isEmpty())
+        {
+            badges.add(buildTag(comp.examples().size() + " examples", Variant.Success));
+        }
+        stack.add(badges);
+
+        // Link to component detail page
+        String slug = comp.className().replaceAll("([a-z])([A-Z])", "$1-$2").toLowerCase();
+        stack.add(buildCta("View Details →", "/plugins/" + pluginId + "/" + slug, Variant.Brand, Appearance.Plain));
+
+        compCard.add(stack);
+        return compCard;
     }
 
     // ── Features ──────────────────────────────────────
@@ -252,17 +330,19 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
+        var details = new WaDetails<>();
+        details.setSummary("Features (" + plugin.getFeatures().size() + ")");
+
         var featuresStack = new WaStack<>();
         featuresStack.setGap(PageSize.ExtraSmall);
-        featuresStack.add(captionText("FEATURES"));
-
         for (String feature : plugin.getFeatures())
         {
             var featureText = bodyText(feature, "s");
             featureText.setWaColorText("quiet");
             featuresStack.add(featureText);
         }
-        parent.add(featuresStack);
+        details.add(featuresStack);
+        parent.add(details);
     }
 
     // ── Examples ──────────────────────────────────────
@@ -274,9 +354,12 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
+        var details = new WaDetails<>();
+        details.setSummary("Examples (" + examples.size() + ")");
+        details.setOpen(true);
+
         var section = new WaStack<>();
         section.setGap(PageSize.Medium);
-        section.add(captionText("EXAMPLES"));
 
         for (PluginEntry.ExampleSnippet example : examples)
         {
@@ -292,7 +375,8 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
             exStack.add(codeBlock(example.code()));
             section.add(exStack);
         }
-        parent.add(section);
+        details.add(section);
+        parent.add(details);
     }
 
     // ── Quick start ───────────────────────────────────
@@ -303,11 +387,11 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var quickStack = new WaStack<>();
-        quickStack.setGap(PageSize.ExtraSmall);
-        quickStack.add(captionText("QUICK START"));
-        quickStack.add(codeBlock(plugin.getQuickStartCode()));
-        parent.add(quickStack);
+        var details = new WaDetails<>();
+        details.setSummary("Quick Start");
+        details.setOpen(true);
+        details.add(codeBlock(plugin.getQuickStartCode()));
+        parent.add(details);
     }
 
     // ── SPI Details ───────────────────────────────────
@@ -319,9 +403,12 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
+        var details = new WaDetails<>();
+        details.setSummary("SPI Extension Point Details (" + spiDetails.size() + ")");
+        details.setOpen(true);
+
         var section = new WaStack<>();
         section.setGap(PageSize.Small);
-        section.add(captionText("SPI EXTENSION POINT DETAILS"));
 
         for (PluginEntry.SpiDetail spi : spiDetails)
         {
@@ -340,7 +427,8 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
             row.add(desc);
             section.add(row);
         }
-        parent.add(section);
+        details.add(section);
+        parent.add(details);
     }
 
     // ── SPI tags (simple provides/uses) ───────────────
@@ -351,9 +439,12 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
+        var details = new WaDetails<>();
+        details.setSummary("SPI Extension Points");
+        details.setOpen(true);
+
         var spiStack = new WaStack<>();
         spiStack.setGap(PageSize.ExtraSmall);
-        spiStack.add(captionText("SPI EXTENSION POINTS"));
 
         if (!plugin.getSpiProvides().isEmpty())
         {
@@ -376,10 +467,11 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
             }
             spiStack.add(usesCluster);
         }
-        parent.add(spiStack);
+        details.add(spiStack);
+        parent.add(details);
     }
 
-    // ── Configurations ────────────────────────────────
+    // ── Properties (Configuration) ────────────────────
 
     private void addConfigurationsSection(WaStack parent)
     {
@@ -388,37 +480,74 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var section = new WaStack<>();
-        section.setGap(PageSize.Small);
-        section.add(captionText("CONFIGURATION"));
+        var details = new WaDetails<>();
+        details.setSummary("Properties (" + configurations.size() + ")");
+        details.setOpen(true);
 
+        var table = new com.jwebmp.core.base.html.Table<>();
+        table.addStyle("width", "100%");
+        table.addStyle("border-collapse", "collapse");
+
+        var thead = new com.jwebmp.core.base.html.TableHeaderGroup<>();
+        var headerRow = new com.jwebmp.core.base.html.TableRow<>();
+        headerRow.addStyle("border-bottom", "2px solid var(--wa-color-neutral-200)");
+        for (String col : new String[]{"Property", "Type", "Default", "Description"})
+        {
+            var th = new com.jwebmp.core.base.html.TableHeaderCell<>();
+            th.setText(col);
+            th.addStyle("text-align", "left");
+            th.addStyle("padding", "var(--wa-spacing-small)");
+            th.addStyle("font-size", "var(--wa-font-size-xs)");
+            th.addStyle("color", "var(--wa-color-text-quiet)");
+            th.addStyle("font-weight", "var(--wa-font-weight-semibold)");
+            headerRow.add(th);
+        }
+        thead.add(headerRow);
+        table.add(thead);
+
+        var tbody = new com.jwebmp.core.base.html.TableBodyGroup<>();
         for (PluginEntry.ConfigEntry config : configurations)
         {
-            var row = new WaStack<>();
-            row.setGap(PageSize.ExtraSmall);
+            var row = new com.jwebmp.core.base.html.TableRow<>();
+            row.addStyle("border-bottom", "1px solid var(--wa-color-neutral-100)");
 
-            var nameCluster = new WaCluster<>();
-            nameCluster.setGap(PageSize.ExtraSmall);
-            nameCluster.add(headingText("h4", "s", config.name()));
-            if (config.type() != null)
-            {
-                nameCluster.add(buildTag(config.type(), Variant.Neutral));
-            }
-            row.add(nameCluster);
+            var nameCell = new com.jwebmp.core.base.html.TableCell<>();
+            nameCell.setText(config.name());
+            nameCell.addStyle("padding", "var(--wa-spacing-small)");
+            nameCell.addStyle("font-family", "var(--wa-font-mono)");
+            nameCell.addStyle("font-size", "var(--wa-font-size-xs)");
+            nameCell.addStyle("color", "var(--wa-color-brand-normal)");
+            nameCell.addStyle("font-weight", "var(--wa-font-weight-semibold)");
+            row.add(nameCell);
 
-            var desc = bodyText(config.description(), "s");
-            desc.setWaColorText("quiet");
-            row.add(desc);
+            var typeCell = new com.jwebmp.core.base.html.TableCell<>();
+            typeCell.setText(config.type() != null ? config.type() : "–");
+            typeCell.addStyle("padding", "var(--wa-spacing-small)");
+            typeCell.addStyle("font-family", "var(--wa-font-mono)");
+            typeCell.addStyle("font-size", "var(--wa-font-size-xs)");
+            typeCell.addStyle("color", "var(--wa-color-text-quiet)");
+            row.add(typeCell);
 
-            if (config.defaultValue() != null && !config.defaultValue().isBlank())
-            {
-                var def = captionText("Default: " + config.defaultValue());
-                def.setWaColorText("quiet");
-                row.add(def);
-            }
-            section.add(row);
+            var defaultCell = new com.jwebmp.core.base.html.TableCell<>();
+            defaultCell.setText(config.defaultValue() != null && !config.defaultValue().isBlank() ? config.defaultValue() : "–");
+            defaultCell.addStyle("padding", "var(--wa-spacing-small)");
+            defaultCell.addStyle("font-family", "var(--wa-font-mono)");
+            defaultCell.addStyle("font-size", "var(--wa-font-size-xs)");
+            defaultCell.addStyle("color", "var(--wa-color-text-quiet)");
+            row.add(defaultCell);
+
+            var descCell = new com.jwebmp.core.base.html.TableCell<>();
+            descCell.setText(config.description() != null ? config.description() : "");
+            descCell.addStyle("padding", "var(--wa-spacing-small)");
+            descCell.addStyle("font-size", "var(--wa-font-size-s)");
+            row.add(descCell);
+
+            tbody.add(row);
         }
-        parent.add(section);
+        table.add(tbody);
+
+        details.add(table);
+        parent.add(details);
     }
 
     // ── Prerequisites ─────────────────────────────────
@@ -429,9 +558,9 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             return;
         }
-        var prereqStack = new WaStack<>();
-        prereqStack.setGap(PageSize.ExtraSmall);
-        prereqStack.add(captionText("PREREQUISITES"));
+        var details = new WaDetails<>();
+        details.setSummary("Prerequisites");
+        details.setOpen(true);
 
         var prereqCluster = new WaCluster<>();
         prereqCluster.setGap(PageSize.ExtraSmall);
@@ -439,8 +568,8 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
         {
             prereqCluster.add(buildTag(prereq, Variant.Neutral));
         }
-        prereqStack.add(prereqCluster);
-        parent.add(prereqStack);
+        details.add(prereqCluster);
+        parent.add(details);
     }
 
     // ── External links ────────────────────────────────

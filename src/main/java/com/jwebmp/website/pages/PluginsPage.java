@@ -35,16 +35,24 @@ public class PluginsPage extends WebsitePage<PluginsPage> implements INgComponen
         intro.add(richText(
                 "Every JWebMP plugin is a proper JPMS module with an explicit `module-info.java`. "
                 + "Add the Maven dependency, and the component is immediately available as a type-safe "
-                + "Java class. The Angular Maven Plugin generates all the TypeScript integration at build time. "
-                + "No `npm install`. No Angular module registration. Just Java.",
+                + "Java class. The Angular Maven Plugin generates all the TypeScript, runs `npm install`, "
+                + "and invokes the Angular CLI build — all from a single `mvn install`. "
+                + "No manual toolchain setup. No hand-written Angular modules. Just Java.",
                 "m"));
 
         var tags = new WaCluster<>();
         tags.setGap(PageSize.Small);
-        tags.add(buildTag(PluginCatalog.getPlugins().size() + " Plugins", Variant.Brand));
-        tags.add(buildTag(PluginCatalog.getCategories().size() + " Categories", Variant.Neutral));
+        tags.add(buildTag(PluginCatalog.getNonFrameworkPlugins().size() + " Plugins", Variant.Brand));
+        tags.add(buildTag(PluginCatalog.getNonFrameworkCategories().size() + " Categories", Variant.Neutral));
+        tags.add(buildTag(PluginCatalog.getFrameworks().size() + " UI Frameworks", Variant.Success));
         tags.add(buildTag("JPMS Modular", Variant.Success));
         intro.add(tags);
+
+        // Link to UI Frameworks section
+        var frameworksCta = new WaCluster<>();
+        frameworksCta.setGap(PageSize.Small);
+        frameworksCta.add(buildCta("UI Frameworks →", "/frameworks", Variant.Brand, Appearance.Outlined));
+        intro.add(frameworksCta);
 
         layout.add(buildSection("ECOSYSTEM",
                 "Plugin & Component Catalog",
@@ -53,9 +61,9 @@ public class PluginsPage extends WebsitePage<PluginsPage> implements INgComponen
 
         // Category sections with summary plugin cards
         boolean alt = true;
-        for (String category : PluginCatalog.getCategories())
+        for (String category : PluginCatalog.getNonFrameworkCategories())
         {
-            var plugins = PluginCatalog.getByCategory(category);
+            var plugins = PluginCatalog.getNonFrameworkByCategory(category);
 
             var categoryGrid = new WaGrid<>();
             categoryGrid.setGap(PageSize.Medium);
@@ -66,7 +74,9 @@ public class PluginsPage extends WebsitePage<PluginsPage> implements INgComponen
                 categoryGrid.add(buildSummaryCard(plugin));
             }
 
-            layout.add(buildSection(null, category, null, alt, categoryGrid));
+            var section = buildSection(null, category, null, alt, categoryGrid);
+            section.setID(toAnchorId(category));
+            layout.add(section);
             alt = !alt;
         }
     }
@@ -119,6 +129,13 @@ public class PluginsPage extends WebsitePage<PluginsPage> implements INgComponen
 
         card.add(stack);
         return card;
+    }
+
+    private static String toAnchorId(String category)
+    {
+        return category.toLowerCase()
+                       .replaceAll("[^a-z0-9]+", "-")
+                       .replaceAll("^-|-$", "");
     }
 
     private String firstSentence(String text)
