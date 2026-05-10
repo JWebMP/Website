@@ -60,6 +60,11 @@ public class PluginsAsidePage extends DivSimple<PluginsAsidePage> implements INg
         PLUGIN_COMPONENTS.put("fullcalendar", FullCalendarPluginPage.COMPONENTS);
         PLUGIN_COMPONENTS.put("fullcalendar-pro", FullCalendarProPluginPage.COMPONENTS);
         PLUGIN_COMPONENTS.put("fontawesome-pro", FontAwesomeProPluginPage.COMPONENTS);
+        PLUGIN_COMPONENTS.put("themify-icons", ThemifyIconsPluginPage.COMPONENTS);
+        PLUGIN_COMPONENTS.put("material-icons", MaterialIconsPluginPage.COMPONENTS);
+        PLUGIN_COMPONENTS.put("material-design-icons", MaterialDesignIconsPluginPage.COMPONENTS);
+        PLUGIN_COMPONENTS.put("weather-icons", WeatherIconsPluginPage.COMPONENTS);
+        PLUGIN_COMPONENTS.put("glyphicons", GlyphiconsPluginPage.COMPONENTS);
     }
 
     public PluginsAsidePage()

@@ -14,6 +14,7 @@ public final class PluginCatalog
     public static final String CAT_LIBRARIES = "Libraries";
     public static final String CAT_MESSAGING = "Real-Time Messaging";
     public static final String CAT_RUNTIME = "Runtime & Server";
+    public static final String CAT_NOTIFICATIONS = "Notifications";
 
     private static final List<String> COMMON_PREREQS = List.of(
             "Java 25 LTS", "Maven 3.9+", "Node.js 18+", "Angular 21+"
@@ -106,6 +107,7 @@ public final class PluginCatalog
         plugins.add(buildAngular());
         plugins.add(buildAngularMavenPlugin());
         plugins.add(buildTypeScriptClient());
+        plugins.add(buildAngularForms());
 
         // ── Data & Grids ──────────────────────────────
         plugins.add(buildAgGrid());
@@ -116,6 +118,10 @@ public final class PluginCatalog
         plugins.add(buildAgCharts());
         plugins.add(buildAgChartsEnterprise());
         plugins.add(buildChartJs());
+        plugins.add(buildC3());
+        plugins.add(buildD3());
+        plugins.add(buildJQPlot());
+        plugins.add(buildEasyPieChart());
 
         // ── Scheduling ────────────────────────────────
         plugins.add(buildFullCalendar());
@@ -124,6 +130,12 @@ public final class PluginCatalog
         // ── Icons ─────────────────────────────────────
         plugins.add(buildFontAwesome());
         plugins.add(buildFontAwesomePro());
+        plugins.add(buildThemifyIcons());
+        plugins.add(buildMaterialIcons());
+        plugins.add(buildMaterialDesignIcons());
+        plugins.add(buildWeatherIcons());
+        plugins.add(buildGlyphicons());
+        plugins.add(buildSkycons());
 
         // ── Animation ─────────────────────────────────
         plugins.add(buildEasing());
@@ -133,12 +145,22 @@ public final class PluginCatalog
         plugins.add(buildJQuery());
         plugins.add(buildJQueryUI());
         plugins.add(buildGlobalize());
+        plugins.add(buildPrettify());
+        plugins.add(buildWaypoints());
+        plugins.add(buildPlusAsTab());
+        plugins.add(buildPrism());
+        plugins.add(buildNgxMarkdown());
 
         // ── Real-Time Messaging ───────────────────────
         plugins.add(buildRabbitMQ());
 
         // ── Runtime & Server ──────────────────────────
         plugins.add(buildVertx());
+        plugins.add(buildLocalStorage());
+        plugins.add(buildSessionStorage());
+
+        // ── Notifications ────────────────────────────────
+        plugins.add(buildToastr());
 
         return plugins;
     }
@@ -1033,6 +1055,121 @@ public final class PluginCatalog
 
     // ── Scheduling ────────────────────────────────────
 
+    private static PluginEntry buildC3()
+    {
+        return PluginEntry.builder("c3", "C3.js", CAT_CHARTS, "com.jwebmp.plugins", "c3")
+                          .description("C3 makes it easy to generate D3-based charts by wrapping the code required to construct the entire chart. Supports line, bar, area, pie, donut, gauge, and scatter charts.")
+                          .upstreamName("C3.js")
+                          .upstreamVersion("0.7.20")
+                          .upstreamUrl("https://c3js.org/")
+                          .jpmsModule("com.jwebmp.plugins.c3")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "C3 0.7.20", "D3-based", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "D3-based charting — line, bar, area, step, pie, donut, gauge, scatter",
+                                  "Type-safe Java API — C3Options, C3Data, C3Series with fluent methods",
+                                  "Auto npm integration — @TsDependency + @NgScript + @NgStyleSheet",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet("""
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>c3</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:c3\")")
+                          .quickStartCode("""
+                                          var chart = new C3<>();
+                                          chart.getOptions().getData().getColumns().add(new C3ColumnData());""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildD3()
+    {
+        return PluginEntry.builder("d3", "D3.js", CAT_CHARTS, "com.jwebmp.plugins", "d3")
+                          .description("D3.js is a JavaScript library for manipulating documents based on data using HTML, SVG, and CSS. Provides the D3 runtime for plugins that build on D3.")
+                          .upstreamName("D3.js")
+                          .upstreamVersion("7.9.0")
+                          .upstreamUrl("https://d3js.org/")
+                          .jpmsModule("com.jwebmp.plugins.d3")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "D3 7.9.0", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "D3.js 7.9.0 — latest D3 runtime for data-driven visualisations",
+                                  "Auto npm integration — @TsDependency + @NgScript for Angular builds",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet("""
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>d3</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:d3\")")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildJQPlot()
+    {
+        return PluginEntry.builder("jqplot", "jqPlot", CAT_CHARTS, "com.jwebmp.plugins", "jqplot")
+                          .description("jqPlot is a versatile and expandable jQuery plotting plugin with customizable renderers for lines, bars, pies, bubbles, donuts, and more.")
+                          .upstreamName("jqPlot")
+                          .upstreamVersion("1.0.9")
+                          .upstreamUrl("http://www.jqplot.com/")
+                          .jpmsModule("com.jwebmp.plugins.jqplot")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "jqPlot 1.0.9", "jQuery", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "Multiple chart types — line, bar, pie, donut, bubble, waterfall",
+                                  "Pluggable renderers — customizable axis, legend, series, tick renderers",
+                                  "Type-safe Java API — JQPlotOptions, JQPlotAxes with fluent methods",
+                                  "Auto npm integration — @TsDependency + @NgScript + @NgStyleSheet",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet("""
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>jqplot</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:jqplot\")")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildEasyPieChart()
+    {
+        return PluginEntry.builder("easy-pie-chart", "Easy Pie Chart", CAT_CHARTS, "com.jwebmp.plugins", "easy-pie-chart")
+                          .description("Lightweight plugin to render simple, animated and retina optimized pie charts for single values using HTML5 Canvas.")
+                          .upstreamName("Easy Pie Chart")
+                          .upstreamVersion("2.1.7")
+                          .upstreamUrl("https://github.com/rendro/easy-pie-chart")
+                          .jpmsModule("com.jwebmp.plugins.easypiechart")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Easy Pie Chart 2.1.7", "Canvas", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "Animated pie charts — smooth CSS3 animations for single values",
+                                  "Retina optimized — high-DPI Canvas rendering",
+                                  "Configurable — bar colour, track colour, line cap, size, animation speed",
+                                  "Type-safe Java API — EasyPieChartOptions with fluent methods",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet("""
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>easy-pie-chart</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:easy-pie-chart\")")
+                          .quickStartCode("""
+                                          var chart = new EasyPieChart<>();
+                                          chart.getOptions().setBarColor("#ef1e25").setTrackColor("#f9f9f9");""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
     private static PluginEntry buildFullCalendar()
     {
         return PluginEntry.builder("fullcalendar", "FullCalendar", CAT_SCHEDULING, "com.jwebmp.plugins", "fullcalendar")
@@ -1282,6 +1419,248 @@ public final class PluginCatalog
                                           FontAwesome duo = IFontAwesome.createIcon(
                                               FontAwesomeIcons.bell,
                                               FontAwesomeStyles.Duotone);""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildThemifyIcons()
+    {
+        return PluginEntry.builder("themify-icons", "Themify Icons", CAT_ICONS, "com.jwebmp.plugins", "themify-icons")
+                          .description(
+                                  "Themify Icons — 320+ pixel-perfect, hand-crafted icons inspired by Apple iOS 7. "
+                                  + "100% free for personal and commercial use. CSS web font rendering with ti- class prefix.")
+                          .upstreamName("Themify Icons")
+                          .upstreamVersion("3.4")
+                          .upstreamUrl("https://themify.me/themify-icons")
+                          .jpmsModule("com.jwebmp.plugins.themify.icons")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Themify Icons 3.4", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "320+ pixel-perfect icons — arrows, UI, media, text, layout, social, and branding categories",
+                                  "Type-safe Java enum API — ThemifyIcons with compile-time safety and IDE autocomplete",
+                                  "CSS web font rendering — lightweight ti- prefixed CSS classes",
+                                  "ThemifyIcon component — span-based icon element with IIcon interface",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI",
+                                  "JPMS module — proper Java module with explicit dependencies"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>themify-icons</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:themify-icons\")")
+                          .quickStartCode(
+                                  """
+                                          // Create a Themify icon
+                                          var icon = new ThemifyIcon<>(ThemifyIcons.home);
+                                          
+                                          // Arrow icons
+                                          var arrow = new ThemifyIcon<>(ThemifyIcons.arrow_right);
+                                          
+                                          // Social icons
+                                          var github = new ThemifyIcon<>(ThemifyIcons.github);""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildMaterialIcons()
+    {
+        return PluginEntry.builder("material-icons", "Material Icons (MDI)", CAT_ICONS, "com.jwebmp.plugins", "material-icons")
+                          .description(
+                                  "Material Design Icons (Community) — 2,000+ icons using the mdi- CSS class prefix. "
+                                  + "Older community icon set with web font rendering via CDN or local CSS.")
+                          .upstreamName("Material Design Icons (Community)")
+                          .upstreamVersion("2.4.85")
+                          .upstreamUrl("https://materialdesignicons.com/")
+                          .jpmsModule("com.jwebmp.plugins.materialicons")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "MDI 2.4.85", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "2,000+ community material design icons — comprehensive mdi- prefixed CSS icon set",
+                                  "Type-safe Java enum API — MDIIcons with compile-time safety",
+                                  "MDIIcon component — italic-based CRTP icon element with IIcon interface",
+                                  "CDN support — optional CDN URL for materialdesignicons.min.css",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>material-icons</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:material-icons\")")
+                          .quickStartCode(
+                                  """
+                                          // Create an MDI icon
+                                          var icon = new MDIIcon<>(MDIIcons.account);
+                                          
+                                          // Another icon
+                                          var settings = new MDIIcon<>(MDIIcons.settings);""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildMaterialDesignIcons()
+    {
+        return PluginEntry.builder("material-design-icons", "Material Design Icons (Google)", CAT_ICONS, "com.jwebmp.plugins", "material-design-icons")
+                          .description(
+                                  "Google Material Design Icons — the official icon set from Google with 900+ icons across 5 themes "
+                                  + "(Filled, Outlined, Rounded, TwoTone, Sharp), 4 sizes, and 2 colour schemes.")
+                          .upstreamName("Google Material Design Icons")
+                          .upstreamVersion("3.0.1")
+                          .upstreamUrl("https://google.github.io/material-design-icons/")
+                          .jpmsModule("com.jwebmp.plugins.materialdesignicons")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Material Icons 3.0.1", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "900+ official Google Material Design icons",
+                                  "5 icon themes — Filled, Outlined, Rounded, TwoTone, Sharp",
+                                  "4 icon sizes — 18px, 24px, 36px, 48px",
+                                  "2 colour schemes — Light (dark icon) and Dark (light icon)",
+                                  "Type-safe Java enum API — MaterialDesignIcons with compile-time safety",
+                                  "MaterialDesignIcon component — CRTP italic-based icon with theme, size, colour, inactive state",
+                                  "Fluent API — setTheme(), setSize(), setColour(), setInactive()",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>material-design-icons</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:material-design-icons\")")
+                          .quickStartCode(
+                                  """
+                                          // Default filled icon at 24px
+                                          var icon = new MaterialDesignIcon<>(MaterialDesignIcons.home);
+                                          
+                                          // Outlined theme, 48px, dark colour
+                                          var big = new MaterialDesignIcon<>(
+                                              MaterialDesignIconThemes.Outlined,
+                                              MaterialDesignIcons.settings,
+                                              MaterialDesignIconSize.$48,
+                                              MaterialDesignIconColours.Dark);""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildWeatherIcons()
+    {
+        return PluginEntry.builder("weather-icons", "Weather Icons", CAT_ICONS, "com.jwebmp.plugins", "weather-icons")
+                          .description(
+                                  "Weather Icons — 222 weather themed icons for meteorological applications. "
+                                  + "Includes day/night conditions, moon phases, Beaufort scale, wind direction, and more. "
+                                  + "CSS web font rendering with wi- class prefix.")
+                          .upstreamName("Weather Icons")
+                          .upstreamVersion("2.2")
+                          .upstreamUrl("http://erikflowers.github.io/weather-icons/")
+                          .jpmsModule("com.jwebmp.plugins.weathericons")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Weather Icons 2.2", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "222 weather themed icons — the only icon font dedicated to weather",
+                                  "Day and night weather conditions — sunny, cloudy, rain, snow, thunderstorm, etc.",
+                                  "Moon phases — 28 moon phase icons plus alt variants",
+                                  "Wind — Beaufort scale (0-12), compass directions, degree-based directions",
+                                  "Measurement — thermometer, barometer, humidity, Celsius, Fahrenheit",
+                                  "Natural disasters — earthquake, fire, flood, tornado, hurricane, tsunami, volcano",
+                                  "Type-safe Java enum API — WeatherIcon with compile-time safety",
+                                  "WeatherIcons component — CRTP italic-based icon element with IIcon interface",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>weather-icons</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:weather-icons\")")
+                          .quickStartCode(
+                                  """
+                                          // Create a weather icon
+                                          var icon = new WeatherIcons<>(WeatherIcon.day_sunny);
+                                          
+                                          // Night conditions
+                                          var night = new WeatherIcons<>(WeatherIcon.night_clear);
+                                          
+                                          // Wind direction
+                                          var wind = new WeatherIcons<>(WeatherIcon.towards_n);""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildGlyphicons()
+    {
+        return PluginEntry.builder("glyphicons", "Glyphicons", CAT_ICONS, "com.jwebmp.plugins", "glyphicons")
+                          .description(
+                                  "Glyphicons Halflings — 250+ monochromatic icons and symbols from Bootstrap 3. "
+                                  + "CSS web font rendering with glyphicon glyphicon- class prefix.")
+                          .upstreamName("Glyphicons")
+                          .upstreamVersion("1.9.2")
+                          .upstreamUrl("http://glyphicons.com/")
+                          .jpmsModule("com.jwebmp.plugins.glyphicons")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Glyphicons 1.9.2", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "250+ monochromatic icons — classic Bootstrap 3 Glyphicons Halflings set",
+                                  "Type-safe Java enum API — Glyphicons with compile-time safety",
+                                  "Glyphicon component — CRTP span-based icon element with IIcon interface",
+                                  "CSS web font rendering — glyphicon glyphicon-{name} CSS classes",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>glyphicons</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:glyphicons\")")
+                          .quickStartCode(
+                                  """
+                                          var icon = new Glyphicon<>(Glyphicons.home);
+                                          var search = new Glyphicon<>(Glyphicons.search);""")
+                          .spiProvides(List.of("IPageConfigurator"))
+                          .build();
+    }
+
+    private static PluginEntry buildSkycons()
+    {
+        return PluginEntry.builder("skycons", "Skycons", CAT_ICONS, "com.jwebmp.plugins", "skycons")
+                          .description(
+                                  "Skycons — 10 animated weather glyphs rendered on HTML5 Canvas elements. "
+                                  + "Includes clear day/night, rain, snow, sleet, wind, fog, cloudy, and partly cloudy icons with configurable colour.")
+                          .upstreamName("Skycons")
+                          .upstreamVersion("1.0.0")
+                          .upstreamUrl("https://darkskyapp.github.io/skycons/")
+                          .jpmsModule("com.jwebmp.plugins.skycons")
+                          .sourceUrl("https://github.com/JWebMP/JWebMP")
+                          .techBadges(List.of("Java 25+", "Skycons 1.0.0", "JPMS Modular", "Canvas"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "10 animated weather icons — Canvas-based weather glyphs with smooth animation",
+                                  "HTML5 Canvas rendering — requestAnimationFrame-driven animation",
+                                  "Configurable colour — global colour setting via SkyconPageConfigurator",
+                                  "SkyIcon enum — type-safe weather icon selection with 10 values",
+                                  "Skycon component — CRTP Canvas-based icon with fluent API",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>skycons</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:skycons\")")
+                          .quickStartCode(
+                                  """
+                                          var icon = new Skycon<>("weather1", 60, SkyIcon.Partly_Cloudy_Day);
+                                          var rain = new Skycon<>("weather2", 60, SkyIcon.Rain);""")
                           .spiProvides(List.of("IPageConfigurator"))
                           .build();
     }
@@ -1666,6 +2045,389 @@ public final class PluginCatalog
                                           // GET /jwdata  → data components
                                           // GET /jwcss   → page CSS""")
                           .spiProvides(List.of("IGuiceModule", "VertxHttpServerConfigurator"))
+                          .build();
+    }
+
+    // ── Notifications ────────────────────────────────
+
+    private static PluginEntry buildToastr()
+    {
+        return PluginEntry.builder("toastr", "Toastr", CAT_NOTIFICATIONS, "com.jwebmp.plugins", "toastr")
+                          .description(
+                                  "Toastr — non-blocking notification toasts with 4 types (Info, Success, Warning, Error), "
+                                  + "8 screen positions, configurable easing animations, progress bar, close button, "
+                                  + "and duplicate prevention. Lightweight, customizable toast messages with CRTP fluent Java API.")
+                          .upstreamName("Toastr")
+                          .upstreamVersion("2.1.4")
+                          .upstreamUrl("http://codeseven.github.io/toastr/")
+                          .jpmsModule("com.jwebmp.plugins.toastr")
+                          .sourceUrl("https://github.com/JWebMP/Toastr")
+                          .techBadges(List.of("Java 25+", "Toastr 2.1.4", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "toastr", "^2.1.4"
+                          ))
+                          .features(List.of(
+                                  "Non-blocking notifications — lightweight toast messages that don't interrupt user flow",
+                                  "4 toast types — Info, Success, Warning, Error with distinct styling",
+                                  "8 screen positions — top/bottom × left/center/right/full-width",
+                                  "Progress bar — optional countdown progress indicator",
+                                  "Close button — optional close button on toasts",
+                                  "Duplicate prevention — configurable deduplication of identical toasts",
+                                  "Easing animations — customizable show/hide easing effects via JQ Easing Effects",
+                                  "Configurable timeouts — show duration, hide duration, timeout, and extended timeout",
+                                  "HTML escaping — optional HTML entity escaping for message content",
+                                  "CRTP fluent API — type-safe method chaining for toast configuration",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI",
+                                  "Angular integration — auto-loaded via @TsDependency, @NgScript, @NgStyleSheet"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>toastr</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:toastr:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Simple info toast
+                                          addFeature(new ToastrFeature<>("Hello World"));
+                                          
+                                          // Toast with type, title, and message
+                                          addFeature(new ToastrFeature<>(
+                                              ToastrType.Success, "Done!", "Changes saved."));
+                                          
+                                          // Customized toast
+                                          var toast = new ToastrFeature<>(
+                                              ToastrType.Warning, "Alert", "Check this");
+                                          toast.getOptions()
+                                               .setPositionClass(ToastrPosition.Toast_Top_Center)
+                                               .setCloseButton(true)
+                                               .setProgressBar(true)
+                                               .setTimeOut(3000);
+                                          addFeature(toast);""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildPrettify()
+    {
+        return PluginEntry.builder("prettify", "Google Code Prettify", CAT_LIBRARIES, "com.jwebmp.plugins", "prettify")
+                          .description(
+                                  "Google Code Prettify — an embeddable script that makes source-code snippets in HTML prettier. "
+                                  + "Supports 35+ languages (Java, Python, HTML, CSS, XML, SQL, and more), configurable themes "
+                                  + "(Default, Desert, Doxy, Sons of Obsidian, Sunburst), and optional line numbering.")
+                          .upstreamName("Google Code Prettify")
+                          .upstreamVersion("0.1.0")
+                          .upstreamUrl("https://github.com/googlearchive/code-prettify")
+                          .jpmsModule("com.jwebmp.plugins.prettify")
+                          .sourceUrl("https://github.com/JWebMP/Prettify")
+                          .techBadges(List.of("Java 25+", "Code Prettify 0.1.0", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "code-prettify", "^0.1.0"
+                          ))
+                          .features(List.of(
+                                  "Syntax highlighting — automatic language detection and colouring for 35+ languages",
+                                  "Multiple themes — Default, Desert, Doxy, Sons of Obsidian, Sunburst",
+                                  "Line numbers — optional line number display",
+                                  "CRTP fluent API — type-safe method chaining via Prettify<J>",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI",
+                                  "Angular integration — auto-loaded via @TsDependency, @NgScript, @NgStyleSheet"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>prettify</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:prettify:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          Prettify<?> codeBlock = new Prettify<>();
+                                          codeBlock.setSourceCodeLanguage(SourceCodeLanguages.Java);
+                                          codeBlock.setShowLineNums(true);
+                                          codeBlock.setTheme(SourceCodePrettifyThemes.Sons_Of_Obsidian);
+                                          codeBlock.setText("public class HelloWorld { }");""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildWaypoints()
+    {
+        return PluginEntry.builder("waypoints", "jQuery WayPoints", CAT_LIBRARIES, "com.jwebmp.plugins", "waypoints")
+                          .description(
+                                  "jQuery Waypoints — a library that makes it easy to execute a function whenever you scroll to an element. "
+                                  + "Trigger scroll-based events with configurable offsets, directions, and handlers for infinite scroll, "
+                                  + "sticky elements, and scroll-driven animations.")
+                          .upstreamName("jQuery Waypoints")
+                          .upstreamVersion("4.0.1")
+                          .upstreamUrl("https://github.com/imakewebthings/waypoints")
+                          .jpmsModule("com.jwebmp.plugins.waypoints")
+                          .sourceUrl("https://github.com/JWebMP/WayPoints")
+                          .techBadges(List.of("Java 25+", "Waypoints 4.0.1", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "waypoints", "^4.0.1"
+                          ))
+                          .features(List.of(
+                                  "Scroll-based triggers — execute functions when scrolling to elements",
+                                  "Configurable offsets — trigger at custom scroll positions",
+                                  "Direction detection — distinguish between up and down scrolling",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI",
+                                  "Angular integration — auto-loaded via @TsDependency and @NgScript"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>waypoints</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:waypoints:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Waypoints JS is auto-included via @TsDependency.
+                                          // Use in your Angular/JS code to trigger on scroll.""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildPlusAsTab()
+    {
+        return PluginEntry.builder("plus-as-tab", "Plus As Tab", CAT_LIBRARIES, "com.jwebmp.plugins", "plus-as-tab")
+                          .description(
+                                  "Plus As Tab — assign any key to mimic the tab button behaviour, making web and mobile pages 'enter'-friendly. "
+                                  + "Automatically moves focus to the next input field and triggers submit buttons. "
+                                  + "Configurable key codes and per-component enable/disable via data attributes.")
+                          .upstreamName("PlusAsTab")
+                          .upstreamVersion("0.2.2")
+                          .upstreamUrl("https://github.com/joelpurra/plusastab")
+                          .jpmsModule("com.jwebmp.plugins.plusastab")
+                          .sourceUrl("https://github.com/JWebMP/PlusAsTab")
+                          .techBadges(List.of("Java 25+", "PlusAsTab 0.2.2", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "jquery-emulatetab", "^0.2.9",
+                                  "plusastab", "^0.2.2"
+                          ))
+                          .features(List.of(
+                                  "Custom key binding — assign any key to act as tab",
+                                  "Per-component control — enable/disable via data-plus-as-tab attribute",
+                                  "Auto submit trigger — automatically triggers submit buttons on enter",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI",
+                                  "Angular integration — auto-loaded via @TsDependency and @NgScript"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>plus-as-tab</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:plus-as-tab:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Enable plus-as-tab on a component
+                                          PlusAsTabPageConfigurator.setOnComponent(myForm);
+                                          
+                                          // Skip a specific field
+                                          PlusAsTabPageConfigurator.setSkipComponent(myField);
+                                          
+                                          // Use feature with custom key
+                                          var feature = new PlusAsTabFeature(myComponent);
+                                          feature.setKey(13); // Enter key""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildLocalStorage()
+    {
+        return PluginEntry.builder("localstorage", "Local Storage Security", CAT_RUNTIME, "com.jwebmp.plugins", "localstorage")
+                          .description(
+                                  "Local Storage Security — provides browser local storage access for device identification and session management. "
+                                  + "Creates unique UUID identifiers per browser instance, transports local storage variables via Ajax calls "
+                                  + "and WebSocket connections, and provides @Named(\"localstorage\") Guice injection for UUID and String.")
+                          .upstreamName("JWebMP Local Storage")
+                          .upstreamVersion("1.0")
+                          .upstreamUrl("https://github.com/JWebMP/LocalStorage")
+                          .jpmsModule("com.jwebmp.plugins.security.localstorage")
+                          .sourceUrl("https://github.com/JWebMP/LocalStorage")
+                          .techBadges(List.of("Java 25+", "Angular 21", "JPMS Modular", "WebSocket"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "Device identification — unique UUID per browser via local storage",
+                                  "Ajax integration — local storage variables transported via AjaxCallIntercepter",
+                                  "WebSocket integration — session management via IWebSocketMessageReceiver",
+                                  "Guice injection — @Named(\"localstorage\") UUID and String providers in CallScope",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>localstorage</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:localstorage:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Inject the device identifier anywhere in call scope
+                                          @Inject
+                                          @Named("localstorage")
+                                          private UUID deviceId;""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions", "IGuiceModule", "IWebSocketMessageReceiver", "AjaxCallIntercepter"))
+                          .build();
+    }
+
+    private static PluginEntry buildSessionStorage()
+    {
+        return PluginEntry.builder("sessionstorage", "Session Storage Security", CAT_RUNTIME, "com.jwebmp.plugins", "sessionstorage")
+                          .description(
+                                  "Session Storage Security — provides browser session (per-tab) storage access for tab-specific identification and session management. "
+                                  + "Creates unique UUID identifiers per browser tab, transports session storage variables via WebSocket connections, "
+                                  + "and provides @Named(\"sessionstorage\") Guice injection for UUID and String.")
+                          .upstreamName("JWebMP Session Storage")
+                          .upstreamVersion("1.0")
+                          .upstreamUrl("https://github.com/JWebMP/SessionStorage")
+                          .jpmsModule("com.jwebmp.plugins.security.sessionstorage")
+                          .sourceUrl("https://github.com/JWebMP/SessionStorage")
+                          .techBadges(List.of("Java 25+", "Angular 21", "JPMS Modular", "WebSocket"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "Per-tab identification — unique UUID per browser tab via session storage",
+                                  "WebSocket integration — session management via IWebSocketMessageReceiver",
+                                  "Guice injection — @Named(\"sessionstorage\") UUID and String providers in CallScope",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>sessionstorage</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:sessionstorage:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Inject the per-tab identifier anywhere in call scope
+                                          @Inject
+                                          @Named("sessionstorage")
+                                          private UUID tabId;""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions", "IGuiceModule", "IWebSocketMessageReceiver"))
+                          .build();
+    }
+
+    private static PluginEntry buildAngularForms()
+    {
+        return PluginEntry.builder("angular-forms", "Angular Forms", CAT_ANGULAR, "com.jwebmp.plugins", "angular-forms")
+                          .description(
+                                  "Angular Forms — provides reactive form model binding and data-bind integration for JWebMP Angular components. "
+                                  + "Supports automatic form field binding via IOnDataBind SPI.")
+                          .upstreamName("Angular Forms")
+                          .upstreamVersion("2.0.0-SNAPSHOT")
+                          .upstreamUrl("https://github.com/JWebMP/AngularForms")
+                          .jpmsModule("com.jwebmp.angular.forms")
+                          .sourceUrl("https://github.com/JWebMP/AngularForms")
+                          .techBadges(List.of("Java 25+", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .features(List.of(
+                                  "Reactive form model binding — automatic Angular form field binding",
+                                  "IOnDataBind SPI — extensible data binding hook",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>angular-forms</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:angular-forms:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // Angular forms binding is auto-registered.
+                                          // Use data-bind attributes on form components.""")
+                          .spiProvides(List.of("IOnDataBind", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildPrism()
+    {
+        return PluginEntry.builder("prism", "PrismJS", CAT_LIBRARIES, "com.jwebmp.plugins", "prism")
+                          .description(
+                                  "PrismJS — lightweight, extensible syntax highlighting for Angular. "
+                                  + "Supports 300+ languages, line numbers, and multiple themes.")
+                          .upstreamName("PrismJS")
+                          .upstreamVersion("1.30.0")
+                          .upstreamUrl("https://prismjs.com/")
+                          .jpmsModule("com.jwebmp.plugins.prism")
+                          .sourceUrl("https://github.com/JWebMP/Prism")
+                          .techBadges(List.of("Java 25+", "PrismJS 1.30.0", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "prismjs", "^1.30.0"
+                          ))
+                          .features(List.of(
+                                  "Syntax highlighting — 300+ languages supported",
+                                  "Themes — multiple built-in themes",
+                                  "Line numbers — optional line number display",
+                                  "Angular integration — auto-loaded via @TsDependency",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>prism</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:prism:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // PrismJS is auto-included.
+                                          // Use with ngx-markdown or standalone for syntax highlighting.""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
+                          .build();
+    }
+
+    private static PluginEntry buildNgxMarkdown()
+    {
+        return PluginEntry.builder("ngx-markdown", "NGX Markdown", CAT_LIBRARIES, "com.jwebmp.plugins", "ngx-markdown")
+                          .description(
+                                  "NGX Markdown — Angular markdown component, directive, and pipe with PrismJS syntax highlighting, "
+                                  + "Mermaid diagram rendering, KaTeX math expressions, emoji support, and clipboard copy functionality.")
+                          .upstreamName("NGX Markdown")
+                          .upstreamVersion("21.1.0")
+                          .upstreamUrl("https://github.com/jfcere/ngx-markdown")
+                          .jpmsModule("com.jwebmp.plugins.markdown")
+                          .sourceUrl("https://github.com/JWebMP/Markdown")
+                          .techBadges(List.of("Java 25+", "NGX Markdown 21+", "Angular 21", "JPMS Modular"))
+                          .prerequisites(COMMON_PREREQS)
+                          .npmDependencies(Map.of(
+                                  "ngx-markdown", ">=21.1.0",
+                                  "marked", ">=18.0.0",
+                                  "prismjs", ">=1.30.0",
+                                  "mermaid", ">=11.13.0",
+                                  "katex", ">=0.16.0",
+                                  "emoji-toolkit", "^10.0.0",
+                                  "clipboard", ">=2.0.11"
+                          ))
+                          .features(List.of(
+                                  "Markdown rendering — Angular component/directive/pipe for Markdown content",
+                                  "PrismJS syntax highlighting — 300+ languages with line numbers",
+                                  "Mermaid diagrams — flowcharts, sequence diagrams, and more",
+                                  "KaTeX math — mathematical expression rendering",
+                                  "Emoji support — emoji-toolkit integration",
+                                  "Clipboard copy — copy code blocks to clipboard",
+                                  "Zero configuration — auto-registered via ServiceLoader SPI"
+                          ))
+                          .mavenSnippet(
+                                  """
+                                          <dependency>
+                                            <groupId>com.jwebmp.plugins</groupId>
+                                            <artifactId>ngx-markdown</artifactId>
+                                          </dependency>""")
+                          .gradleSnippet("implementation(\"com.jwebmp.plugins:ngx-markdown:2.0.0-SNAPSHOT\")")
+                          .quickStartCode(
+                                  """
+                                          // NGX Markdown is auto-registered.
+                                          // Use markdown component in your templates.""")
+                          .spiProvides(List.of("IPageConfigurator", "IGuiceScanModuleInclusions"))
                           .build();
     }
 }
