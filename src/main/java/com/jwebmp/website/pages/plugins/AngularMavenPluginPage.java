@@ -57,6 +57,23 @@ public class AngularMavenPluginPage extends PluginDetailPage<AngularMavenPluginP
                                 </plugin>""",
                         "xml"),
                 new PluginEntry.ExampleSnippet(
+                        "Let's Encrypt on Alpine Nginx",
+                        "Generate an Alpine nginx image that requests Let's Encrypt certificates for public domains at container startup.",
+                        """
+                                <plugin>
+                                  <groupId>com.jwebmp.plugins</groupId>
+                                  <artifactId>angular-maven-plugin</artifactId>
+                                  <configuration>
+                                    <buildAngular>true</buildAngular>
+                                    <buildDockerImage>true</buildDockerImage>
+                                    <dockerBaseImage>nginx:alpine</dockerBaseImage>
+                                    <nginxServerName>example.com www.example.com</nginxServerName>
+                                    <nginxLetsEncrypt>true</nginxLetsEncrypt>
+                                    <nginxLetsEncryptEmail>admin@example.com</nginxLetsEncryptEmail>
+                                  </configuration>
+                                </plugin>""",
+                        "xml"),
+                new PluginEntry.ExampleSnippet(
                         "Explicit App Selection",
                         "Build only specific @NgApp classes instead of auto-discovering all.",
                         """
@@ -103,6 +120,10 @@ public class AngularMavenPluginPage extends PluginDetailPage<AngularMavenPluginP
                 new PluginEntry.ConfigEntry("nginxSslCertificateKey", "String", "/etc/nginx/ssl/server.key", "Path to SSL private key inside the container"),
                 new PluginEntry.ConfigEntry("nginxHttpRedirect", "boolean", "true", "301 redirect HTTP to HTTPS when nginxHttps is enabled"),
                 new PluginEntry.ConfigEntry("nginxServerName", "String", "localhost", "The server_name directive in generated nginx.conf"),
+                new PluginEntry.ConfigEntry("nginxLetsEncrypt", "boolean", "false", "Enable Let's Encrypt/certbot support; implies HTTPS"),
+                new PluginEntry.ConfigEntry("nginxLetsEncryptDomains", "List&lt;String&gt;", "nginxServerName", "Domain names requested from Let's Encrypt"),
+                new PluginEntry.ConfigEntry("nginxLetsEncryptEmail", "String", "(none)", "Email address for Let's Encrypt registration and expiry notices"),
+                new PluginEntry.ConfigEntry("nginxLetsEncryptStaging", "boolean", "false", "Use the Let's Encrypt staging endpoint for test deployments"),
                 new PluginEntry.ConfigEntry("nginxCustomEntries", "List&lt;String&gt;", "(none)", "Raw nginx directives injected into the server block"),
                 new PluginEntry.ConfigEntry("nginxConfigFile", "String", "(generated)", "Path to an existing nginx.conf — skips generation when set")
         );
