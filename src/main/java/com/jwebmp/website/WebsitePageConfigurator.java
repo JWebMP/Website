@@ -1,6 +1,7 @@
 package com.jwebmp.website;
 
 import com.jwebmp.core.Page;
+import com.jwebmp.core.base.angular.client.annotations.angularconfig.NgStyleSheet;
 import com.jwebmp.core.base.angular.client.services.TypescriptIndexPageConfigurator;
 import com.jwebmp.core.base.references.CSSReference;
 import com.jwebmp.core.services.IPage;
@@ -8,6 +9,11 @@ import com.jwebmp.core.services.IPageConfigurator;
 import com.jwebmp.plugins.fontawesome5pro.FontAwesome5ProPageConfigurator;
 import com.jwebmp.webawesome.components.WebAwesomePageConfigurator;
 
+@NgStyleSheet(value = "public/base.css", name = "JWebMPBase", sortOrder = 200)
+@NgStyleSheet(value = "public/layout.css", name = "JWebMPLayout", sortOrder = 201)
+@NgStyleSheet(value = "public/components.css", name = "JWebMPComponents", sortOrder = 202)
+@NgStyleSheet(value = "public/features.css", name = "JWebMPFeatures", sortOrder = 203)
+@NgStyleSheet(value = "public/code.css", name = "JWebMPCode", sortOrder = 204)
 public class WebsitePageConfigurator implements IPageConfigurator<WebsitePageConfigurator>, TypescriptIndexPageConfigurator<WebsitePageConfigurator>
 {
     @Override
