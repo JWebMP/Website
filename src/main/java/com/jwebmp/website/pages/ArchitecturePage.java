@@ -41,7 +41,7 @@ public class ArchitecturePage extends WebsitePage<ArchitecturePage> implements I
         layout.add(buildCallToAction());
     }
 
-    private WaStack buildOverview()
+    private WaStack<?> buildOverview()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -77,7 +77,7 @@ public class ArchitecturePage extends WebsitePage<ArchitecturePage> implements I
         return section;
     }
 
-    private WaStack buildStackDiagram()
+    private WaStack<?> buildStackDiagram()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -118,7 +118,7 @@ public class ArchitecturePage extends WebsitePage<ArchitecturePage> implements I
         return section;
     }
 
-    private WaStack buildBuildPipeline()
+    private WaStack<?> buildBuildPipeline()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -171,7 +171,7 @@ public class ArchitecturePage extends WebsitePage<ArchitecturePage> implements I
         return section;
     }
 
-    private WaStack buildRuntime()
+    private WaStack<?> buildRuntime()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -201,7 +201,7 @@ public class ArchitecturePage extends WebsitePage<ArchitecturePage> implements I
         return section;
     }
 
-    private WaStack buildDataFlow()
+    private WaStack<?> buildDataFlow()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -250,7 +250,7 @@ public class ArchitecturePage extends WebsitePage<ArchitecturePage> implements I
         return section;
     }
 
-    private WaStack buildModuleGraph()
+    private WaStack<?> buildModuleGraph()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);

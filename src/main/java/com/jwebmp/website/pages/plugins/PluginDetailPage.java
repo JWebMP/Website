@@ -144,7 +144,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
 
     // ── Header ────────────────────────────────────────
 
-    private WaStack buildPluginHeader(PluginEntry plugin)
+    private WaStack<?> buildPluginHeader(PluginEntry plugin)
     {
         var header = new WaStack<>();
         header.setGap(PageSize.Small);
@@ -174,7 +174,7 @@ public abstract class PluginDetailPage<J extends PluginDetailPage<J>> extends We
 
     // ── Coordinates ───────────────────────────────────
 
-    private WaStack buildCoordinatesSection(PluginEntry plugin)
+    private WaStack<?> buildCoordinatesSection(PluginEntry plugin)
     {
         var coordsStack = new WaStack<>();
         coordsStack.setGap(PageSize.ExtraSmall);

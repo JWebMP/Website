@@ -56,7 +56,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
 
     // ────────────────────────────────────────────────────────
 
-    private WaStack buildIntro()
+    private WaStack<?> buildIntro()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -113,7 +113,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
         return section;
     }
 
-    private WaStack buildAnnotationDriven()
+    private WaStack<?> buildAnnotationDriven()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -241,7 +241,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
         return section;
     }
 
-    private WaStack buildReactiveStack()
+    private WaStack<?> buildReactiveStack()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -283,7 +283,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
         return section;
     }
 
-    private WaStack buildRealTimeOverview()
+    private WaStack<?> buildRealTimeOverview()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -320,7 +320,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
         return section;
     }
 
-    private WaStack buildDeveloperExperience()
+    private WaStack<?> buildDeveloperExperience()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
@@ -362,7 +362,7 @@ public class AboutPage extends WebsitePage<AboutPage> implements INgComponent<Ab
         return section;
     }
 
-    private WaStack buildProductionReady()
+    private WaStack<?> buildProductionReady()
     {
         var content = new WaStack<>();
         content.setGap(PageSize.Medium);
