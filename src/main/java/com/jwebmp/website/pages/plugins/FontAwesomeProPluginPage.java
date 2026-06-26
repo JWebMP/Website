@@ -44,16 +44,26 @@ public class FontAwesomeProPluginPage extends PluginDetailPage<FontAwesomeProPlu
             new PluginEntry.ComponentInfo("FontAwesome5Families", "Enum of Pro+ icon families — decorative and specialty font families available with Pro+ subscription",
                     "com.jwebmp.plugins.fontawesome5pro",
                     List.of(
-                            new PluginEntry.PropertyInfo("Duotone", "FontAwesome5Families", null, "Duotone family (fad) — two-layer icon rendering"),
-                            new PluginEntry.PropertyInfo("Sharp", "FontAwesome5Families", null, "Sharp family — geometric, angular icon edges"),
-                            new PluginEntry.PropertyInfo("DuotoneSharp", "FontAwesome5Families", null, "Sharp Duotone family — sharp edges with two-tone layers"),
-                            new PluginEntry.PropertyInfo("Chisel", "FontAwesome5Families", null, "Chisel family — carved, dimensional icon style"),
-                            new PluginEntry.PropertyInfo("Etch", "FontAwesome5Families", null, "Etch family — etched/engraved line-art style"),
-                            new PluginEntry.PropertyInfo("Jelly", "FontAwesome5Families", null, "Jelly family — soft, rounded, playful icon style"),
-                            new PluginEntry.PropertyInfo("NotDog", "FontAwesome5Families", null, "NotDog family — bold, chunky icon style"),
-                            new PluginEntry.PropertyInfo("Slab", "FontAwesome5Families", null, "Slab family — slab-serif weighted icon style"),
-                            new PluginEntry.PropertyInfo("ThumbPrint", "FontAwesome5Families", null, "ThumbPrint family — fingerprint/texture style"),
-                            new PluginEntry.PropertyInfo("Whiteboard", "FontAwesome5Families", null, "Whiteboard family — hand-drawn whiteboard sketch style")
+                            // Pro families
+                            new PluginEntry.PropertyInfo("Duotone", "FontAwesome5Families", null, "Pro — Duotone family (fad) — two-layer icon rendering (solid, regular, light, thin)"),
+                            new PluginEntry.PropertyInfo("Sharp", "FontAwesome5Families", null, "Pro — Sharp family — geometric, angular icon edges (solid, regular, light, thin)"),
+                            new PluginEntry.PropertyInfo("SharpDuotone", "FontAwesome5Families", null, "Pro — Sharp Duotone family — sharp edges with two-tone layers (solid, regular, light, thin)"),
+                            // Pro Plus families
+                            new PluginEntry.PropertyInfo("Chisel", "FontAwesome5Families", null, "Pro+ — Chisel family — carved, dimensional icon style (regular)"),
+                            new PluginEntry.PropertyInfo("Etch", "FontAwesome5Families", null, "Pro+ — Etch family — etched/engraved line-art style (solid)"),
+                            new PluginEntry.PropertyInfo("Graphite", "FontAwesome5Families", null, "Pro+ — Graphite family — pencil/graphite sketch style (thin)"),
+                            new PluginEntry.PropertyInfo("Jelly", "FontAwesome5Families", null, "Pro+ — Jelly family — soft, rounded, playful icon style (regular)"),
+                            new PluginEntry.PropertyInfo("JellyFill", "FontAwesome5Families", null, "Pro+ — Jelly Fill family — filled jelly variant (regular)"),
+                            new PluginEntry.PropertyInfo("JellyDuo", "FontAwesome5Families", null, "Pro+ — Jelly Duo family — two-tone jelly variant (regular)"),
+                            new PluginEntry.PropertyInfo("NotDog", "FontAwesome5Families", null, "Pro+ — NotDog family — bold, chunky icon style (solid)"),
+                            new PluginEntry.PropertyInfo("NotDogDuo", "FontAwesome5Families", null, "Pro+ — NotDog Duo family — two-tone NotDog variant (solid)"),
+                            new PluginEntry.PropertyInfo("Slab", "FontAwesome5Families", null, "Pro+ — Slab family — slab-serif weighted icon style (regular)"),
+                            new PluginEntry.PropertyInfo("SlabPress", "FontAwesome5Families", null, "Pro+ — Slab Press family — pressed slab variant (regular)"),
+                            new PluginEntry.PropertyInfo("ThumbPrint", "FontAwesome5Families", null, "Pro+ — Thumbprint family — fingerprint/texture style (light)"),
+                            new PluginEntry.PropertyInfo("Utility", "FontAwesome5Families", null, "Pro+ — Utility family — functional semibold style (semibold)"),
+                            new PluginEntry.PropertyInfo("UtilityFill", "FontAwesome5Families", null, "Pro+ — Utility Fill family — filled utility variant (semibold)"),
+                            new PluginEntry.PropertyInfo("UtilityDuo", "FontAwesome5Families", null, "Pro+ — Utility Duo family — two-tone utility variant (semibold)"),
+                            new PluginEntry.PropertyInfo("Whiteboard", "FontAwesome5Families", null, "Pro+ — Whiteboard family — hand-drawn whiteboard sketch style (semibold)")
                     ),
                     List.of(
                             new PluginEntry.ExampleSnippet("Using Pro+ Families",
