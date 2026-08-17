@@ -53,7 +53,7 @@ public class RestAndAjaxPage extends WebsitePage<RestAndAjaxPage> implements INg
 
         content.add(codeBlockWithTitle("Simple GET client",
                 """
-                        @NgRestClient(url = "/api/users")
+                        @NgRestClient(value = "usersRestClient", url = "/api/users")
                         public class UsersClient
                                 implements INgRestClient<UsersClient> {
                         }"""));
@@ -61,6 +61,7 @@ public class RestAndAjaxPage extends WebsitePage<RestAndAjaxPage> implements INg
         content.add(codeBlockWithTitle("POST with caching, retry, and deduplication",
                 """
                         @NgRestClient(
+                            value = "orderRestClient",
                             url = "/api/orders",
                             method = NgRestClient.HttpMethod.POST,
                             singleton = true,
@@ -77,6 +78,7 @@ public class RestAndAjaxPage extends WebsitePage<RestAndAjaxPage> implements INg
         content.add(codeBlockWithTitle("Polling with deep merge",
                 """
                         @NgRestClient(
+                            value = "notificationsRestClient",
                             url = "/api/notifications",
                             responseArray = true,
                             pollingEnabled = true,
@@ -91,6 +93,7 @@ public class RestAndAjaxPage extends WebsitePage<RestAndAjaxPage> implements INg
         content.add(codeBlockWithTitle("Bearer auth with custom headers and query params",
                 """
                         @NgRestClient(
+                            value = "combinedRestClient",
                             url = "/api/combined",
                             method = NgRestClient.HttpMethod.POST,
                             authType = NgRestClient.AuthType.BEARER,

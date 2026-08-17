@@ -2400,7 +2400,7 @@ public final class PluginCatalog
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
                                   "ngx-markdown", ">=21.1.0",
-                                  "marked", ">=18.0.0",
+                                  "marked", "^17.0.0",
                                   "prismjs", ">=1.30.0",
                                   "mermaid", ">=11.13.0",
                                   "katex", ">=0.16.0",

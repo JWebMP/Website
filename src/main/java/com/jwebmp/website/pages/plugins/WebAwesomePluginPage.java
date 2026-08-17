@@ -1,7 +1,9 @@
 package com.jwebmp.website.pages.plugins;
 
 import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
+import com.jwebmp.core.base.angular.client.annotations.references.NgComponentReference;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
+import com.jwebmp.core.base.angular.components.modules.RouterModuleConfig;
 import com.jwebmp.website.catalog.PluginCatalog;
 import com.jwebmp.website.catalog.PluginEntry;
 
@@ -9,6 +11,7 @@ import java.util.List;
 
 @NgComponent("jwebmp-plugin-web-awesome")
 @NgRoutable(path = "plugins/web-awesome")
+@NgComponentReference(RouterModuleConfig.class)
 public class WebAwesomePluginPage extends PluginDetailPage<WebAwesomePluginPage>
 {
     public static final List<PluginEntry.ComponentInfo> COMPONENTS = List.of(
