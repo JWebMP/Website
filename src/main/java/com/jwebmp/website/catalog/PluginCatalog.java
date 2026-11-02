@@ -1318,7 +1318,7 @@ public final class PluginCatalog
                                   "@fortawesome/fontawesome-svg-core", "^7.2.0",
                                   "@fortawesome/free-solid-svg-icons", "^7.2.0",
                                   "@fortawesome/free-brands-svg-icons", "^6.2.2",
-                                  "@fortawesome/angular-fontawesome", "^4.0.0"
+                                  "@fortawesome/angular-fontawesome", "5.1.0"
                           ))
                           .features(List.of(
                                   "2,000+ free icons — Font Awesome Free Solid and Brands icon sets",
@@ -2399,7 +2399,7 @@ public final class PluginCatalog
                           .techBadges(List.of("Java 25+", "NGX Markdown 21+", "Angular 21", "JPMS Modular"))
                           .prerequisites(COMMON_PREREQS)
                           .npmDependencies(Map.of(
-                                  "ngx-markdown", ">=21.1.0",
+                                  "ngx-markdown", "^22.1.1",
                                   "marked", "^17.0.0",
                                   "prismjs", ">=1.30.0",
                                   "mermaid", ">=11.13.0",
